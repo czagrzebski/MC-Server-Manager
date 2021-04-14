@@ -5,16 +5,28 @@ import Console from './components/Console/Console';
 
 const ENDPOINT = "http://localhost:3300";
 
+let socket;
+
+const sendServerCommand = (message) =>{
+    socket.emit('command', message);
+}
+
 function App() {
 
   const [consoleOutputList, setConsoleOutputList] = useState([]);
+  const [serverState, setServerState] = useState('Stopped');
 
   useEffect(() => {
-    const socket = socketio(ENDPOINT);
+    socket = socketio(ENDPOINT);
+    
+    socket.on('state', (state) => {
+      setServerState(state);
+    });
 
     socket.on('console', (data) => {
       setConsoleOutputList(consoleOutputList => [...consoleOutputList, data]);
-    })
+    });
+
 
     return () => socket.disconnect(); 
     
@@ -23,9 +35,11 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <h2>{serverState}</h2>
         <div className="controls">
-          <button>Start Server</button>
-          <button>Stop Server</button>
+          <button onClick={() => sendServerCommand('start')}>Start Server</button>
+          <button onClick={() => sendServerCommand('stop')}>Stop Server</button>
+          <button onClick={() => setConsoleOutputList([])}>Clear Console</button>
         </div>
         <Console consoleOutputList={consoleOutputList}/>
       </header>
