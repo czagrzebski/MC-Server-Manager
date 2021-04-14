@@ -1,4 +1,10 @@
 .console {
+    height: 500px;
+    width: 630px;
+    margin: auto;
+}
+
+.console-output {
     color: white;
     padding: 20px;
     display: block;
@@ -7,5 +13,12 @@
     margin: auto;
     overflow: hidden;
     overflow-y: scroll;
+    background-color: rgb(49, 49, 49);
+}
+
+input {
+    margin-left: auto;
+    color: white;
+    width: 630px;
     background-color: rgb(49, 49, 49);
 }

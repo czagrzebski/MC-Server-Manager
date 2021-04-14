@@ -34,15 +34,16 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h2>{serverState}</h2>
+      <h2>{serverState}</h2>
+
+      
         <div className="controls">
           <button onClick={() => sendServerCommand('start')}>Start Server</button>
-          <button onClick={() => sendServerCommand('stop')}>Stop Server</button>
-          <button onClick={() => setConsoleOutputList([])}>Clear Console</button>
+          <button className="red" onClick={() => sendServerCommand('stop')}>Stop Server</button>
+          <button className="blue" onClick={() => setConsoleOutputList([])}>Clear Console</button>
         </div>
         <Console consoleOutputList={consoleOutputList}/>
-      </header>
+
     </div>
   );
 }
