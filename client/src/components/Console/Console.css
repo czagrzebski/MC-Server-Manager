@@ -1,0 +1,11 @@
+.console {
+    color: white;
+    padding: 20px;
+    display: block;
+    height: 500px;
+    width: 600px;
+    margin: auto;
+    overflow: hidden;
+    overflow-y: scroll;
+    background-color: rgb(49, 49, 49);
+}

@@ -1,0 +1,13 @@
+body {
+  background-color: rgb(73, 68, 68);
+}
+
+.controls {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.controls button {
+  margin-right: 20px;
+}
