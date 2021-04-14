@@ -11,7 +11,7 @@ function Console({ consoleOutputList }){
 
     return (
         <div className="console">
-            <div className="console-output">
+            <div className="console-output" id="style-2">
                 {consoleOutputList.map((logs) => {
                     return logs.map((log, i) => {
                         return <p key={i}>{ log }</p>
@@ -20,7 +20,7 @@ function Console({ consoleOutputList }){
                 <AlwaysScrollToBottom />
            
             </div>
-            <input type="text" id="lname" name="lastname" placeholder="Enter in a command"></input>
+            <input type="text" id="console-input" name="console-input" placeholder="Enter in a command"></input>
         </div>
     )
 }

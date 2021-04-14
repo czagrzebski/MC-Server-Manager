@@ -2,6 +2,7 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import socketio from 'socket.io-client';
 import Console from './components/Console/Console';
+import Navigation from './components/Navigation/Navigation';
 
 const ENDPOINT = "http://localhost:3300";
 
@@ -34,6 +35,7 @@ function App() {
 
   return (
     <div className="App">
+      <Navigation />
       <h2>{serverState}</h2>
 
       
