@@ -2,9 +2,8 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import socketio from 'socket.io-client';
 import Console from './components/Console/Console';
-import Navigation from './components/Navigation/Navigation';
 
-const ENDPOINT = "http://localhost:3500";
+const ENDPOINT = "http://localhost:3300";
 
 let socket;
 
@@ -15,7 +14,7 @@ const sendServerCommand = (message) =>{
 function App() {
 
   const [consoleOutputList, setConsoleOutputList] = useState([]);
-  const [serverState, setServerState] = useState("offline");
+  const [serverState, setServerState] = useState('Stopped');
 
   useEffect(() => {
     socket = socketio(ENDPOINT);
@@ -35,15 +34,15 @@ function App() {
 
   return (
     <div className="App">
-      <Navigation />
-      <h2>{serverState}</h2>
+      <header className="App-header">
+        <h2>{serverState}</h2>
         <div className="controls">
           <button onClick={() => sendServerCommand('start')}>Start Server</button>
-          <button className="red" onClick={() => sendServerCommand('stop')}>Stop Server</button>
-          <button className="blue" onClick={() => setConsoleOutputList([])}>Clear Console</button>
+          <button onClick={() => sendServerCommand('stop')}>Stop Server</button>
+          <button onClick={() => setConsoleOutputList([])}>Clear Console</button>
         </div>
         <Console consoleOutputList={consoleOutputList}/>
-
+      </header>
     </div>
   );
 }
