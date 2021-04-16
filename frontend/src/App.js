@@ -4,7 +4,7 @@ import socketio from 'socket.io-client';
 import Console from './components/Console/Console';
 import Navigation from './components/Navigation/Navigation';
 
-const ENDPOINT = "http://localhost:3300";
+const ENDPOINT = "http://localhost:3500";
 
 let socket;
 
@@ -15,7 +15,7 @@ const sendServerCommand = (message) =>{
 function App() {
 
   const [consoleOutputList, setConsoleOutputList] = useState([]);
-  const [serverState, setServerState] = useState('Stopped');
+  const [serverState, setServerState] = useState("offline");
 
   useEffect(() => {
     socket = socketio(ENDPOINT);
@@ -37,8 +37,6 @@ function App() {
     <div className="App">
       <Navigation />
       <h2>{serverState}</h2>
-
-      
         <div className="controls">
           <button onClick={() => sendServerCommand('start')}>Start Server</button>
           <button className="red" onClick={() => sendServerCommand('stop')}>Stop Server</button>

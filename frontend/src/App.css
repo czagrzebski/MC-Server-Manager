@@ -26,7 +26,6 @@ body {
   
 }
 
-
 .controls button:after {
   content: "";
   background: #90EE90;
@@ -54,7 +53,6 @@ body {
 .controls .blue {
   background-color: #008CBA;
 }
-
 
 h2 {
   color: white;

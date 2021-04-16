@@ -2,6 +2,7 @@
     height: 500px;
     width: 630px;
     margin: auto;
+    font-family: Consolas,monaco,monospace; 
 }
 
 .console-output {
