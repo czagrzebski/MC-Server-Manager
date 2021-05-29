@@ -1,50 +1,63 @@
 import './App.css';
-import React, { useEffect, useState } from 'react';
-import socketio from 'socket.io-client';
-import Console from './components/Console/Console';
-import Navigation from './components/Navigation/Navigation';
+import React, { useEffect } from 'react';
+import {socket, SocketContext } from './utils/socket';
+import ConsoleDashboard from './pages/ConsoleDashboard/ConsoleDashboard';
+import HomeDashboard from './pages/HomeDashboard/HomeDashboard';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import NavDrawer from './components/NavDrawer/NavDrawer'
+import { makeStyles } from '@material-ui/core/styles';
+import useStore from './store'
 
-const ENDPOINT = "http://localhost:3500";
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex'
+  },
 
-let socket;
+  content: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing(2),
+  },
 
-const sendServerCommand = (message) =>{
-    socket.emit('command', message);
-}
+  toolbar: theme.mixins.toolbar
+}));
+
 
 function App() {
-
-  const [consoleOutputList, setConsoleOutputList] = useState([]);
-  const [serverState, setServerState] = useState("offline");
+  const classes = useStyles();
+  const addConsoleOutput = useStore(state => state.addConsoleOutput);
 
   useEffect(() => {
-    socket = socketio(ENDPOINT);
-    
-    socket.on('state', (state) => {
-      setServerState(state);
-    });
-
     socket.on('console', (data) => {
-      setConsoleOutputList(consoleOutputList => [...consoleOutputList, data]);
-    });
+      addConsoleOutput(data);
+    }); 
 
+    //Cleanup Socket
+    return(() => socket.close());
+  }, [])
 
-    return () => socket.disconnect(); 
-    
-  }, []);
 
   return (
-    <div className="App">
-      <Navigation />
-      <h2>{serverState}</h2>
-        <div className="controls">
-          <button onClick={() => sendServerCommand('start')}>Start Server</button>
-          <button className="red" onClick={() => sendServerCommand('stop')}>Stop Server</button>
-          <button className="blue" onClick={() => setConsoleOutputList([])}>Clear Console</button>
-        </div>
-        <Console consoleOutputList={consoleOutputList}/>
-
+    <SocketContext.Provider value={socket}>
+    <Router>
+      <div className={classes.root}>
+     
+          <NavDrawer />
+          <div className={classes.content}>
+            <div className={classes.toolbar} />
+              <Switch>
+                  <Route path="/console">
+                    <ConsoleDashboard />
+                  </Route>
+                  <Route path="/">
+                    <HomeDashboard />
+                  </Route>
+              </Switch>
+              </div>
     </div>
+    </Router>
+    </SocketContext.Provider>
+  
   );
 }
 

@@ -8,7 +8,7 @@ const AlwaysScrollToBottom = () => {
   };
 
 function Console({ consoleOutputList }){
-
+  
     return (
         <div className="console">
             <div className="console-output" id="style-2">
@@ -18,7 +18,6 @@ function Console({ consoleOutputList }){
                     })
                 })}
                 <AlwaysScrollToBottom />
-           
             </div>
             <input type="text" id="console-input" name="console-input" placeholder="Enter in a command"></input>
         </div>

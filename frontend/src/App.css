@@ -2,56 +2,10 @@ body {
   background-color: rgb(73, 68, 68);
 }
 
-.controls {
+.root {
   display: flex;
-  text-align: center;
-  justify-content: center;
-}
-
-.controls button {
-  position: relative;
-  background-color: #4CAF50;
-  border: none;
-  font-size: 1em;
-  color: #FFFFFF;
-  padding: 10px;
-  width: 150px;
-  text-align: center;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  text-decoration: none;
-  overflow: hidden;
-  cursor: pointer;
-  margin: 10px;
-  
-}
-
-.controls button:after {
-  content: "";
-  background: #90EE90;
-  display: block;
-  position: absolute;
-  padding-top: 300%;
-  padding-left: 350%;
-  margin-left: -20px!important;
-  margin-top: -120%;
-  opacity: 0;
-  transition: all 0.8s
-}
-
-.controls button:active:after {
-  padding: 0;
-  margin: 0;
-  opacity: 1;
-  transition: 0s
-}
-
-.controls .red {
-  background-color: red;
-}
-
-.controls .blue {
-  background-color: #008CBA;
+  height: 100%;
+  width: 100%;
 }
 
 h2 {
