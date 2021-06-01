@@ -1,3 +1,5 @@
+/*TODO: Clean up CSS/Fix Formatting */
+
 .console {
     height: 100%;
     width: 60%;
@@ -7,11 +9,12 @@
 .console-output {
     color: white;
     padding: 20px;
-    height: 800px;
+    height: 75vh;
     width: 100%;
     overflow: hidden;
     overflow-y: scroll;
     background-color: rgb(70, 70, 70);
+
 }
 
 input {

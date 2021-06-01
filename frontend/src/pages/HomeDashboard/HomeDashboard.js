@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import ServerControls from '../../components/ServerControls/ServerControls';
-import {socket, SocketContext} from '../../utils/socket';
 import api from '../../utils/api';
 import useStore from '../../store';
 
@@ -14,6 +13,10 @@ function HomeDashboard(){
             .then(resp => handleServerState(resp["data"]))
             .catch(err => console.log(err));
 
+        return(() => {
+            unSubServerState() //Unsubscribe from server state updates (memory leak fix)
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
 
 
@@ -34,7 +37,9 @@ function HomeDashboard(){
     }
 
     //subscribe to minecraft server state updates 
-    useStore.subscribe(handleServerState, state => state.minecraftServerState);
+    //TODO: Implement a way to unsubscribe when the component is unmounted (optimizaiton) 
+    const unSubServerState = useStore.subscribe(handleServerState, state => state.minecraftServerState);
+
     
     return (
         <div>

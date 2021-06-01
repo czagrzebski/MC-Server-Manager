@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import useStore from './store'
 import api from './utils/api';
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex'
@@ -31,6 +32,7 @@ function App() {
   
   
   useEffect(() => {
+
     socket.on('console', (data) => {
       addConsoleOutput(data);
     }); 
@@ -45,6 +47,7 @@ function App() {
 
     //Cleanup Socket
     return(() => socket.close());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
