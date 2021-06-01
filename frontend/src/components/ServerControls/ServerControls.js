@@ -5,6 +5,7 @@ import { red } from '@material-ui/core/colors';
 
 import { withStyles } from '@material-ui/core/styles';
 import api from '../../utils/api';
+import useStore from '../../store';
 
 
 import Button from '@material-ui/core/Button';
@@ -26,28 +27,30 @@ const ColorButton = withStyles((theme) => ({
 
 function ServerControls() {
 
-    const startServer = () => {
-        api.get('/server/start')
-            .catch(err => console.log)
-    }
+  const minecraftServerState = useStore(state => state.minecraftServerState);
 
-    const killServer = () => {
-        api.get('/server/kill')
+  const startServer = () => {
+      api.get('/server/start')
           .catch(err => console.log)
-    }
+  }
 
-    const stopServer = () => {
-      api.get('/server/stop')
+  const killServer = () => {
+      api.get('/server/kill')
         .catch(err => console.log)
   }
 
-    return (
-        <div>
-            <ColorButton className="control-btn" variant="contained" onClick={() => startServer()}>Start</ColorButton>
-            <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[700]}} onClick={() => stopServer()}>Stop</ColorButton>
-            <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[900]}} onClick={() => killServer()}>Kill</ColorButton>
-        </div>
-    )
+  const stopServer = () => {
+    api.get('/server/stop')
+      .catch(err => console.log)
+  }
+
+  return (
+      <div>
+          <ColorButton className="control-btn" variant="contained"  onClick={() => startServer()}>Start</ColorButton>
+          <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[700], display: minecraftServerState === "SERVER_RUNNING"? 'inline-block': 'none' }}  onClick={() => stopServer()}>Stop</ColorButton>
+          <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[900], display: minecraftServerState === "SERVER_STOPPED" ? 'none': 'inline-block'}} onClick={() => killServer()}>Kill</ColorButton>
+      </div>
+  )
 }
 
 
