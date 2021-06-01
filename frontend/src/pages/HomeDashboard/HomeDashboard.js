@@ -7,8 +7,6 @@ import useStore from '../../store';
 function HomeDashboard(){
     const [serverState, setServerState] = useState("Stopped");
 
-    
-
     const handleServerState = (state) => {
         switch(state){
             case "SERVER_STARTING":
@@ -39,11 +37,6 @@ function HomeDashboard(){
         })
       }, []);
 
-
-    //subscribe to minecraft server state updates 
-
-  
-    
     return (
         <div>
             <h1>{serverState}</h1>
