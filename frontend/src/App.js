@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavDrawer from './components/NavDrawer/NavDrawer'
 import { makeStyles } from '@material-ui/core/styles';
 import useStore from './store'
+import api from './utils/api';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +38,10 @@ function App() {
     socket.on('state', (data) => {
       setMinecraftServerState(data);
     });
+
+    api.get('/server/state')
+      .then(resp => setMinecraftServerState(resp["data"]))
+      .catch(err => console.log(`Failed to fetch mc server state: ${err}`))
 
     //Cleanup Socket
     return(() => socket.close());
