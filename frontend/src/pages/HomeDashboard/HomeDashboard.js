@@ -7,19 +7,6 @@ import useStore from '../../store';
 function HomeDashboard(){
     const [serverState, setServerState] = useState("Stopped");
 
-    useEffect(() => {  
-        
-        api.get('/server/state')
-            .then(resp => handleServerState(resp["data"]))
-            .catch(err => console.log(err));
-
-        return(() => {
-            unSubServerState() //Unsubscribe from server state updates (memory leak fix)
-        })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, []);
-
-
     const handleServerState = (state) => {
         switch(state){
             case "SERVER_STARTING":
@@ -36,11 +23,20 @@ function HomeDashboard(){
         }
     }
 
-    //subscribe to minecraft server state updates 
-    //TODO: Implement a way to unsubscribe when the component is unmounted (optimizaiton) 
-    const unSubServerState = useStore.subscribe(handleServerState, state => state.minecraftServerState);
+    useEffect(() => {  
+        
+        api.get('/server/state')
+            .then(resp => handleServerState(resp["data"]))
+            .catch(err => console.log(err));
 
-    
+            const unSubServerState = useStore.subscribe(handleServerState, state => state.minecraftServerState);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+
+        return(() => {
+            unSubServerState()
+        })
+      }, []);
+
     return (
         <div>
             <h1>{serverState}</h1>

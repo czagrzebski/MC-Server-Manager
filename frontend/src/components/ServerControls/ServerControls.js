@@ -36,10 +36,15 @@ function ServerControls() {
           .catch(err => console.log)
     }
 
+    const stopServer = () => {
+      api.get('/server/stop')
+        .catch(err => console.log)
+  }
+
     return (
         <div>
             <ColorButton className="control-btn" variant="contained" onClick={() => startServer()}>Start</ColorButton>
-            <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[700]}} onClick={() => killServer()}>Stop</ColorButton>
+            <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[700]}} onClick={() => stopServer()}>Stop</ColorButton>
             <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[900]}} onClick={() => killServer()}>Kill</ColorButton>
         </div>
     )
