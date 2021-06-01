@@ -1,9 +1,8 @@
 import React from 'react';
-import './ConsoleDashboard.css';
 import Console from './Console/Console'
 import useStore from '../../store';
 import Button from '@material-ui/core/Button';
-
+import './ConsoleDashboard.css';
 
 function ConsoleDashboard() {
     const clearConsole = useStore(state => state.clearConsole);
@@ -11,7 +10,7 @@ function ConsoleDashboard() {
     return (
         <div>
           <Console /> 
-          <Button className="consoleButton" variant="contained" color="primary" onClick={() => clearConsole()}>
+          <Button id="clear-btn" variant="contained" color="primary" onClick={() => clearConsole()}>
               Clear Console
           </Button>
         </div>

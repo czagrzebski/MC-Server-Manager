@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { green } from '@material-ui/core/colors';
+import { red } from '@material-ui/core/colors';
+
 import { withStyles } from '@material-ui/core/styles';
 import api from '../../utils/api';
 
@@ -9,12 +11,16 @@ import Button from '@material-ui/core/Button';
 
 const ColorButton = withStyles((theme) => ({
     root: {
-      color: theme.palette.getContrastText(green[500]),
+      color: 'white',
       backgroundColor: green[500],
       '&:hover': {
         backgroundColor: green[600],
       },
- 
+      marginRight: "10px",
+      paddingLeft: "20px",
+      paddingRight: "20px",
+  
+      
     },
   }))(Button);
 
@@ -32,9 +38,9 @@ function ServerControls() {
 
     return (
         <div>
-            <ColorButton className="controlButton" variant="contained" onClick={() => startServer()}>Start</ColorButton>
-            <ColorButton className="controlButton" variant="contained" onClick={() => killServer()}>Stop</ColorButton>
-            <ColorButton className="controlButton" variant="contained" onClick={() => killServer()}>Kill</ColorButton>
+            <ColorButton className="control-btn" variant="contained" onClick={() => startServer()}>Start</ColorButton>
+            <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[700]}} onClick={() => killServer()}>Stop</ColorButton>
+            <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[900]}} onClick={() => killServer()}>Kill</ColorButton>
         </div>
     )
 }

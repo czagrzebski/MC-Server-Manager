@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './Console.css';
+import './Console.css'
 import api from '../../../utils/api';
 import useStore from '../../../store';
 
