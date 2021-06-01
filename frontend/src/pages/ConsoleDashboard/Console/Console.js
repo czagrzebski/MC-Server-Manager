@@ -13,7 +13,7 @@ function Console(){
     const [consoleInput, setConsoleInput] = useState('');
     const consoleOutputList = useStore(state => state.consoleOutput)
     const addConsoleOutput = useStore(state => state.addConsoleOutput);
-
+    const minecraftServerState = useStore(state => state.minecraftServerState);
 
     const handleInputChange = (event) => {
         setConsoleInput(event.target.value);
@@ -30,7 +30,7 @@ function Console(){
         api.post('/server/command', command)
             .catch(err => console.log(err));
         
-        //must be a nested array (this is how it is chunked from the server)
+        //must be a nested array (this is how it is chunked from the backend server)
         addConsoleOutput([[":> " + consoleInput]]);
         setConsoleInput('')
     }
@@ -45,7 +45,8 @@ function Console(){
                 })}
                 <AlwaysScrollToBottom />
             </div>
-            <input type="text" id="console-input" name="console-input" placeholder="Enter in a command" onChange={handleInputChange} onKeyDown={handleEnterPress} value={consoleInput}></input>
+            <input disabled={minecraftServerState === "SERVER_RUNNING" ? false: true } type="text" id="console-input" name="console-input" placeholder="Enter in a command" onChange={handleInputChange} onKeyDown={handleEnterPress} value={consoleInput}></input>
+           
         </div>
     )
 }

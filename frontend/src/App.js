@@ -26,11 +26,17 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
   const addConsoleOutput = useStore(state => state.addConsoleOutput);
-
+  const setMinecraftServerState = useStore(state => state.setMinecraftServerState);
+  
+  
   useEffect(() => {
     socket.on('console', (data) => {
       addConsoleOutput(data);
     }); 
+
+    socket.on('state', (data) => {
+      setMinecraftServerState(data);
+    });
 
     //Cleanup Socket
     return(() => socket.close());
