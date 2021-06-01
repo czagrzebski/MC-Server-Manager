@@ -10,11 +10,12 @@ const options = {
 const io = require("socket.io")(httpServer, options);
 const bodyParser = require('body-parser');
 const { getRoutes } = require('./routes');
+const config = require('./config/user/config.json');
 
 
 const PORT = (process.env.PORT || 3500);
 
-const minecraftServer = new MCServer();
+const minecraftServer = new MCServer(config["servers"]["0"]["config"]);
 
 app.set('minecraftServer', minecraftServer);
 

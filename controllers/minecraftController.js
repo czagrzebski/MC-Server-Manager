@@ -1,21 +1,14 @@
-const express = require('express');
-
-function getMCRoutes() {
-    const router = express.Router()
-    
-    router.get('/start', startServer);
-    router.get('/kill', killServer);
-    router.get('/state', getState);
-    router.post('/command', sendCommand);
-    
-    return router;
-}
-
 async function startServer(req, res) {
     req.app.get('minecraftServer').startServer()
         .then(response => res.send(response))
         .catch(err => res.status(500).send(err));
     
+}
+
+async function stopServer(req, res) {
+    req.app.get('minecraftServer').stopServer()
+        .then(response => res.send(response))
+        .catch(err => res.status(500).send(err));
 }
 
 async function getState(req, res) {
@@ -40,5 +33,9 @@ async function sendCommand(req, res) {
 }
 
 module.exports = {
-    getMCRoutes: getMCRoutes
+    startServer: startServer,
+    stopServer: stopServer,
+    getState: getState,
+    killServer: killServer,
+    sendCommand: sendCommand
 }

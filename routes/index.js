@@ -1,6 +1,6 @@
 const express = require('express');
 
-const {getMCRoutes} = require('../controllers/minecraftController');
+const { getMCRoutes } = require('./minecraft');
 
 function getRoutes() {
     const router = express.Router()

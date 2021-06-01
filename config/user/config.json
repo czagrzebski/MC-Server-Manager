@@ -1,0 +1,15 @@
+{
+    "servers": {
+        "0": {
+            "name": "Test Server",
+            "version": "",
+            "config": {
+                "jarFile": "server.jar",
+                "Xms": "2G",
+                "Xmx": "2G",
+                "directory": ""
+            }
+        }
+    }
+
+}
