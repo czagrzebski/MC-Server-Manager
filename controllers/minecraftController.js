@@ -5,9 +5,9 @@ function getMCRoutes() {
     
     router.get('/start', startServer);
     router.get('/kill', killServer);
-    router.get('/command', sendCommand);
     router.get('/state', getState);
-
+    router.post('/command', sendCommand);
+    
     return router;
 }
 
@@ -32,6 +32,7 @@ async function killServer(req, res) {
 }
 
 async function sendCommand(req, res) {
+    const {command} = req.body;
     req.app.get('minecraftServer').sendCommand(command)
         .then(response => res.send(response))
         .catch(err => res.status(400).send(err));
