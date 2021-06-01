@@ -1,29 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import ServerControls from '../../components/ServerControls/ServerControls';
-import {SocketContext} from '../../utils/socket';
 import api from '../../utils/api';
+import useStore from '../../store';
 
 
 function HomeDashboard(){
     const [serverState, setServerState] = useState("Stopped");
-    const socket = useContext(SocketContext);
-    
-    useEffect(() => {  
-        
-        api.get('/server/state')
-            .then(resp => handleServerState(resp["data"]))
-            .catch(err => console.log(err));
-
-        socket.on('state', (data) => {
-          handleServerState(data);
-        });   
-        
-        return () => {
-          //unbind event listeners when component is unmounted
-          socket.off('state')
-        }
-      }, []);
-
 
     const handleServerState = (state) => {
         switch(state){
@@ -40,7 +22,21 @@ function HomeDashboard(){
                 setServerState("Stopped");
         }
     }
-    
+
+    useEffect(() => {  
+        
+        api.get('/server/state')
+            .then(resp => handleServerState(resp["data"]))
+            .catch(err => console.log(err));
+
+            const unSubServerState = useStore.subscribe(handleServerState, state => state.minecraftServerState);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+
+        return(() => {
+            unSubServerState()
+        })
+      }, []);
+
     return (
         <div>
             <h1>{serverState}</h1>
