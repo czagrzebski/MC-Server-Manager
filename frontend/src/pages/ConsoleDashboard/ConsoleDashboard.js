@@ -6,12 +6,11 @@ import Button from '@material-ui/core/Button';
 
 
 function ConsoleDashboard() {
-    const consoleOutput = useStore(state => state.consoleOutput);
     const clearConsole = useStore(state => state.clearConsole);
     
     return (
         <div>
-          <Console consoleOutputList={consoleOutput}/> 
+          <Console /> 
           <Button className="consoleButton" variant="contained" color="primary" onClick={() => clearConsole()}>
               Clear Console
           </Button>
