@@ -32,10 +32,25 @@ async function sendCommand(req, res) {
 
 }
 
+async function getServerProperties(req, res) {
+    req.app.get('minecraftServer').readProperties()
+        .then(response => res.json(response))
+        .catch(err => res.status(500).send(err.message));
+}
+
+async function updateServerProperties(req, res) {
+    const properties = req.body;
+    req.app.get('minecraftServer').writeProperties(properties)
+        .then(response => res.json(response))
+        .catch(err => res.status(500).send(err.message));
+}
+
 module.exports = {
     startServer: startServer,
     stopServer: stopServer,
     getState: getState,
     killServer: killServer,
-    sendCommand: sendCommand
+    sendCommand: sendCommand,
+    getServerProperties: getServerProperties,
+    updateServerProperties: updateServerProperties
 }
