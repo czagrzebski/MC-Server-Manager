@@ -6,6 +6,7 @@ import { red } from '@material-ui/core/colors';
 import { withStyles } from '@material-ui/core/styles';
 import api from '../../utils/api';
 import useStore from '../../store';
+import Notification from '../Notification/Notification';
 
 
 import Button from '@material-ui/core/Button';
@@ -26,12 +27,21 @@ const ColorButton = withStyles((theme) => ({
   }))(Button);
 
 function ServerControls() {
-
+  //For notification
+  const [status, setStatusBase] = React.useState("");
+  
   const minecraftServerState = useStore(state => state.minecraftServerState);
 
   const startServer = () => {
       api.get('/server/start')
-          .catch(err => console.log(err.response.data))
+          .then((response) => {
+            setStatusBase({ msg: response.data, date: new Date(), severity: "success" });
+          })
+          .catch(err => {     
+            if(err.response.data){ 
+              setStatusBase({ msg: err.response.data, date: new Date(), severity: "error" });
+            } 
+          })
   }
 
   const killServer = () => {
@@ -49,6 +59,7 @@ function ServerControls() {
           <ColorButton className="control-btn" variant="contained"  style={{display: minecraftServerState === "SERVER_STOPPED" ? 'inline-block': 'none'}}onClick={() => startServer()}>Start</ColorButton>
           <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[700], display: minecraftServerState === "SERVER_RUNNING"? 'inline-block': 'none' }}  onClick={() => stopServer()}>Stop</ColorButton>
           <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[900], display: minecraftServerState === "SERVER_STOPPED" ? 'none': 'inline-block'}} onClick={() => killServer()}>Kill</ColorButton>
+          {status ? <Notification key={status.date} msg={status.msg} severity={status.severity}/> : null}
       </div>
   )
 }

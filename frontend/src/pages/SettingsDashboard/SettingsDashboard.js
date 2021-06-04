@@ -2,31 +2,54 @@ import React, { useEffect, useState } from 'react';
 import './SettingsDashboard.css'
 import ServerProperty from '../../components/ServerProperty/ServerProperty';
 import api from '../../utils/api';
+import Notification from '../../components/Notification/Notification';
 
 
-function SettingsDashboard(){
+function SettingsDashboard() {
     const [serverProperties, setServerProperties] = useState({});
-
+    const [status, setStatusBase] = React.useState("");
 
     useEffect(() => {
         api.get('/server/properties')
-            .then(response => setServerProperties(JSON.parse(response.data)))
-    
+            .then(response => {
+                setServerProperties(JSON.parse(response.data))
+            })
+            .catch(err => {
+                if (err.response.data) {
+                    setStatusBase({
+                        msg: err.response.data,
+                        date: new Date(),
+                        severity: "success"
+                    });
+                }
+            })
     }, [])
-
-
 
     const saveChanges = () => {
         api.post('/server/update/properties', serverProperties)
-            .then(resp => {
-                console.log(resp)
+            .then(response => {
+                setStatusBase({
+                    msg: response.data,
+                    date: new Date(),
+                    severity: "success"
+                });
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                if (err.response.data) {
+                    setStatusBase({
+                        msg: err.response.data,
+                        date: new Date(),
+                        severity: "error"
+                    });
+                }
+            })
     }
 
     const onPropertyChange = (property, value) => {
-        setServerProperties(serverProperties => ({...serverProperties, [property]: value}))
-
+        setServerProperties(serverProperties => ({
+            ...serverProperties,
+            [property]: value
+        }))
     }
 
     return(
@@ -36,10 +59,9 @@ function SettingsDashboard(){
             <div className="grid-container">
                 {Object.keys(serverProperties).map((property, key) => {
                     return <ServerProperty key={key} property={property} value={serverProperties[property]} onPropertyChange={onPropertyChange} />
-                })}
-             
+                })}  
             </div>
-          
+            {status ? <Notification key={status.date} msg={status.msg} severity={status.severity}/> : null}
         </div>
     )
 }

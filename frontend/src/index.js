@@ -13,13 +13,12 @@ const theme = createMuiTheme({
 });
 
 ReactDOM.render(
+  <div>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+    </div>,
 
-  
-    <React.StrictMode>
-        <ThemeProvider theme={theme}>
-          <App />
-        </ThemeProvider>
-    </React.StrictMode>,
   document.getElementById('root')
 
 );

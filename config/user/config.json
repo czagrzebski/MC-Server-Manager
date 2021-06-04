@@ -7,7 +7,7 @@
                 "jarFile": "server.jar",
                 "Xms": "2G",
                 "Xmx": "2G",
-                "directory": ""
+                "folderDir": "/servers/test-server"
             }
         }
     }
