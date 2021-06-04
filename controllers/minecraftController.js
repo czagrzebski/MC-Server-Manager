@@ -1,20 +1,20 @@
 async function startServer(req, res) {
     req.app.get('minecraftServer').startServer()
         .then(response => res.send(response))
-        .catch(err => res.status(500).send(err));
+        .catch(err => res.status(400).send(err.message));
     
 }
 
 async function stopServer(req, res) {
     req.app.get('minecraftServer').stopServer()
         .then(response => res.send(response))
-        .catch(err => res.status(500).send(err));
+        .catch(err => res.status(400).send(err));
 }
 
 async function getState(req, res) {
     req.app.get('minecraftServer').getState()
         .then(response => res.send(response))
-        .catch(err => res.status(500).send(err));
+        .catch(err => res.status(400).send(err));
     
 }
 

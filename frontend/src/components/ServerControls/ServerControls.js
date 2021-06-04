@@ -31,22 +31,22 @@ function ServerControls() {
 
   const startServer = () => {
       api.get('/server/start')
-          .catch(err => console.log)
+          .catch(err => console.log(err.response.data))
   }
 
   const killServer = () => {
       api.get('/server/kill')
-        .catch(err => console.log)
+        .catch(err => console.log(err))
   }
 
   const stopServer = () => {
     api.get('/server/stop')
-      .catch(err => console.log)
+      .catch(err => console.log(err))
   }
 
   return (
       <div>
-          <ColorButton className="control-btn" variant="contained"  onClick={() => startServer()}>Start</ColorButton>
+          <ColorButton className="control-btn" variant="contained"  style={{display: minecraftServerState === "SERVER_STOPPED" ? 'inline-block': 'none'}}onClick={() => startServer()}>Start</ColorButton>
           <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[700], display: minecraftServerState === "SERVER_RUNNING"? 'inline-block': 'none' }}  onClick={() => stopServer()}>Stop</ColorButton>
           <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[900], display: minecraftServerState === "SERVER_STOPPED" ? 'none': 'inline-block'}} onClick={() => killServer()}>Kill</ColorButton>
       </div>
