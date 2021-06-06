@@ -38,7 +38,7 @@ function ServerControls() {
             setStatusBase({ msg: response.data, date: new Date(), severity: "success" });
           })
           .catch(err => {     
-            if(err.response.data){ 
+            if(err.response){ 
               setStatusBase({ msg: err.response.data, date: new Date(), severity: "error" });
             } 
           })
@@ -46,12 +46,26 @@ function ServerControls() {
 
   const killServer = () => {
       api.get('/server/kill')
-        .catch(err => console.log(err))
+        .then((response) => {
+          setStatusBase({ msg: response.data, date: new Date(), severity: "success" });
+        })
+        .catch(err => {     
+          if(err.response){ 
+            setStatusBase({ msg: err.response.data, date: new Date(), severity: "error" });
+          } 
+        })
   }
 
   const stopServer = () => {
     api.get('/server/stop')
-      .catch(err => console.log(err))
+      .then((response) => {
+        setStatusBase({ msg: response.data, date: new Date(), severity: "success" });
+      })
+      .catch(err => {     
+        if(err.response){ 
+          setStatusBase({ msg: err.response.data, date: new Date(), severity: "error" });
+        } 
+      })
   }
 
   return (

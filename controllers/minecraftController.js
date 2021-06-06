@@ -21,7 +21,7 @@ async function getState(req, res) {
 async function killServer(req, res) {
     req.app.get('minecraftServer').killServer()
         .then(response => res.send(response))
-        .catch(err => res.status(400).send(err));
+        .catch(err => res.status(400).send(err.message));
 }
 
 async function sendCommand(req, res) {

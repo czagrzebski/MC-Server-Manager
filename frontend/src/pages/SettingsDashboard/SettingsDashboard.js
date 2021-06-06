@@ -15,7 +15,7 @@ function SettingsDashboard() {
                 setServerProperties(JSON.parse(response.data))
             })
             .catch(err => {
-                if (err.response.data) {
+                if (err.response) {
                     setStatusBase({
                         msg: err.response.data,
                         date: new Date(),
@@ -35,7 +35,7 @@ function SettingsDashboard() {
                 });
             })
             .catch(err => {
-                if (err.response.data) {
+                if (err.response) {
                     setStatusBase({
                         msg: err.response.data,
                         date: new Date(),
