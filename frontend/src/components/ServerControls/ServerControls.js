@@ -59,7 +59,7 @@ function ServerControls() {
   const stopServer = () => {
     api.get('/server/stop')
       .then((response) => {
-        setStatusBase({ msg: response.data, date: new Date(), severity: "success" });
+        setStatusBase({ msg: response.data, date: new Date(), severity: "info" });
       })
       .catch(err => {     
         if(err.response){ 

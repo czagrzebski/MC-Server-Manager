@@ -5,8 +5,7 @@
             "version": "",
             "config": {
                 "jarFile": "server.jar",
-                "Xms": "2G",
-                "Xmx": "2G",
+                "dedicatedMemory": "4",
                 "folderDir": "/servers/test-server"
             }
         }
