@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import deepPurple from '@material-ui/core/colors/deepPurple';
+import blue from '@material-ui/core/colors/blue';
 
 const theme = createMuiTheme({
   palette: {
     type: "dark",
-    primary: deepPurple,
+    primary: blue,
   }
 });
 
