@@ -45,6 +45,14 @@ async function updateServerProperties(req, res) {
         .catch(err => res.status(500).send(err.message));
 }
 
+async function acceptEULA(req, res) {
+    req.app.get('minecraftServer').acceptEULA()
+        .then(response => res.send(response))
+        .catch(err => res.status(400).send(err.message));
+    
+}
+
+
 module.exports = {
     startServer: startServer,
     stopServer: stopServer,
@@ -52,5 +60,6 @@ module.exports = {
     killServer: killServer,
     sendCommand: sendCommand,
     getServerProperties: getServerProperties,
-    updateServerProperties: updateServerProperties
+    updateServerProperties: updateServerProperties,
+    acceptEULA: acceptEULA
 }
