@@ -28,7 +28,7 @@ const ColorButton = withStyles((theme) => ({
   }))(Button);
 
 function ServerControls() {
-  //For notification
+
   const [status, setStatusBase] = React.useState("");
   const [dialogStatus, setDialogStatus] = React.useState({open: false});
   
