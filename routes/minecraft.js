@@ -12,6 +12,7 @@ function getMCRoutes() {
     router.get('/properties', getServerProperties);
     router.post('/update/properties', updateServerProperties);
     router.get('/accepteula', acceptEULA)
+    
     return router;
 }
 
