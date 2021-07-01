@@ -1,15 +1,15 @@
 import React from 'react';
-import Console from './Console/Console'
+import ServerConsole from './ServerConsole/ServerConsole';
 import useStore from '../../store';
 import Button from '@material-ui/core/Button';
-import './ConsoleDashboard.css';
+import './Console.css';
 
-function ConsoleDashboard() {
+export function Console() {
     const clearConsole = useStore(state => state.clearConsole);
     
     return (
         <div>
-          <Console /> 
+          <ServerConsole /> 
           <Button id="clear-btn" variant="contained" color="primary" onClick={() => clearConsole()}>
               Clear Console
           </Button>
@@ -17,4 +17,4 @@ function ConsoleDashboard() {
     )
 }
 
-export default ConsoleDashboard;
+

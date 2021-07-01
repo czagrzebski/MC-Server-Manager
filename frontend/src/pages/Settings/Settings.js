@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import './SettingsDashboard.css'
+import './Settings.css'
 import ServerProperty from '../../components/ServerProperty/ServerProperty';
 import api from '../../utils/api';
 import Notification from '../../components/Notification/Notification';
 
 
-function SettingsDashboard() {
+export function Settings() {
     const [serverProperties, setServerProperties] = useState({});
     const [status, setStatusBase] = React.useState("");
 
@@ -66,4 +66,3 @@ function SettingsDashboard() {
     )
 }
 
-export default SettingsDashboard;

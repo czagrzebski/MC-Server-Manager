@@ -4,7 +4,7 @@ import api from '../../utils/api';
 import useStore from '../../store';
 
 
-function HomeDashboard(){
+export function Home(){
     const [serverState, setServerState] = useState("Stopped");
 
     const handleServerState = (state) => {
@@ -29,9 +29,9 @@ function HomeDashboard(){
             .then(resp => handleServerState(resp["data"]))
             .catch(err => console.log(err));
 
-            const unSubServerState = useStore.subscribe(handleServerState, state => state.minecraftServerState);
+        const unSubServerState = useStore.subscribe(handleServerState, state => state.minecraftServerState);
+        
         // eslint-disable-next-line react-hooks/exhaustive-deps
-
         return(() => {
             unSubServerState()
         })
@@ -45,4 +45,3 @@ function HomeDashboard(){
     )
 }
 
-export default HomeDashboard;

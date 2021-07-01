@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './Console.css'
+import './ServerConsole.css'
 import api from '../../../utils/api';
 import useStore from '../../../store';
 
@@ -10,7 +10,7 @@ const AlwaysScrollToBottom = () => {
     return <div ref={elementRef} />;
   };
 
-function Console(){
+function ServerConsole(){
     const [consoleInput, setConsoleInput] = useState('');
     const consoleOutputList = useStore(state => state.consoleOutput)
     const addConsoleOutput = useStore(state => state.addConsoleOutput);
@@ -60,4 +60,4 @@ function Console(){
     )
 }
 
-export default Console;
+export default ServerConsole;
