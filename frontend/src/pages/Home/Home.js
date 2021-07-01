@@ -4,7 +4,7 @@ import api from '../../utils/api';
 import useStore from '../../store';
 
 
-function HomeDashboard(){
+export function Home(){
     const [serverState, setServerState] = useState("Stopped");
 
     const handleServerState = (state) => {
@@ -45,4 +45,3 @@ function HomeDashboard(){
     )
 }
 
-export default HomeDashboard;
