@@ -1,3 +1,15 @@
 .server-property  {
     width: 15vw;
+    margin-top: 20px;
+    margin-left: 5px;
+    
+}
+
+.server-property p {
+    height: 30px;
+    font-style: italic;
+}
+
+.setting-input {
+    margin-top: 20px;
 }

@@ -1,0 +1,266 @@
+{
+    "default": {
+        "allow-flight": {
+            "type": "boolean",
+            "default": "false",
+            "description": "Allows users to use flight on the server while in Survival mode"
+        },
+        "allow-nether": {
+            "type": "boolean",
+            "default": "true",
+            "description": "Allows players to travel to the Nether"
+        },
+        "broadcast-console-to-ops": {
+            "type": "boolean",
+            "default": "true",
+            "description": "Send console command outputs to all online operators."
+        },
+        "broadcast-rcon-to-ops": {
+            "type": "boolean",
+            "default": "true",
+            "description": "Send rcon console command outputs to all online operators."
+        },
+        "difficulty": {
+            "type": "string",
+            "default": "easy",
+            "description": "Defines the difficulty"
+        },
+        "enable-command-block": {
+            "type": "boolean",
+            "default": "false",
+            "description": "Enables command blocks"
+        },
+        "enable-jmx-monitoring": {
+            "type": "boolean",
+            "default": "false",
+            "description": "Exposes an MBean with the Object name net.minecraft.server:type=Server."
+        },
+        "sync-chunk-writes": {
+            "type": "boolean",
+            "default": "true",
+            "description": "Enables synchronous chunk writes."
+        },
+        "enable-status": {
+            "type": "boolean",
+            "default": "true",
+            "description": "Makes the server appear as online on the server list."
+        },
+        "enable-query": {
+            "type": "boolean",
+            "default": "false",
+            "description": "Enables GameSpy4 protocol server listener. Used to get information about server."
+        },
+        "entity-broadcast-range-percentage": {
+            "type": "integer",
+            "default": 100,
+            "description":"Controls how close entities need to be before being sent to clients"
+        },
+        "force-gamemode": {
+            "type": "boolean",
+            "default": "false",
+            "description": "Force players to join in the default game mode."
+        },
+        "function-permission-level": {
+            "type": "integer",
+            "default": 2,
+            "description": "Sets the default permission level for functions."
+        },
+        "gamemode":{
+            "type": "string",
+            "default": "survival",
+            "description": "Defines the mode of gameplay."
+        },
+        "generate-structures" :{
+            "type": "boolean",
+            "default": "true",
+            "description": "Defines whether structures (such as villages) can be generated."
+        },
+        "generator-settings": {
+            "type": "string",
+            "default": "",
+            "description": "The settings used to customize world generation."
+        },
+        "hardcore": {
+            "type": "boolean",
+            "default": "false",
+            "description": "Enables hardcore multiplayer mode"
+        },
+        "level-name": {
+            "type": "string",
+            "default": "world",
+            "description": "The level-name value is used as the world name and its folder name."
+        },
+        "level-seed": {
+            "type": "string",
+            "default": "",
+            "description": "Sets a world seed for the player's world. Leave blank for random generation."
+        },
+        "level-type": {
+            "type": "string",
+            "default": "default",
+            "description": "Determines the type of map that is generated."
+        },
+        "max-build-height": {
+            "type": "integer",
+            "default": "256",
+            "description": "The maximum height allowed for building. Max: 256  Min: 16"
+        },
+        "max-players": {
+            "type": "integer",
+            "default": "20",
+            "description": "The maximum number of players that can play on the server at the same time."
+        },
+        "max-tick-time": {
+            "type": "integer",
+            "default": "60000",
+            "description": "The maximum number of milliseconds a single tick may take before the server watchdog stops the server with the message."
+        },
+        "max-world-size": {
+            "type": "integer",
+            "default": "29999984",
+            "description": "This sets the maximum possible size in blocks, expressed as a radius, that the world border can obtain"
+        },
+        "motd": {
+            "type": "string",
+            "default": "A Minecraft Server",
+            "description": "This is the message that is displayed in the server list of the client, below the name."
+        },
+        "network-compression-threshold": {
+            "type": "integer",
+            "default": "256",
+            "description": "By default it allows packets that are n-1 bytes big to go normally, but a packet of n bytes or more gets compressed down."
+        },
+        "online-mode": {
+            "type": "boolean",
+            "default": "true",
+            "description": "Server checks connecting players against Minecraft account database."
+        },
+        "op-permission-level": {
+            "type": "integer",
+            "default": "4",
+            "description": "Sets the default permission level for ops when using /op."
+        },
+        "player-idle-timeout": {
+            "type": "integer",
+            "default": "0",
+            "description": "Set player timeout for inactivity (in minutes)"
+        },
+        "prevent-proxy-connections": {
+            "type": "boolean",
+            "default": "false",
+            "description": "Prevents players using proxies/VPNs from joining"
+        },
+        "pvp": {
+            "type": "boolean",
+            "default": "true",
+            "description": "Enable PvP on the server."
+        },
+        "query.port": {
+            "type": "integer",
+            "default": "25565",
+            "description": "Sets the port for the query server (see enable-query)."
+        },
+        "rate-limit": {
+            "type": "integer",
+            "default": "0",
+            "description": "Sets the maximum amount of packets a user can send before getting kicked"
+        },
+        "rcon.password": {
+            "type": "string",
+            "default": "",
+            "description": "Sets the password for RCON"
+        },
+        "rcon.port": {
+            "type": "integer",
+            "default": "25575",
+            "description": "Sets the RCON network port."
+        },
+        "resource-pack": {
+            "type": "string",
+            "default": "",
+            "description": "Optional URI to a resource pack. The player may choose to use it."
+        },
+        "resource-pack-prompt": {
+            "type": "string",
+            "default": "",
+            "description": "Optional, adds a custom message to be shown on resource pack prompt when require-resource-pack is used."
+        },
+        "resource-pack-sha1": {
+            "type": "string",
+            "default": "",
+            "description": "Checks integrity of resource pack."
+        },
+        "require-resource-pack": {
+            "type": "boolean",
+            "default": "false",
+            "description": "When this option is enabled (set to true), players will be prompted for a response and will be disconnected if they decline the required pack."
+        },
+        "server-ip": {
+            "type": "string",
+            "default": "",
+            "description": "The player should set this if they want the server to bind to a particular IP. "
+        },
+        "server-port": {
+            "type": "integer",
+            "default": "25565",
+            "description": "Changes the port the server is hosting (listening) on. "
+        },
+        "snooper-enabled": {
+            "type": "boolean",
+            "default": "true",
+            "description": "Sets whether the server sends snoop data regularly to http://snoop.minecraft.net."
+        },
+        "spawn-animals": {
+            "type": "boolean",
+            "default": "true",
+            "description": "Determines if animals can spawn."
+        },
+        "spawn-monsters": {
+            "type": "boolean",
+            "default": "true",
+            "description": "Determines if monsters can spawn."
+        },
+        "spawn-npcs": {
+            "type": "boolean",
+            "default": "true",
+            "description": "Determines whether villagers can spawn."
+        },
+        "spawn-protection": {
+            "type": "integer",
+            "default": "16",
+            "description": "Determines the side length of the square spawn protection area as 2x+1."
+        },
+        "use-native-transport": {
+            "type": "boolean",
+            "default": "true",
+            "description": "Linux server performance improvements: optimized packet sending/receiving on Linux"
+        },
+        "view-distance": {
+            "type": "integer",
+            "default": "10",
+            "description": "Maximum view distance allowed for the client."
+        },
+        "white-list": {
+            "type": "boolean",
+            "default": "false",
+            "description": "Enables a whitelist on the server."
+        },
+        "enforce-whitelist": {
+            "type": "boolean",
+            "default": "false",
+            "description": "Enforces the whitelist on the server."
+        },
+        "debug": {
+            "type": "boolean",
+            "default": "",
+            "description": "Enable advanced debugging"
+        },
+        "enable-rcon": {
+            "type": "boolean",
+            "default": "false",
+            "description": "Enables the RCONN Server"
+        }
+        
+    }
+        
+}
