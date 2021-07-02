@@ -1,11 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { purple } from '@material-ui/core/colors';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import './ServerProperty.css'
 
 const AntSwitch = withStyles((theme) => ({
@@ -46,7 +42,7 @@ function ServerProperty({property, value, onPropertyChange, propertyInfo}){
     const [checked, setChecked] = React.useState(value === "true");
 
     const handleServerPropertyChange = (event) => {
-        onPropertyChange(property, event.target.value)
+        onPropertyChange(property, event.target.value.toLowerCase())
     }
 
     const handleToggleSwitchChange = (event) => {
@@ -70,6 +66,17 @@ function ServerProperty({property, value, onPropertyChange, propertyInfo}){
                     </Grid>
                 </div>
             }
+            case "custom": {
+              return (
+                <div>
+                  <select className={"drop-down"} value={value} onChange={handleServerPropertyChange}>
+                    {propertyInfo.options.map((option, key) => {
+                      return <option key={key} value={option}>{option}</option>
+                    })}
+                  </select>
+                </div>
+              )
+            }
             default: {
                 return <input onChange={handleServerPropertyChange} value={value}></input>;
             }
@@ -83,9 +90,6 @@ function ServerProperty({property, value, onPropertyChange, propertyInfo}){
             <div className={"setting-input"}>
                 {renderInputType()}
             </div>
-       
-     
-         
         </div>
     )
 }

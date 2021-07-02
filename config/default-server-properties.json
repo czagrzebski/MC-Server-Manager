@@ -21,9 +21,10 @@
             "description": "Send rcon console command outputs to all online operators."
         },
         "difficulty": {
-            "type": "string",
+            "type": "custom",
             "default": "easy",
-            "description": "Defines the difficulty"
+            "description": "Defines the difficulty",
+            "options": ["peaceful", "easy", "normal", "hard"]
         },
         "enable-command-block": {
             "type": "boolean",
@@ -66,9 +67,10 @@
             "description": "Sets the default permission level for functions."
         },
         "gamemode":{
-            "type": "string",
+            "type": "custom",
             "default": "survival",
-            "description": "Defines the mode of gameplay."
+            "description": "Defines the mode of gameplay.",
+            "options": ["survival", "creative", "adventure", "spectator"]
         },
         "generate-structures" :{
             "type": "boolean",
@@ -96,9 +98,10 @@
             "description": "Sets a world seed for the player's world. Leave blank for random generation."
         },
         "level-type": {
-            "type": "string",
+            "type": "custom",
             "default": "default",
-            "description": "Determines the type of map that is generated."
+            "description": "Determines the type of map that is generated.",
+            "options": ["default", "flat", "largebiomes", "amplified"]
         },
         "max-build-height": {
             "type": "integer",
@@ -113,12 +116,12 @@
         "max-tick-time": {
             "type": "integer",
             "default": "60000",
-            "description": "The maximum number of milliseconds a single tick may take before the server watchdog stops the server with the message."
+            "description": "The maximum number of milliseconds a single tick may take before the server stops"
         },
         "max-world-size": {
             "type": "integer",
             "default": "29999984",
-            "description": "This sets the maximum possible size in blocks, expressed as a radius, that the world border can obtain"
+            "description": "This sets the maximum possible world size in blocks (radius)"
         },
         "motd": {
             "type": "string",
@@ -128,7 +131,7 @@
         "network-compression-threshold": {
             "type": "integer",
             "default": "256",
-            "description": "By default it allows packets that are n-1 bytes big to go normally, but a packet of n bytes or more gets compressed down."
+            "description": "Adjust the network compression threshold "
         },
         "online-mode": {
             "type": "boolean",
@@ -188,7 +191,7 @@
         "resource-pack-sha1": {
             "type": "string",
             "default": "",
-            "description": "Checks integrity of resource pack."
+            "description": "Checks integrity of resource pack using a hash."
         },
         "require-resource-pack": {
             "type": "boolean",

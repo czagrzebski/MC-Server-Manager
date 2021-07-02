@@ -43,7 +43,7 @@ function ServerControls() {
             if(err.response){ 
               switch(err.response.data) {
                 case "EULA":
-                  setDialogStatus({open: true, title: "Minecraft End User License Agreement", msg: `You must accept the Mojang EULA before running the server. By clicking \'accept\' you indicate that you have read and accepted the terms of the agreement below. https://account.mojang.com/documents/minecraft_eula`})
+                  setDialogStatus({open: true, title: "Minecraft End User License Agreement", msg: `You must accept the Mojang EULA before running the server. By clicking 'accept' you indicate that you have read and accepted the terms of the agreement below. https://account.mojang.com/documents/minecraft_eula`})
                   break;
 
                 default: 
