@@ -38,22 +38,28 @@ const AntSwitch = withStyles((theme) => ({
     checked: {},
   }))(Switch);
 
-function ServerProperty({property, value, onPropertyChange, propertyInfo}){
+function ServerProperty({property, value, onPropertyChange, propertyInfo, saveSettings}){
     const [checked, setChecked] = React.useState(value === "true");
+    const [propertyValue, setPropertyValue] = React.useState(value);
 
     const handleServerPropertyChange = (event) => {
-        onPropertyChange(property, event.target.value.toLowerCase())
+        onPropertyChange(property, propertyValue)
+    }
+
+    const handleValueChange = (event) => {
+      setPropertyValue(event.target.value.toLowerCase())
     }
 
     const handleToggleSwitchChange = (event) => {
         setChecked(event.target.checked);
         onPropertyChange(property, event.target.checked.toString());
+        saveSettings();
     }
     
     const renderInputType = () => {
         switch (propertyInfo.type) {
             case "string": {
-                return <input onChange={handleServerPropertyChange} value={value}></input>
+                return <input onBlur={handleServerPropertyChange} onChange={handleValueChange}  value={propertyValue}></input>
             }
             case "boolean": {
                 return <div>
@@ -69,7 +75,7 @@ function ServerProperty({property, value, onPropertyChange, propertyInfo}){
             case "custom": {
               return (
                 <div>
-                  <select className={"drop-down"} value={value} onChange={handleServerPropertyChange}>
+                  <select className={"drop-down"} value={value} onChange={handleServerPropertyChange} onBlur={saveSettings}>
                     {propertyInfo.options.map((option, key) => {
                       return <option key={key} value={option}>{option}</option>
                     })}
@@ -78,7 +84,7 @@ function ServerProperty({property, value, onPropertyChange, propertyInfo}){
               )
             }
             default: {
-                return <input onChange={handleServerPropertyChange} value={value}></input>;
+              return <input onBlur={handleServerPropertyChange} onChange={handleValueChange}  value={propertyValue}></input>
             }
         }
     }

@@ -8,6 +8,7 @@ import Notification from '../../components/Notification/Notification';
 export function Settings() {
     const [serverProperties, setServerProperties] = useState({default: {}, properties: {}});
     const [status, setStatusBase] = React.useState("");
+    
 
     useEffect(() => {
         api.get('/server/properties')
@@ -24,6 +25,7 @@ export function Settings() {
                 }
             })
     }, [])
+
 
     const saveChanges = () => {
         api.post('/server/update/properties', serverProperties.properties)
@@ -45,6 +47,7 @@ export function Settings() {
             })
     }
 
+
     const onPropertyChange = (property, value) => {
         setServerProperties(serverProperties => ({
             ...serverProperties,
@@ -59,7 +62,7 @@ export function Settings() {
             <button onClick={() => saveChanges()}>Save Settings</button>
             <div className="grid-container">
                 {Object.keys(serverProperties.properties).map((property, key) => {
-                    return <ServerProperty key={key} property={property} value={serverProperties.properties[property]} propertyInfo={serverProperties.default["default"][property] ? serverProperties.default["default"][property] : "" } onPropertyChange={onPropertyChange} />
+                    return <ServerProperty saveSettings={saveChanges} key={key} property={property} value={serverProperties.properties[property]} propertyInfo={serverProperties.default["default"][property] ? serverProperties.default["default"][property] : "" } onPropertyChange={onPropertyChange} />
                 })}  
             </div>
             {status ? <Notification key={status.date} msg={status.msg} severity={status.severity}/> : null}

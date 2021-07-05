@@ -72,6 +72,25 @@ async function acceptEULA(req, res) {
         .catch(err => res.status(400).send(err.message));
 }
 
+
+/**
+ * GET - Retrieve the server configuration
+*/
+async function getConfig(req, res) {
+    req.app.get('minecraftServer').acceptEULA()
+        .then(response => res.send(response))
+        .catch(err => res.status(400).send(err.message));
+}
+
+/**
+ * POST - Update the server configuration
+*/
+async function updateConfig(req, res) {
+    req.app.get('minecraftServer').acceptEULA()
+        .then(response => res.send(response))
+        .catch(err => res.status(400).send(err.message));
+}
+
 module.exports = {
     startServer: startServer,
     stopServer: stopServer,
