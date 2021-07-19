@@ -1,14 +1,13 @@
 {
     "servers": {
-        "0": {
+        "8d1d62c9-1e27-4a4f-9a26-a4ea1804222c": {
             "name": "Test Server",
-            "version": "",
-            "config": {
+            "version": "1.16.",
+            "folderDir": "/servers/test-server",
+            "java": {
                 "jarFile": "server.jar",
-                "dedicatedMemory": "4",
-                "folderDir": "/servers/test-server"
+                "maxHeapSize": "2048"
             }
         }
     }
-
 }

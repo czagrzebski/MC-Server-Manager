@@ -48,7 +48,7 @@ async function sendCommand(req, res) {
  * GET - Fetch the minecraft server properties
  */
 async function getServerProperties(req, res) {
-    req.app.get('minecraftServer').readProperties()
+    req.app.get('minecraftServer').getServerProperties()
         .then(response => res.json(response))
         .catch(err => res.status(500).send(err.message));
 }
