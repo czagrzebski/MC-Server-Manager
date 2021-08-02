@@ -1,341 +1,390 @@
 {
-    "server-properties": {
         "allow-flight": {
             "name": "Allow Flight",
             "type": "boolean",
             "default": "false",
-            "description": "Allows users to use flight on the server while in Survival mode"
+            "description": "Allows users to use flight on the server while in Survival mode",
+            "category": "minecraftSettings"
         },
         "allow-nether": {
             "name": "Allow Nether",
             "type": "boolean",
             "default": "true",
-            "description": "Allows players to travel to the Nether"
+            "description": "Allows players to travel to the Nether",
+            "category": "minecraftSettings"
         },
         "broadcast-console-to-ops": {
             "name": "Broadcast Console To OPS",
             "type": "boolean",
             "default": "true",
-            "description": "Send console command outputs to all online operators."
+            "description": "Send console command outputs to all online operators.",
+            "category": "minecraftSettings"
         },
         "broadcast-rcon-to-ops": {
             "name": "Broadcast RCON to OPS",
             "type": "boolean",
             "default": "true",
-            "description": "Send rcon console command outputs to all online operators."
+            "description": "Send rcon console command outputs to all online operators.",
+            "category": "minecraftSettings"
         },
         "difficulty": {
             "name": "Difficulty",
-            "type": "custom",
+            "type": "list",
             "default": "easy",
             "description": "Defines the difficulty",
-            "options": ["peaceful", "easy", "normal", "hard"]
+            "options": ["peaceful", "easy", "normal", "hard"],
+            "category": "minecraftSettings"
         },
         "enable-command-block": {
             "name": "Enable Command Block",
             "type": "boolean",
             "default": "false",
-            "description": "Enables command blocks"
+            "description": "Enables command blocks",
+            "category": "minecraftSettings"
         },
         "enable-jmx-monitoring": {
             "name": "Enable JMX Monitoring",
             "type": "boolean",
             "default": "false",
-            "description": "Exposes an MBean with the Object name net.minecraft.server:type=Server."
+            "description": "Exposes an MBean with the Object name net.minecraft.server:type=Server.",
+            "category": "minecraftSettings"
         },
         "sync-chunk-writes": {
             "name": "Sync Chunk Writes",
             "type": "boolean",
             "default": "true",
-            "description": "Enables synchronous chunk writes."
+            "description": "Enables synchronous chunk writes.",
+            "category": "minecraftSettings"
         },
         "enable-status": {
             "name": "Enable Status",
             "type": "boolean",
             "default": "true",
-            "description": "Makes the server appear as online on the server list."
+            "description": "Makes the server appear as online on the server list.",
+            "category": "minecraftSettings"
         },
         "enable-query": {
             "name": "Enable Query",
             "type": "boolean",
             "default": "false",
-            "description": "Enables GameSpy4 protocol server listener. Used to get information about server."
+            "description": "Enables GameSpy4 protocol server listener. Used to get information about server.",
+            "category": "minecraftSettings"
         },
         "entity-broadcast-range-percentage": {
             "name": "Entity Broadcast Range Percentage",
             "type": "integer",
             "default": 100,
-            "description": "Controls how close entities need to be before being sent to clients"
+            "description": "Controls how close entities need to be before being sent to clients",
+            "category": "minecraftSettings"
         },
         "force-gamemode": {
             "name": "Force Gamemode",
             "type": "boolean",
             "default": "false",
-            "description": "Force players to join in the default game mode."
+            "description": "Force players to join in the default game mode.",
+            "category": "minecraftSettings"
         },
         "function-permission-level": {
             "name": "Function Permission Level",
             "type": "integer",
             "default": 2,
-            "description": "Sets the default permission level for functions."
+            "description": "Sets the default permission level for functions.",
+            "category": "minecraftSettings"
         },
         "gamemode": {
             "name": "Gamemode",
-            "type": "custom",
+            "type": "list",
             "default": "survival",
             "description": "Defines the mode of gameplay.",
-            "options": ["survival", "creative", "adventure", "spectator"]
+            "options": ["survival", "creative", "adventure", "spectator"],
+            "category": "minecraftSettings"
         },
         "generate-structures": {
             "name": "Generate Structures",
             "type": "boolean",
             "default": "true",
-            "description": "Defines whether structures (such as villages) can be generated."
+            "description": "Defines whether structures (such as villages) can be generated.",
+            "category": "minecraftSettings"
         },
         "generator-settings": {
             "name": "Generator Settings",
             "type": "string",
             "default": "",
-            "description": "The settings used to customize world generation."
+            "description": "The settings used to customize world generation.",
+            "category": "minecraftSettings"
         },
         "hardcore": {
             "name": "Hardcore",
             "type": "boolean",
             "default": "false",
-            "description": "Enables hardcore multiplayer mode"
+            "description": "Enables hardcore multiplayer mode",
+            "category": "minecraftSettings"
         },
         "level-name": {
             "name": "Level-Name",
             "type": "string",
             "default": "world",
-            "description": "The level-name value is used as the world name and its folder name."
+            "description": "The level-name value is used as the world name and its folder name.",
+            "category": "minecraftSettings"
         },
         "level-seed": {
             "name": "Level Seed",
             "type": "string",
             "default": "",
-            "description": "Sets a world seed for the player's world. Leave blank for random generation."
+            "description": "Sets a world seed for the player's world. Leave blank for random generation.",
+            "category": "minecraftSettings"
         },
         "level-type": {
             "name": "Level Type",
-            "type": "custom",
+            "type": "list",
             "default": "default",
             "description": "Determines the type of map that is generated.",
-            "options": ["default", "flat", "largebiomes", "amplified"]
+            "options": ["default", "flat", "largebiomes", "amplified"],
+            "category": "minecraftSettings"
         },
         "max-build-height": {
             "name": "Max Build Height",
             "type": "integer",
             "default": "256",
-            "description": "The maximum height allowed for building. Max: 256  Min: 16"
+            "description": "The maximum height allowed for building. Max: 256  Min: 16",
+            "category": "minecraftSettings"
         },
         "max-players": {
             "name": "Max Players",
             "type": "integer",
             "default": "20",
-            "description": "The maximum number of players that can play on the server at the same time."
+            "description": "The maximum number of players that can play on the server at the same time.",
+            "category": "minecraftSettings"
         },
         "max-tick-time": {
             "name": "Max Tick Time",
             "type": "integer",
             "default": "60000",
-            "description": "The maximum number of milliseconds a single tick may take before the server stops"
+            "description": "The maximum number of milliseconds a single tick may take before the server stops",
+            "category": "minecraftSettings"
         },
         "max-world-size": {
             "name": "Max World Size",
             "type": "integer",
             "default": "29999984",
-            "description": "This sets the maximum possible world size in blocks (radius)"
+            "description": "This sets the maximum possible world size in blocks (radius)",
+            "category": "minecraftSettings"
         },
         "motd": {
             "name": "MOTD",
             "type": "string",
             "default": "A Minecraft Server",
-            "description": "This is the message that is displayed in the server list of the client, below the name."
+            "description": "This is the message that is displayed in the server list of the client, below the name.",
+            "category": "minecraftSettings"
         },
         "network-compression-threshold": {
             "name": "Network Compression Threshold",
             "type": "integer",
             "default": "256",
-            "description": "Adjust the network compression threshold "
+            "description": "Adjust the network compression threshold ",
+            "category": "minecraftSettings"
         },
         "online-mode": {
             "name": "Online Mode",
             "type": "boolean",
             "default": "true",
-            "description": "Server checks connecting players against Minecraft account database."
+            "description": "Server checks connecting players against Minecraft account database.",
+            "category": "minecraftSettings"
         },
         "op-permission-level": {
             "name": "OP Permission Level",
             "type": "integer",
             "default": "4",
-            "description": "Sets the default permission level for ops when using /op."
+            "description": "Sets the default permission level for ops when using /op.",
+            "category": "minecraftSettings"
         },
         "player-idle-timeout": {
             "name": "Player Idle Timeout",
             "type": "integer",
             "default": "0",
-            "description": "Set player timeout for inactivity (in minutes)"
+            "description": "Set player timeout for inactivity (in minutes)",
+            "category": "minecraftSettings"
         },
         "prevent-proxy-connections": {
             "name": "Prevent Proxy Connections",
             "type": "boolean",
             "default": "false",
-            "description": "Prevents players using proxies/VPNs from joining"
+            "description": "Prevents players using proxies/VPNs from joining",
+            "category": "minecraftSettings"
         },
         "pvp": {
             "name": "PVP",
             "type": "boolean",
             "default": "true",
-            "description": "Enable PvP on the server."
+            "description": "Enable PvP on the server.",
+            "category": "minecraftSettings"
         },
         "query.port": {
             "name": "Query Port",
             "type": "integer",
             "default": "25565",
-            "description": "Sets the port for the query server (see enable-query)."
+            "description": "Sets the port for the query server (see enable-query).",
+            "category": "minecraftSettings"
         },
         "rate-limit": {
             "name": "Rate Limit",
             "type": "integer",
             "default": "0",
-            "description": "Sets the maximum amount of packets a user can send before getting kicked"
+            "description": "Sets the maximum amount of packets a user can send before getting kicked",
+            "category": "minecraftSettings"
         },
         "rcon.password": {
             "name": "RCON Password",
             "type": "string",
             "default": "",
-            "description": "Sets the password for RCON"
+            "description": "Sets the password for RCON",
+            "category": "minecraftSettings"
         },
         "rcon.port": {
             "name": "RCON Port",
             "type": "integer",
             "default": "25575",
-            "description": "Sets the RCON network port."
+            "description": "Sets the RCON network port.",
+            "category": "minecraftSettings"
         },
         "resource-pack": {
             "name": "Resource Pack URL",
             "type": "string",
             "default": "",
-            "description": "Optional URI to a resource pack. The player may choose to use it."
+            "description": "Optional URI to a resource pack. The player may choose to use it.",
+            "category": "minecraftSettings"
         },
         "resource-pack-prompt": {
             "name": "Resource Pack Prompt",
             "type": "string",
             "default": "",
-            "description": "Optional, adds a custom message to be shown on resource pack prompt when require-resource-pack is used."
+            "description": "Optional, adds a custom message to be shown on resource pack prompt when require-resource-pack is used.",
+            "category": "minecraftSettings"
         },
         "resource-pack-sha1": {
             "name": "Resource Pack Prompt",
             "type": "string",
             "default": "",
-            "description": "Checks integrity of resource pack using a hash."
+            "description": "Checks integrity of resource pack using a hash.",
+            "category": "minecraftSettings"
         },
         "require-resource-pack": {
             "name": "Require Resource Pack",
             "type": "boolean",
             "default": "false",
-            "description": "When this option is enabled (set to true), players will be prompted for a response and will be disconnected if they decline the required pack."
+            "description": "When this option is enabled (set to true), players will be prompted for a response and will be disconnected if they decline the required pack.",
+            "category": "minecraftSettings"
         },
         "server-ip": {
             "name": "Server IP",
             "type": "string",
             "default": "",
-            "description": "The player should set this if they want the server to bind to a particular IP. "
+            "description": "The player should set this if they want the server to bind to a particular IP. ",
+            "category": "minecraftSettings"
         },
         "server-port": {
             "name": "Server Port",
             "type": "integer",
             "default": "25565",
-            "description": "Changes the port the server is hosting (listening) on. "
+            "description": "Changes the port the server is hosting (listening) on. ",
+            "category": "minecraftSettings"
         },
         "snooper-enabled": {
             "name": "Snooper-Enabled",
             "type": "boolean",
             "default": "true",
-            "description": "Sets whether the server sends snoop data regularly to http://snoop.minecraft.net."
+            "description": "Sets whether the server sends snoop data regularly to http://snoop.minecraft.net.",
+            "category": "minecraftSettings"
         },
         "spawn-animals": {
             "name": "Spawn Animals",
             "type": "boolean",
             "default": "true",
-            "description": "Determines if animals can spawn."
+            "description": "Determines if animals can spawn.",
+            "category": "minecraftSettings"
         },
         "spawn-monsters": {
             "name": "Spawn Monsters",
             "type": "boolean",
             "default": "true",
-            "description": "Determines if monsters can spawn."
+            "description": "Determines if monsters can spawn.",
+            "category": "minecraftSettings"
         },
         "spawn-npcs": {
             "name": "Spawn NPCs",
             "type": "boolean",
             "default": "true",
-            "description": "Determines whether villagers can spawn."
+            "description": "Determines whether villagers can spawn.",
+            "category": "minecraftSettings"
         },
         "spawn-protection": {
             "name": "Spawn Protection",
             "type": "integer",
             "default": "16",
-            "description": "Determines the side length of the square spawn protection area as 2x+1."
+            "description": "Determines the side length of the square spawn protection area as 2x+1.",
+            "category": "minecraftSettings"
         },
         "use-native-transport": {
             "name": "Use Native Transport",
             "type": "boolean",
             "default": "true",
-            "description": "Linux server performance improvements: optimized packet sending/receiving on Linux"
+            "description": "Linux server performance improvements: optimized packet sending/receiving on Linux",
+            "category": "minecraftSettings"
         },
         "view-distance": {
             "name": "View Distance",
             "type": "integer",
             "default": "10",
-            "description": "Maximum view distance allowed for the client."
+            "description": "Maximum view distance allowed for the client.",
+            "category": "minecraftSettings"
         },
         "white-list": {
             "name": "White-list",
             "type": "boolean",
             "default": "false",
-            "description": "Enables a whitelist on the server."
+            "description": "Enables a whitelist on the server.",
+            "category": "minecraftSettings"
         },
         "enforce-whitelist": {
             "name": "Enforce Whitelist",
             "type": "boolean",
             "default": "false",
-            "description": "Enforces the whitelist on the server."
+            "description": "Enforces the whitelist on the server.",
+            "category": "minecraftSettings"
         },
         "debug": {
             "name": "Debug",
             "type": "boolean",
             "default": "",
-            "description": "Enable advanced debugging"
+            "description": "Enable advanced debugging",
+            "category": "minecraftSettings"
         },
         "enable-rcon": {
             "name": "Enable RCON",
             "type": "boolean",
             "default": "false",
-            "description": "Enables the RCONN Server"
-        }
-    },
-    "java-settings": {
-        "maxHeapSize": {
-            "name": "Server Memory (MB)",
-            "type": "integer",
-            "default": "1024",
-            "description": "Name of the Server's JAR File"
-        }
-    },
-    "server-settings": {
+            "description": "Enables the RCONN Server",
+            "category": "minecraftSettings"
+        },
         "jarFile": {
             "name": "Server JAR",
             "type": "string",
             "default": "server.jar",
-            "description": "Name of the Server's JAR File"
+            "description": "Name of the Server's JAR File",
+            "category": "core"
+        },
+        "maxHeapSize": {
+            "name": "Server Memory (MB)",
+            "type": "integer",
+            "default": "1024",
+            "description": "Java's Maximum Heap Size",
+            "category": "java"
         },
         "name": {
             "name": "Friendly Server Name",
             "type": "string",
             "default": "",
-            "description": "A friendly name used to identify the server"
-        }
+            "description": "A friendly name used to identify the server"     ,
+            "category": "core"
     }
 }

@@ -1,5 +1,5 @@
 const express = require('express');
-const {startServer, stopServer, getState, killServer, sendCommand, getServerProperties, updateServerProperties, acceptEULA} = require('../controllers/minecraftController');
+const {startServer, stopServer, getState, killServer, sendCommand, getServerSettings, setServerSettings, acceptEULA} = require('../controllers/minecraftController');
 
 function getMCRoutes() {
     const router = express.Router()
@@ -9,8 +9,8 @@ function getMCRoutes() {
     router.get('/kill', killServer);
     router.get('/state', getState);
     router.post('/command', sendCommand);
-    router.get('/properties', getServerProperties);
-    router.post('/update/properties', updateServerProperties);
+    router.get('/settings', getServerSettings);
+    router.put('/settings/set', setServerSettings);
     router.get('/accepteula', acceptEULA)
     
     return router;

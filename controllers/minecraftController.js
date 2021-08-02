@@ -44,24 +44,6 @@ async function sendCommand(req, res) {
         .catch(err => res.status(400).send(err));
 }
 
-/**
- * GET - Fetch the minecraft server properties
- */
-async function getServerProperties(req, res) {
-    req.app.get('minecraftServer').getServerProperties()
-        .then(response => res.json(response))
-        .catch(err => res.status(500).send(err.message));
-}
-
-/**
- * POST - Updates the server properties
- */
-async function updateServerProperties(req, res) {
-    const properties = req.body;
-    req.app.get('minecraftServer').writeProperties(properties)
-        .then(response => res.json(response))
-        .catch(err => res.status(500).send(err.message));
-}
 
 /**
  * GET - Accepts the Mojang EULA
@@ -72,24 +54,25 @@ async function acceptEULA(req, res) {
         .catch(err => res.status(400).send(err.message));
 }
 
-
 /**
- * GET - Retrieve the server configuration
+ * GET - Fetch server settings
 */
-async function getConfig(req, res) {
-    req.app.get('minecraftServer').acceptEULA()
+async function getServerSettings(req, res) {
+    req.app.get('minecraftServer').getServerSettings()
         .then(response => res.send(response))
         .catch(err => res.status(400).send(err.message));
 }
 
 /**
- * POST - Update the server configuration
+ * GET - Set Server settings
 */
-async function updateConfig(req, res) {
-    req.app.get('minecraftServer').acceptEULA()
+async function setServerSettings(req, res) {
+    const {category, setting, value} = req.body;
+    req.app.get('minecraftServer').setServerSettings(category, setting, value)
         .then(response => res.send(response))
         .catch(err => res.status(400).send(err.message));
 }
+
 
 module.exports = {
     startServer: startServer,
@@ -97,7 +80,7 @@ module.exports = {
     getState: getState,
     killServer: killServer,
     sendCommand: sendCommand,
-    getServerProperties: getServerProperties,
-    updateServerProperties: updateServerProperties,
+    getServerSettings: getServerSettings,
+    setServerSettings: setServerSettings,
     acceptEULA: acceptEULA
 }
