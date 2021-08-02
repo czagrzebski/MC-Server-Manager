@@ -2,12 +2,11 @@
     width: 300px;
 }
 
-
 .setting-item select {
     text-transform: capitalize;
 }
 
-p {
+.setting-item p {
     width: 225px;
     height: 60px;
 }

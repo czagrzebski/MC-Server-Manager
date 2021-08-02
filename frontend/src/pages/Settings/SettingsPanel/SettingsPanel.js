@@ -4,7 +4,6 @@ import { SettingItem } from '../../../components/SettingItem/SettingItem';
 
 //TODO: Implement redux for better state management to prevent ugly nested props. 
 export function SettingsPanel(props){
-
     return (
         <div className={"settings-grid"}>
             {!props.settingsList ? null : (
