@@ -4,6 +4,8 @@ import Notification from '../Notification/Notification';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Switch from '@material-ui/core/Switch';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import NativeSelect from '@material-ui/core/NativeSelect';
 import './SettingItem.css'
 
 const AntSwitch = withStyles((theme) => ({
@@ -83,32 +85,31 @@ export function SettingItem(props){
                 )
             case "string":
             case "integer":
-                return <input 
+                return <OutlinedInput 
                             value={props.currentVal} 
                             onChange={handleValueChange} 
+                            className={"outlined-input"}
                             onBlur={(event) => {
                                 saveSetting(event.target.value)}
-                            }>
-                        </input>;
+                            } />
             case "list":
                 return (
-                    <select name="options" id="options" onChange={(event) => {
+                    <NativeSelect name="options" id="options" value={props.currentVal} onChange={(event) => {
                         handleValueChange(event);
                         saveSetting(event.target.value);
                     }}>
                         {props.options.map(option => {
                             return <option value={option} classname={"setting-option"}>{option}</option>
                         })}
-                    </select>
+                    </NativeSelect>
                 )
             default:
-                return <input 
+                return <OutlinedInput
                     value={props.currentVal} 
                     onChange={handleValueChange} 
                     onBlur={(event) => {
                         saveSetting(event.target.value)}
-                    }>
-            </input>;
+                    } />
         }
     }
 
