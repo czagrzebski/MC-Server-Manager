@@ -5,6 +5,9 @@ import { red } from '@material-ui/core/colors';
 
 import { withStyles } from '@material-ui/core/styles';
 import api from '../../utils/api';
+import useStore from '../../store';
+import Notification from '../Notification/Notification';
+import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
 
 
 import Button from '@material-ui/core/Button';
@@ -26,28 +29,75 @@ const ColorButton = withStyles((theme) => ({
 
 function ServerControls() {
 
-    const startServer = () => {
-        api.get('/server/start')
-            .catch(err => console.log)
-    }
+  const [status, setStatusBase] = React.useState("");
+  const [dialogStatus, setDialogStatus] = React.useState({open: false});
+  
+  const minecraftServerState = useStore(state => state.minecraftServerState);
 
-    const killServer = () => {
-        api.get('/server/kill')
-          .catch(err => console.log)
-    }
+  const startServer = () => {
+      api.get('/server/start')
+          .then((response) => {
+            setStatusBase({ msg: response.data, date: new Date(), severity: "success" });
+          })
+          .catch(err => {     
+            if(err.response){ 
+              switch(err.response.data) {
+                case "EULA":
+                  setDialogStatus({open: true, title: "Minecraft End User License Agreement", msg: `You must accept the Mojang EULA before running the server. By clicking 'accept' you indicate that you have read and accepted the terms of the agreement below. https://account.mojang.com/documents/minecraft_eula`})
+                  break;
 
-    const stopServer = () => {
-      api.get('/server/stop')
-        .catch(err => console.log)
+                default: 
+                  setStatusBase({ msg: err.response.data, date: new Date(), severity: "error" });
+                  break;
+              }
+              
+            } 
+          })
   }
 
-    return (
-        <div>
-            <ColorButton className="control-btn" variant="contained" onClick={() => startServer()}>Start</ColorButton>
-            <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[700]}} onClick={() => stopServer()}>Stop</ColorButton>
-            <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[900]}} onClick={() => killServer()}>Kill</ColorButton>
-        </div>
-    )
+  const killServer = () => {
+      api.get('/server/kill')
+        .then((response) => {
+          setStatusBase({ msg: response.data, date: new Date(), severity: "success" });
+        })
+        .catch(err => {     
+          if(err.response){ 
+            setStatusBase({ msg: err.response.data, date: new Date(), severity: "error" });
+          } 
+        })
+  }
+
+  const stopServer = () => {
+    api.get('/server/stop')
+      .then((response) => {
+        setStatusBase({ msg: response.data, date: new Date(), severity: "info" });
+      })
+      .catch(err => {     
+        if(err.response){ 
+          setStatusBase({ msg: err.response.data, date: new Date(), severity: "error" });
+        } 
+      })
+  }
+
+  const acceptEULA = () => {
+    api.get('/server/accepteula')
+      .then(() => startServer())
+      .catch(err => {     
+        if(err.response){ 
+          setStatusBase({ msg: err.response.data, date: new Date(), severity: "error" });
+        } 
+      })
+  }
+
+  return (
+      <div>
+          <ColorButton className="control-btn" variant="contained"  style={{display: minecraftServerState === "SERVER_STOPPED" ? 'inline-block': 'none'}}onClick={() => startServer()}>Start</ColorButton>
+          <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[700], display: minecraftServerState === "SERVER_RUNNING"? 'inline-block': 'none' }}  onClick={() => stopServer()}>Stop</ColorButton>
+          <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[900], display: minecraftServerState === "SERVER_STOPPED" ? 'none': 'inline-block'}} onClick={() => killServer()}>Kill</ColorButton>
+          {status ? <Notification key={status.date} msg={status.msg} severity={status.severity}/> : null}
+         <ConfirmDialog open={dialogStatus.open} setOpen={setDialogStatus} title={dialogStatus.title} msg={dialogStatus.msg} onAgreeCallback={acceptEULA} /> 
+      </div>
+  )
 }
 
 

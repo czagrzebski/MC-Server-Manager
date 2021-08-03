@@ -1,8 +1,7 @@
 import './App.css';
 import React, { useEffect } from 'react';
 import {socket, SocketContext } from './utils/socket';
-import ConsoleDashboard from './pages/ConsoleDashboard/ConsoleDashboard';
-import HomeDashboard from './pages/HomeDashboard/HomeDashboard';
+import { Console, Settings, Home} from './pages'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavDrawer from './components/NavDrawer/NavDrawer'
 import { makeStyles } from '@material-ui/core/styles';
@@ -55,17 +54,20 @@ function App() {
     <SocketContext.Provider value={socket}>
     <Router>
       <div className={classes.root}>
-     
           <NavDrawer />
           <div className={classes.content}>
             <div className={classes.toolbar} />
               <Switch>
+                  <Route path="/settings">
+                    <Settings />
+                  </Route>
                   <Route path="/console">
-                    <ConsoleDashboard />
+                    <Console />
                   </Route>
                   <Route path="/">
-                    <HomeDashboard />
+                    <Home />
                   </Route>
+                 
               </Switch>
               </div>
     </div>

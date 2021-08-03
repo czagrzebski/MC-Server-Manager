@@ -1,44 +1,86 @@
-const express = require('express');
-
-function getMCRoutes() {
-    const router = express.Router()
-    
-    router.get('/start', startServer);
-    router.get('/kill', killServer);
-    router.get('/state', getState);
-    router.post('/command', sendCommand);
-    
-    return router;
-}
-
+/**
+ * GET - Starts the Minecraft Server
+ */
 async function startServer(req, res) {
     req.app.get('minecraftServer').startServer()
         .then(response => res.send(response))
-        .catch(err => res.status(500).send(err));
-    
+        .catch(err => res.status(400).send(err.message));
 }
 
-async function getState(req, res) {
-    req.app.get('minecraftServer').getState()
-        .then(response => res.send(response))
-        .catch(err => res.status(500).send(err));
-    
-}
-
-async function killServer(req, res) {
-    req.app.get('minecraftServer').killServer()
+/**
+ * GET - Stops the Minecraft Server
+ */
+async function stopServer(req, res) {
+    req.app.get('minecraftServer').stopServer()
         .then(response => res.send(response))
         .catch(err => res.status(400).send(err));
 }
 
+/**
+ * GET - Fetch the current state of the Server
+ */
+async function getState(req, res) {
+    req.app.get('minecraftServer').getState()
+        .then(response => res.send(response))
+        .catch(err => res.status(400).send(err));  
+}
+
+/**
+ * GET - Kills the Minecraft Server
+ */
+async function killServer(req, res) {
+    req.app.get('minecraftServer').killServer()
+        .then(response => res.send(response))
+        .catch(err => res.status(400).send(err.message));
+}
+
+/**
+ * POST - Sends command to the minecraft server
+ */
 async function sendCommand(req, res) {
     const {command} = req.body;
     req.app.get('minecraftServer').sendCommand(command)
         .then(response => res.send(response))
         .catch(err => res.status(400).send(err));
-
 }
 
+
+/**
+ * GET - Accepts the Mojang EULA
+*/
+async function acceptEULA(req, res) {
+    req.app.get('minecraftServer').acceptEULA()
+        .then(response => res.send(response))
+        .catch(err => res.status(400).send(err.message));
+}
+
+/**
+ * GET - Fetch server settings
+*/
+async function getServerSettings(req, res) {
+    req.app.get('minecraftServer').getServerSettings()
+        .then(response => res.send(response))
+        .catch(err => res.status(400).send(err.message));
+}
+
+/**
+ * GET - Set Server settings
+*/
+async function setServerSettings(req, res) {
+    const {category, setting, value} = req.body;
+    req.app.get('minecraftServer').setServerSettings(category, setting, value)
+        .then(response => res.send(response))
+        .catch(err => res.status(400).send(err.message));
+}
+
+
 module.exports = {
-    getMCRoutes: getMCRoutes
+    startServer: startServer,
+    stopServer: stopServer,
+    getState: getState,
+    killServer: killServer,
+    sendCommand: sendCommand,
+    getServerSettings: getServerSettings,
+    setServerSettings: setServerSettings,
+    acceptEULA: acceptEULA
 }
