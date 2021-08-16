@@ -63,7 +63,6 @@ export function SettingItem(props){
             setChecked(event.target.checked)
             props.onSettingChange(props.category, props.settingId, event.target.checked)
         }
-       
     }
     
     //Renders a setting item based on type

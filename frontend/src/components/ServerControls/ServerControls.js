@@ -49,8 +49,7 @@ function ServerControls() {
                 default: 
                   setStatusBase({ msg: err.response.data, date: new Date(), severity: "error" });
                   break;
-              }
-              
+              } 
             } 
           })
   }
@@ -95,7 +94,7 @@ function ServerControls() {
           <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[700], display: minecraftServerState === "SERVER_RUNNING"? 'inline-block': 'none' }}  onClick={() => stopServer()}>Stop</ColorButton>
           <ColorButton className="control-btn" variant="contained" style={{backgroundColor: red[900], display: minecraftServerState === "SERVER_STOPPED" ? 'none': 'inline-block'}} onClick={() => killServer()}>Kill</ColorButton>
           {status ? <Notification key={status.date} msg={status.msg} severity={status.severity}/> : null}
-         <ConfirmDialog open={dialogStatus.open} setOpen={setDialogStatus} title={dialogStatus.title} msg={dialogStatus.msg} onAgreeCallback={acceptEULA} /> 
+          <ConfirmDialog open={dialogStatus.open} setOpen={setDialogStatus} title={dialogStatus.title} msg={dialogStatus.msg} onAgreeCallback={acceptEULA} /> 
       </div>
   )
 }

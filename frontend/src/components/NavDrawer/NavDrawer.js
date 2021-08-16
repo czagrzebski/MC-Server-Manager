@@ -101,14 +101,8 @@ export default function NavDrawer() {
           <ListItem className={classes.bottomPush}>
             MCM Alpha V1.00
           </ListItem>
-     
         </List>
-     
       </Drawer>
-     
-       
-  
-     
     </div>
   );
 }

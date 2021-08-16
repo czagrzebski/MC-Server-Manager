@@ -24,7 +24,6 @@ export function Home(){
     }
 
     useEffect(() => {  
-        
         api.get('/server/state')
             .then(resp => handleServerState(resp["data"]))
             .catch(err => console.log(err));

@@ -65,6 +65,7 @@ export function Settings() {
     setValue(newValue);
   };
 
+  //TODO: Clean this code by implementing immer
   const handleSettingChange = (category, setting, value) => {
     setSettingsList(settingsList => ({
       ...settingsList,
