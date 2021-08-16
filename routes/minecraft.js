@@ -11,7 +11,7 @@ function getMCRoutes() {
     router.post('/command', sendCommand);
     router.get('/settings', getServerSettings);
     router.put('/settings/set', setServerSetting);
-    router.get('/accepteula', acceptEULA)
+    router.put('/accepteula', acceptEULA)
     
     return router;
 }

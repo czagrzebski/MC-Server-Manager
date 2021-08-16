@@ -21,13 +21,12 @@ function ConfirmDialog(props) {
   }
 
   const onAccept = () => {
-   handleClose();
+    handleClose();
     onAgreeCallback();
   }
 
   const onDecline = () => {
     handleClose();
-    console.log("closing")
   }
 
   return (

@@ -80,7 +80,7 @@ function ServerControls() {
   }
 
   const acceptEULA = () => {
-    api.get('/server/accepteula')
+    api.put('/server/accepteula')
       .then(() => startServer())
       .catch(err => {     
         if(err.response){ 
