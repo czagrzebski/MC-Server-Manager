@@ -66,9 +66,9 @@ async function getServerSettings(req, res) {
 /**
  * GET - Set Server settings
 */
-async function setServerSettings(req, res) {
+async function setServerSetting(req, res) {
     const {category, setting, value} = req.body;
-    req.app.get('minecraftServer').setServerSettings(category, setting, value)
+    req.app.get('minecraftServer').setServerSetting(category, setting, value)
         .then(response => res.send(response))
         .catch(err => res.status(400).send(err.message));
 }
@@ -81,6 +81,6 @@ module.exports = {
     killServer: killServer,
     sendCommand: sendCommand,
     getServerSettings: getServerSettings,
-    setServerSettings: setServerSettings,
+    setServerSetting: setServerSetting,
     acceptEULA: acceptEULA
 }

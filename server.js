@@ -2,14 +2,15 @@ const app = require("express")();
 const { MCServer } = require('./lib/mcserver');
 const cors = require('cors')
 const httpServer = require("http").createServer(app);
+const bodyParser = require('body-parser');
+const { getRoutes } = require('./routes');
 const options = {
     cors: {
         origin: '*',
     }
 };
 const io = require("socket.io")(httpServer, options);
-const bodyParser = require('body-parser');
-const { getRoutes } = require('./routes');
+
 
 const PORT = (process.env.PORT || 3500);
 
