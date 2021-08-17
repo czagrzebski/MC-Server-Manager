@@ -97,8 +97,8 @@ export function SettingItem(props){
                         handleValueChange(event);
                         saveSetting(event.target.value);
                     }}>
-                        {props.options.map(option => {
-                            return <option value={option} classname={"setting-option"}>{option}</option>
+                        {props.options.map((option, i) => {
+                            return <option value={option} key={i} className={"setting-option"}>{option}</option>
                         })}
                     </NativeSelect>
                 )

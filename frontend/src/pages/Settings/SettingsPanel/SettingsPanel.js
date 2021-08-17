@@ -18,7 +18,7 @@ export function SettingsPanel(props){
                             default={setting.default}
                             category={setting.category}
                             currentVal={setting.value}
-                            key={settingKey}
+                            key={i}
                             options={setting.options}
                             onSettingChange={props.onSettingChange}
                         />
