@@ -42,14 +42,15 @@ const AntSwitch = withStyles((theme) => ({
     checked: {},
   }))(Switch);
 
-
 export function SettingItem(props){
+    const { settingId } = props;
+    const { name, description, type, category, value, options } = props.setting;
     const [status, setStatusBase] = React.useState("");
-    const [checked, setChecked] = React.useState(props.currentVal === 'true')
+    const [checked, setChecked] = React.useState(value === 'true')
    
     //Save setting when changed
     const saveSetting = (value) => {
-        api.put('/server/settings/set', JSON.stringify({"category": props.category, "setting": props.settingId, "value": value}))
+        api.put('/server/settings/set', JSON.stringify({"category": category, "setting": settingId, "value": value}))
             .then(response => {
                 setStatusBase({ msg: response.data, date: new Date(), severity: "success" });
             })
@@ -58,16 +59,18 @@ export function SettingItem(props){
     //Updates the state when the user changes the value
     const handleValueChange = (event) => {  
         if(event.target.value){
-            props.onSettingChange(props.category, props.settingId, event.target.value)
+            console.log(settingId)
+            props.onSettingChange(category, settingId, event.target.value)
+        //check if ant switch was toggled
         }else if('checked' in event.target) {
             setChecked(event.target.checked)
-            props.onSettingChange(props.category, props.settingId, event.target.checked)
+            props.onSettingChange(category, settingId, event.target.checked)
         }
     }
     
     //Renders a setting item based on type
     const renderSettingType = () => {
-        switch(props.type) {
+        switch(type) {
             case "boolean":
                 return  (
                     <Grid component="label" container alignItems="center" spacing={1}>
@@ -82,30 +85,22 @@ export function SettingItem(props){
                         <Grid item>On</Grid>
                     </Grid>
                 )
-            case "string":
-            case "integer":
-                return <OutlinedInput 
-                            value={props.currentVal} 
-                            onChange={handleValueChange} 
-                            className={"outlined-input"}
-                            onBlur={(event) => {
-                                saveSetting(event.target.value)}
-                            } />
             case "list":
                 return (
-                    <NativeSelect name="options" id="options" value={props.currentVal} onChange={(event) => {
+                    <NativeSelect name="options" id="options" value={value} onChange={(event) => {
                         handleValueChange(event);
                         saveSetting(event.target.value);
                     }}>
-                        {props.options.map((option, i) => {
-                            return <option value={option} key={i} className={"setting-option"}>{option}</option>
+                        {options.map((option) => {
+                            return <option value={option} key={option} className={"setting-option"}>{option}</option>
                         })}
                     </NativeSelect>
                 )
             default:
                 return <OutlinedInput
-                    value={props.currentVal} 
+                    value={value} 
                     onChange={handleValueChange} 
+                    className={"outlined-input"}
                     onBlur={(event) => {
                         saveSetting(event.target.value)}
                     } />
@@ -114,8 +109,8 @@ export function SettingItem(props){
 
     return (
         <div className={"setting-item"} >    
-            <h4>{props.name}</h4>
-            <p>{props.description}</p>
+            <h4>{name}</h4>
+            <p>{description}</p>
             {renderSettingType()}
             {status ? <Notification key={status.date} msg={status.msg} severity={status.severity}/> : null}
         </div>

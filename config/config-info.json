@@ -39,14 +39,14 @@
             "name": "Enable Command Block",
             "type": "boolean",
             "default": "false",
-            "description": "Enables command blocks",
+            "description": "Enables the use of command blocks on the server",
             "category": "minecraftSettings"
         },
         "enable-jmx-monitoring": {
             "name": "Enable JMX Monitoring",
             "type": "boolean",
             "default": "false",
-            "description": "Exposes an MBean with the Object name net.minecraft.server:type=Server.",
+            "description": "Enable Java Management Extensions Protocol.",
             "category": "minecraftSettings"
         },
         "sync-chunk-writes": {
@@ -67,7 +67,7 @@
             "name": "Enable Query",
             "type": "boolean",
             "default": "false",
-            "description": "Enables GameSpy4 protocol server listener. Used to get information about server.",
+            "description": "Enables GameSpy4 protocol server listener. Used to get information about the server.",
             "category": "minecraftSettings"
         },
         "entity-broadcast-range-percentage": {

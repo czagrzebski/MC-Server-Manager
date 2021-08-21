@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import { SettingsPanel } from './SettingsPanel/SettingsPanel';
 import api from '../../utils/api';
+import produce from 'immer';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
