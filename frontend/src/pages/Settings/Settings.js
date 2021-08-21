@@ -66,20 +66,12 @@ export function Settings() {
     setValue(newValue);
   };
 
-  //TODO: Clean this code by implementing immer
+
   const handleSettingChange = (category, setting, value) => {
-    setSettingsList(settingsList => ({
-      ...settingsList,
-      [category]: {
-        ...settingsList[category],
-        [setting]: {
-          ...settingsList[category][setting],
-          value: [value]
-         }
-      }
-    }
-    ))
-       
+    setSettingsList(
+      produce((draft) => {
+        draft[category][setting].value = value
+      }))    
   }
 
   return (
