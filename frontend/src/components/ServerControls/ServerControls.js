@@ -5,9 +5,9 @@ import { red } from '@material-ui/core/colors';
 
 import { withStyles } from '@material-ui/core/styles';
 import api from '../../utils/api';
-import useStore from '../../store';
 import Notification from '../Notification/Notification';
 import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
+import { useSelector } from 'react-redux';
 
 
 import Button from '@material-ui/core/Button';
@@ -32,7 +32,7 @@ function ServerControls() {
   const [status, setStatusBase] = React.useState("");
   const [dialogStatus, setDialogStatus] = React.useState({open: false});
   
-  const minecraftServerState = useStore(state => state.minecraftServerState);
+  const minecraftServerState = useSelector(state => state.minecraftServer.status);
 
   const startServer = () => {
       api.get('/server/start')

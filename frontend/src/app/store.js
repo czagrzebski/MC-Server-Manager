@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit"
 
-import consoleReducer from '../pages/Console/consoleSlice';
+import consoleReducer from './consoleSlice';
+import minecraftServerSlice from "./minecraftServerSlice";
 
 export default configureStore({
     reducer: {
-        console: consoleReducer
+        console: consoleReducer,
+        minecraftServer: minecraftServerSlice
     }
 })

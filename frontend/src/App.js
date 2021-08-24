@@ -1,14 +1,18 @@
-import './App.css';
+
 import React, { useEffect } from 'react';
-import {socket, SocketContext } from './utils/socket';
-import { Console, Settings, Home} from './pages'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Console, Settings, Home} from './pages'
+
+import api from './utils/api';
+import {socket, SocketContext } from './utils/socket';
+
+import './App.css';
 import NavDrawer from './components/NavDrawer/NavDrawer'
 import { makeStyles } from '@material-ui/core/styles';
-import useStore from './store'
-import api from './utils/api';
+
 import { useDispatch } from 'react-redux';
-import { consoleLogAdded } from './pages/Console/consoleSlice';
+import { consoleLogAdded } from './app/consoleSlice';
+import { setServerStatus } from './app/minecraftServerSlice';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -29,8 +33,6 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const setMinecraftServerState = useStore(state => state.setMinecraftServerState);
-  
   
   useEffect(() => {
 
@@ -39,11 +41,11 @@ function App() {
     }); 
 
     socket.on('state', (data) => {
-      setMinecraftServerState(data);
+      dispatch(setServerStatus(data))
     });
 
     api.get('/server/state')
-      .then(resp => setMinecraftServerState(resp["data"]))
+      .then(resp =>   dispatch(setServerStatus(resp["data"])))
       .catch(err => console.log(`Failed to fetch mc server state: ${err}`))
 
     //Cleanup Socket

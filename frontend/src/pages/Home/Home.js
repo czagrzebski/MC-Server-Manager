@@ -1,44 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ServerControls from '../../components/ServerControls/ServerControls';
 import api from '../../utils/api';
-import useStore from '../../store';
+import { useSelector, useDispatch } from 'react-redux';
+import { setServerStatus } from '../../app/minecraftServerSlice';
 
 
 export function Home(){
-    const [serverState, setServerState] = useState("Stopped");
+    const serverState = useSelector(state => state.minecraftServer.status);
+    const dispatch = useDispatch()
 
-    const handleServerState = (state) => {
-        switch(state){
+    const renderServerState = (serverState) => {
+        switch(serverState){
             case "SERVER_STARTING":
-                setServerState("Starting")
-                break;
+                return ("Starting")
             case "SERVER_RUNNING":
-                setServerState("Running")
-                break;
-            case "SERVER_STOPPED":
-                setServerState("Stopped")
-                break;
+                return ("Running")
             default:
-                setServerState("Stopped");
+                return("Stopped");
         }
     }
 
     useEffect(() => {  
         api.get('/server/state')
-            .then(resp => handleServerState(resp["data"]))
+            .then(resp => dispatch(setServerStatus(resp["data"])))
             .catch(err => console.log(err));
-
-        const unSubServerState = useStore.subscribe(handleServerState, state => state.minecraftServerState);
-        
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        return(() => {
-            unSubServerState()
-        })
-      }, []);
+      }, [dispatch]);
 
     return (
         <div>
-            <h1>{serverState}</h1>
+            <h1>{renderServerState(serverState)}</h1>
             <ServerControls />
         </div>
     )

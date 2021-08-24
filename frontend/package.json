@@ -16,8 +16,7 @@
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
-    "web-vitals": "^1.1.1",
-    "zustand": "^3.5.1"
+    "web-vitals": "^1.1.1"
   },
   "scripts": {
     "start": "PORT=5000 react-scripts start",
