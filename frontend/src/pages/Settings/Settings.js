@@ -9,7 +9,7 @@ import { SettingsPanel } from './SettingsPanel/SettingsPanel';
 import api from '../../utils/api';
 import produce from 'immer';
 
-function TabPanel(props) {
+const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
   return (
@@ -29,12 +29,6 @@ function TabPanel(props) {
   );
 }
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
@@ -52,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 export function Settings() {
   const classes = useStyles();
   const [settingsList, setSettingsList] = useState("")
-  const [value, setValue] = useState(0);
+  const [tabIndex, setTabIndex] = useState(0);
 
   useEffect(() => {
     api.get('/server/settings')
@@ -62,36 +56,41 @@ export function Settings() {
         .catch(err => console.log(err));
   }, [])
   
-  const handleTabChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-
   const handleSettingChange = (category, setting, value) => {
     setSettingsList(
-      produce((draft) => {
-        draft[category][setting].value = value
+      produce(draftState => {
+        draftState[category][setting].value = value
       }))    
   }
+
+  const handleTabChange = (event, newValue) => {
+    setTabIndex(newValue);
+  };
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Tabs value={value} onChange={handleTabChange} aria-label="simple tabs example">
+        <Tabs value={tabIndex} onChange={handleTabChange} aria-label="simple tabs example">
           <Tab label="Core" {...a11yProps(0)} />
           <Tab label="Java" {...a11yProps(1)} />
           <Tab label="Minecraft Settings" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={tabIndex} index={0}>
         <SettingsPanel settingsList={settingsList.core} onSettingChange={handleSettingChange}/>
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={tabIndex} index={1}>
         <SettingsPanel settingsList={settingsList.java} onSettingChange={handleSettingChange}/>
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={tabIndex} index={2}>
         <SettingsPanel settingsList={settingsList.minecraftSettings} onSettingChange={handleSettingChange}/>
       </TabPanel>
     </div>
   );
 }
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};

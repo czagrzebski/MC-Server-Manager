@@ -7,6 +7,8 @@ import NavDrawer from './components/NavDrawer/NavDrawer'
 import { makeStyles } from '@material-ui/core/styles';
 import useStore from './store'
 import api from './utils/api';
+import { useDispatch } from 'react-redux';
+import { consoleLogAdded } from './pages/Console/consoleSlice';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -26,14 +28,14 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
-  const addConsoleOutput = useStore(state => state.addConsoleOutput);
+  const dispatch = useDispatch();
   const setMinecraftServerState = useStore(state => state.setMinecraftServerState);
   
   
   useEffect(() => {
 
     socket.on('console', (data) => {
-      addConsoleOutput(data);
+      dispatch(consoleLogAdded(data))
     }); 
 
     socket.on('state', (data) => {
@@ -46,34 +48,34 @@ function App() {
 
     //Cleanup Socket
     return(() => socket.close());
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
   return (
-    <SocketContext.Provider value={socket}>
-    <Router>
-      <div className={classes.root}>
-          <NavDrawer />
-          <div className={classes.content}>
-            <div className={classes.toolbar} />
-              <Switch>
-                  <Route path="/settings">
-                    <Settings />
-                  </Route>
-                  <Route path="/console">
-                    <Console />
-                  </Route>
-                  <Route path="/">
-                    <Home />
-                  </Route>
-                 
-              </Switch>
-              </div>
-    </div>
-    </Router>
-    </SocketContext.Provider>
-  
+      <SocketContext.Provider value={socket}>
+      <Router>
+        <div className={classes.root}>
+            <NavDrawer />
+            <div className={classes.content}>
+              <div className={classes.toolbar} />
+                <Switch>
+                    <Route path="/settings">
+                      <Settings />
+                    </Route>
+                    <Route path="/console">
+                      <Console />
+                    </Route>
+                    <Route path="/">
+                      <Home />
+                    </Route>
+                  
+                </Switch>
+                </div>
+      </div>
+      </Router>
+      </SocketContext.Provider>
   );
 }
 

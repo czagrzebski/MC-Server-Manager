@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import { ThemeProvider, createTheme } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
+import { Provider } from 'react-redux';
+import store from './app/store';
 
 const theme = createTheme({
   palette: {
@@ -13,11 +15,13 @@ const theme = createTheme({
 });
 
 ReactDOM.render(
-  <div>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
-    </div>,
+  <Provider store={store}>
+    <div>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+      </div>
+    </Provider>,
   document.getElementById('root')
 );
 
