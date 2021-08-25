@@ -371,7 +371,7 @@
             "type": "string",
             "default": "server.jar",
             "description": "Name of the Server's JAR File",
-            "category": "core"
+            "category": "general"
         },
         "maxHeapSize": {
             "name": "Server Memory (MB)",
@@ -385,6 +385,6 @@
             "type": "string",
             "default": "",
             "description": "A friendly name used to identify the server"     ,
-            "category": "core"
+            "category": "general"
     }
 }

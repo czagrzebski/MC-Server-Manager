@@ -268,7 +268,7 @@ class MCServer extends EventEmitter {
         const serverConfig = JSON.parse(serverConfigFile)["servers"][this.UUID];
 
         let serverConfigWithInfo = {
-            core: {},
+            general: {},
             java: {}
         };
 
@@ -348,7 +348,7 @@ class MCServer extends EventEmitter {
         if(serverConfiguration){
             serverConfiguration = {
                 java: serverConfiguration.java,
-                core: serverConfiguration.core 
+                general: serverConfiguration.general 
             }
         }
       
@@ -371,7 +371,7 @@ class MCServer extends EventEmitter {
     setServerSetting = async (category, setting, value) => {
         switch (category) {
             case "java":
-            case "core":
+            case "general":
                 //Open Server Config File
                 const serverConfigFile = await fs.readFile(path.join(__dirname, `../config/user/config.json`))
                 
@@ -432,7 +432,7 @@ class MCServer extends EventEmitter {
                 }
         
                 experimentalFlags = experimentalFlags.join(' ')
-                return `-Xmx${config.java.maxHeapSize.value}M -Xms${config.java.maxHeapSize.value}M ${experimentalFlags} -jar ${config.core.jarFile.value} nogui`.split(' ')
+                return `-Xmx${config.java.maxHeapSize.value}M -Xms${config.java.maxHeapSize.value}M ${experimentalFlags} -jar ${config.general.jarFile.value} nogui`.split(' ')
             })
       }
   }

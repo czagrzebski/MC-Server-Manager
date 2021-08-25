@@ -1,8 +1,8 @@
-const app = require("express")();
+const express = require('express');
+const app = express();
 const { MCServer } = require('./lib/mcserver');
 const cors = require('cors')
 const httpServer = require("http").createServer(app);
-const bodyParser = require('body-parser');
 const { getRoutes } = require('./routes');
 const options = {
     cors: {
@@ -20,7 +20,7 @@ app.set('minecraftServer', minecraftServer);
 
 //--Middleware--//
 app.use(cors())
-app.use(bodyParser.json())
+app.use(express.json());
 
 //--ROUTES--//
 app.use('/', getRoutes(minecraftServer));
@@ -43,5 +43,5 @@ minecraftServer.on('state', (state) => {
 })
 
 httpServer.listen(PORT, () => {
-    console.log(`Listening on Port ${PORT}`);
+    console.log(`Server Started on Port ${PORT}`);
 });

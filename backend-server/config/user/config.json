@@ -1,1 +1,11 @@
-{"servers":{"8d1d62c9-1e27-4a4f-9a26-a4ea1804222c":{"name":"My Server","version":"1.16.2","folderDir":"/servers/test-server","jarFile":"server.jar","maxHeapSize":"4092","undefined":"A Minecraft Server"}}}
+{
+    "servers": {
+        "8d1d62c9-1e27-4a4f-9a26-a4ea1804222c": {
+            "name": "Hi there",
+            "version": "1.16.2",
+            "folderDir": "/servers/8d1d62c9-1e27-4a4f-9a26-a4ea1804222c",
+            "jarFile": "myServer.jar",
+            "maxHeapSize": "4092"
+        }
+    }
+}

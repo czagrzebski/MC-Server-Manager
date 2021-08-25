@@ -74,13 +74,13 @@ export function Settings() {
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs value={tabIndex} onChange={handleTabChange} aria-label="simple tabs example">
-          <Tab label="Core" {...a11yProps(0)} />
+          <Tab label="General" {...a11yProps(0)} />
           <Tab label="Java" {...a11yProps(1)} />
           <Tab label="Minecraft Settings" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <TabPanel value={tabIndex} index={0}>
-        <SettingsPanel settingsList={settingsList.core} onSettingChange={handleSettingChange}/>
+        <SettingsPanel settingsList={settingsList.general} onSettingChange={handleSettingChange}/>
       </TabPanel>
       <TabPanel value={tabIndex} index={1}>
         <SettingsPanel settingsList={settingsList.java} onSettingChange={handleSettingChange}/>
