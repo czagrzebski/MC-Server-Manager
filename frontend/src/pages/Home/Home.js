@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
-import ServerControls from '../../components/ServerControls/ServerControls';
-import api from '../../utils/api';
 import { useSelector, useDispatch } from 'react-redux';
+
 import { setServerStatus } from '../../app/minecraftServerSlice';
+import api from '../../utils/api';
+
+import ServerControls from '../../components/ServerControls/ServerControls';
 
 
 export function Home(){

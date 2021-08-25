@@ -43,10 +43,8 @@ const ServerConsole = () => {
     return (
         <div className="console">
             <div className="console-output" id="style-2">
-              {consoleLogs.map((log, j) => {
-                    return <p key={j}>{ log }</p>
-                  }
-                )
+              {consoleLogs.map((log, j) => 
+                <p key={j}>{ log }</p>)
               } 
               <AlwaysScrollToBottom />
             </div>
@@ -65,10 +63,9 @@ const ServerConsole = () => {
 }
 
 
-
 export function Console() {
     const dispatch = useDispatch()
-    
+  
     return (
         <div>
           <ServerConsole /> 
