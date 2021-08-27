@@ -1,23 +1,21 @@
-
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Console, Settings, Home} from './pages'
+import { Console, Settings, Home } from "./pages";
 
-import api from './utils/api';
-import {socket, SocketContext } from './utils/socket';
+import api from "./utils/api";
+import { socket, SocketContext } from "./utils/socket";
 
-import './App.css';
-import NavDrawer from './components/NavDrawer/NavDrawer'
-import { makeStyles } from '@material-ui/core/styles';
+import "./App.css";
+import NavDrawer from "./components/NavDrawer/NavDrawer";
+import { makeStyles } from "@material-ui/core/styles";
 
-import { useDispatch } from 'react-redux';
-import { consoleLogAdded } from './app/consoleSlice';
-import { setServerStatus } from './app/minecraftServerSlice';
-
+import { useDispatch } from "react-redux";
+import { consoleLogAdded } from "./app/slices/consoleSlice";
+import { setServerStatus } from "./app/slices/minecraftServerSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex'
+    display: "flex",
   },
 
   content: {
@@ -26,58 +24,55 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
 
-  toolbar: theme.mixins.toolbar
+  toolbar: theme.mixins.toolbar,
 }));
-
 
 function App() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
-
-    socket.on('console', (data) => {
-      dispatch(consoleLogAdded(data))
-    }); 
-
-    socket.on('state', (data) => {
-      dispatch(setServerStatus(data))
+    socket.on("console", (data) => {
+      dispatch(consoleLogAdded(data));
     });
 
-    api.get('/server/state')
-      .then(resp =>   dispatch(setServerStatus(resp["data"])))
-      .catch(err => console.log(`Failed to fetch mc server state: ${err}`))
+    socket.on("state", (data) => {
+      dispatch(setServerStatus(data));
+    });
+
+    api
+      .get("/server/state")
+      .then((resp) => dispatch(setServerStatus(resp["data"])))
+      .catch((err) => console.log(`Failed to fetch mc server state: ${err}`));
 
     //Cleanup Socket
-    return(() => socket.close());
-    
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    return () => socket.close();
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-      <SocketContext.Provider value={socket}>
+    <SocketContext.Provider value={socket}>
       <Router>
         <div className={classes.root}>
-            <NavDrawer />
-            <div className={classes.content}>
-              <div className={classes.toolbar} />
-                <Switch>
-                    <Route path="/settings">
-                      <Settings />
-                    </Route>
-                    <Route path="/console">
-                      <Console />
-                    </Route>
-                    <Route path="/">
-                      <Home />
-                    </Route>
-                  
-                </Switch>
-                </div>
-      </div>
+          <NavDrawer />
+          <div className={classes.content}>
+            <div className={classes.toolbar} />
+            <Switch>
+              <Route path="/settings">
+                <Settings />
+              </Route>
+              <Route path="/console">
+                <Console />
+              </Route>
+              <Route path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </div>
+        </div>
       </Router>
-      </SocketContext.Provider>
+    </SocketContext.Provider>
   );
 }
 

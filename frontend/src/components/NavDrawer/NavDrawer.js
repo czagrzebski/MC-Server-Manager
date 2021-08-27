@@ -1,26 +1,26 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import './NavDrawer.css';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import HomeIcon from '@material-ui/icons/Home';
-import ComputerIcon from '@material-ui/icons/Computer';
-import SettingsIcon from '@material-ui/icons/Settings';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import "./NavDrawer.css";
+import Drawer from "@material-ui/core/Drawer";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import List from "@material-ui/core/List";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import CodeIcon from "@material-ui/icons/Code";
+import SettingsIcon from "@material-ui/icons/Settings";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   bottomPush: {
     position: "fixed",
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     paddingBottom: 15,
   },
-  appBar: {  
+  appBar: {
     zIndex: theme.zIndex.drawer + 1,
   },
   drawer: {
@@ -48,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
 
   link: {
     textDecoration: "none",
-    color: theme.palette.text.primary
-  }
+    color: theme.palette.text.primary,
+  },
 }));
 
 export default function NavDrawer() {
@@ -76,31 +76,28 @@ export default function NavDrawer() {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-      
           <Link to="/" className={classes.link}>
-            <ListItem button key="Status">
-              <ListItemIcon>{<HomeIcon />}</ListItemIcon>
-              <ListItemText primary="Status"/>
+            <ListItem button key="Dashboard">
+              <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
+              <ListItemText primary="Dashboard" />
             </ListItem>
           </Link>
 
           <Link to="/console" className={classes.link}>
             <ListItem button key="Console">
-              <ListItemIcon>{<ComputerIcon />}</ListItemIcon>
-              <ListItemText primary="Console"/>
+              <ListItemIcon>{<CodeIcon />}</ListItemIcon>
+              <ListItemText primary="Console" />
             </ListItem>
           </Link>
 
           <Link to="/settings" className={classes.link}>
             <ListItem button key="Settings">
               <ListItemIcon>{<SettingsIcon />}</ListItemIcon>
-              <ListItemText primary="Settings"/>
+              <ListItemText primary="Settings" />
             </ListItem>
           </Link>
-       
-          <ListItem className={classes.bottomPush}>
-            MCM Alpha V1.00
-          </ListItem>
+
+          <ListItem className={classes.bottomPush}>MCM Alpha V1.00</ListItem>
         </List>
       </Drawer>
     </div>
