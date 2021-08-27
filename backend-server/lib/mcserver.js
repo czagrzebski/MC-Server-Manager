@@ -59,7 +59,7 @@ class MCServer extends EventEmitter {
 
         //Set event handler for console outputs (forwards to frontend client)
         this.serverProcess.stdout.on('data', (data) => this.handleConsoleOutput(data));
-        return `Server Starting`;
+        return `Starting Server`;
     }
 
     /**
@@ -67,7 +67,7 @@ class MCServer extends EventEmitter {
      */
     stopServer = async () => {
         this.sendCommand("stop");
-        return "Server Stopping";
+        return "Stopping Server";
     }
 
     /**
@@ -133,14 +133,14 @@ class MCServer extends EventEmitter {
             timeStamp: line[1],
             thread: line[2],
             level: line[3],
-            output: line[4]
+            message: line[4]
         }
 
         //Check if the server state has changed
         if (this.state != STATES.RUNNING) {
-            if (stateRegex.startingRegex.test(consoleLog.output)) {
+            if (stateRegex.startingRegex.test(consoleLog.message)) {
                 this.setState(STATES.STARTING);
-            } else if (stateRegex.runningRegex.test(consoleLog.output)) {
+            } else if (stateRegex.runningRegex.test(consoleLog.message)) {
                 this.setState(STATES.RUNNING);
             }
         }
@@ -457,11 +457,12 @@ class MCServer extends EventEmitter {
             const fileStream = fs.createWriteStream(path.join(__dirname, `..${config.folderDir.value}/server.jar`))
             res.pipe(fileStream)
             fileStream.on("finish", () => {
+                console.info('Download Complete')
                 fileStream.close()
             })
 
             fileStream.on("error", () => {
-                console.log("Failed to download file")
+                console.error("Failed to download file")
             })
         })
           
