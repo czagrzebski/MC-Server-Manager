@@ -55,7 +55,7 @@ class MCServer extends EventEmitter {
     this.serverProcess.on("close", () => this.setState(STATES.STOPPED));
 
     //Set error handler if the process dies unexpectedly
-    this.serverProcess.on("error", (err) => console.log(err));
+    this.serverProcess.on("error", (err) => console.error(err));
 
     //Set event handler for console outputs (forwards to frontend client)
     this.serverProcess.stdout.on("data", (data) =>
@@ -405,7 +405,10 @@ class MCServer extends EventEmitter {
         //Open Server Config File
         const serverConfigFile = await fs.promises.readFile(
           path.join(__dirname, `../config/user/config.json`)
-        );
+        ).catch((err) => {
+          if(err.code === "ENOENT")
+            throw new Error("Failed to read server configuration")
+        })
 
         //Convert from JSON String to Javascript object
         let serverConfig = JSON.parse(serverConfigFile)["servers"][this.UUID];
@@ -488,11 +491,14 @@ class MCServer extends EventEmitter {
 
   getDownloadURL = async (version) => {
     //Fetch the list of all the minecraft server versions available with download links
-    const response = await fetch("https://mcversions.net/mcversions.json");
-    const json = await response.json();
-
-    //Grab the download URL for the specified server version
-    return json["stable"][version]["server"];
+    return fetch("https://mcversions.net/mcversions.json")
+      .then((response) => response.json())
+      .then((json) => {
+        return json["stable"][version]["server"];
+      })
+      .catch((err) => {
+        throw new Error("Failed to fetch download url from source");
+      });
   };
 
   downloadJar = async () => {
