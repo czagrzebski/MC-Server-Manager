@@ -57,6 +57,15 @@ async function setServerSetting(req, res) {
         .catch(err => res.status(400).send(err.message));
 }
 
+//GET - Download and Install Server Jar
+async function installJar(req, res) {
+    const {version} = req.body;
+    req.app.get('minecraftServer').downloadJar(version)
+        .then(response => res.send(response))
+        .catch(err => res.status(400).send(err.message));
+}
+
+
 module.exports = {
     startServer: startServer,
     stopServer: stopServer,
@@ -65,5 +74,6 @@ module.exports = {
     sendCommand: sendCommand,
     getServerSettings: getServerSettings,
     setServerSetting: setServerSetting,
-    acceptEULA: acceptEULA
+    acceptEULA: acceptEULA,
+    installJar: installJar
 }

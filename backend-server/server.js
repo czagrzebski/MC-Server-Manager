@@ -45,3 +45,4 @@ minecraftServer.on('state', (state) => {
 httpServer.listen(PORT, () => {
     console.log(`Server Started on Port ${PORT}`);
 });
+

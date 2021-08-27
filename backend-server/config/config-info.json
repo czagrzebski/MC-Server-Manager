@@ -384,7 +384,23 @@
             "name": "Friendly Server Name",
             "type": "string",
             "default": "",
-            "description": "A friendly name used to identify the server"     ,
+            "description": "A friendly name used to identify the server",
             "category": "general"
-    }
+        },
+        "version": {
+            "name": "Official Server Version (Vanilla)",
+            "type": "list",
+            "default": "1.17.1",
+            "description": "Select which version of Minecraft to use",
+            "category": "general",
+            "options": ["1.17.1", "1.17", "1.16.5", "1.15.2"],
+            "action": {
+                "name": "Download/Install Server",
+                "target": "/server/install",
+                "params": ""
+            }
+                
+            
+        }
+
 }

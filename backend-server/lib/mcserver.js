@@ -1,8 +1,10 @@
 const { spawn } = require('child_process');
 const { EventEmitter } = require('events');
-const fs = require('fs').promises;
+const fs = require('fs');
 const path = require('path')
 const fkill = require('fkill');
+const fetch = require('node-fetch');
+const https = require('https')
 const configInfo = require("../config/config-info.json");
 
 //Server States (Starting, Running, Stopped)
@@ -57,7 +59,7 @@ class MCServer extends EventEmitter {
 
         //Set event handler for console outputs (forwards to frontend client)
         this.serverProcess.stdout.on('data', (data) => this.handleConsoleOutput(data));
-        return "Server Started";
+        return `Server Starting`;
     }
 
     /**
@@ -152,7 +154,7 @@ class MCServer extends EventEmitter {
       isEulaSigned = async () => {
         const config = await this.getServerConfig();
        
-        return fs.readFile(path.join(__dirname, `..${config.folderDir.value}/eula.txt`), 'utf-8')
+        return fs.promises.readFile(path.join(__dirname, `..${config.folderDir.value}/eula.txt`), 'utf-8')
             .then(propertiesFile => {
                 const serverProperties = {};
 
@@ -185,7 +187,7 @@ class MCServer extends EventEmitter {
     acceptEULA = async () => {
         const config = await this.getServerConfig();
 
-        return fs.writeFile(path.join(__dirname, `..${config.folderDir.value}/eula.txt`), "eula=true")
+        return fs.promises.writeFile(path.join(__dirname, `..${config.folderDir.value}/eula.txt`), "eula=true")
             .then(() => { return "Success" })
             .catch((err) => {return err});
     }
@@ -201,7 +203,7 @@ class MCServer extends EventEmitter {
             minecraftSettings: {}
         };
 
-        const propertiesFile = await fs.readFile(path.join(__dirname, `..${config.folderDir.value}/server.properties`), 'utf-8')
+        const propertiesFile = await fs.promises.readFile(path.join(__dirname, `..${config.folderDir.value}/server.properties`), 'utf-8')
             .catch((err) => {
                 //server.properties file not found
                 if (err.code === "ENOENT") throw new Error("Properties file does not exist. Start the server and try again.");
@@ -251,7 +253,7 @@ class MCServer extends EventEmitter {
         });
 
         //Write the file to the server directory (Save)
-        await fs.writeFile(path.join(__dirname, `..${config.folderDir.value}/server.properties`), propertiesFile);
+        await fs.promises.writeFile(path.join(__dirname, `..${config.folderDir.value}/server.properties`), propertiesFile);
 
         return "Settings Saved Successfully"
     }
@@ -262,7 +264,7 @@ class MCServer extends EventEmitter {
      */
     getServerConfig = async () => {
         //Open Server Configuration File
-        const serverConfigFile = await fs.readFile(path.join(__dirname, `../config/user/config.json`))
+        const serverConfigFile = await fs.promises.readFile(path.join(__dirname, `../config/user/config.json`))
             
         //Convert Configuration file from JSON to a Javascript Object
         const serverConfig = JSON.parse(serverConfigFile)["servers"][this.UUID];
@@ -284,7 +286,8 @@ class MCServer extends EventEmitter {
                     options: configInfo[property].options,
                     default: configInfo[property].default,
                     description: configInfo[property].description,
-                    category: configInfo[property].category
+                    category: configInfo[property].category,
+                    action: configInfo[property].action
                 }
             } else {
                 //Property info does not exist
@@ -302,7 +305,7 @@ class MCServer extends EventEmitter {
      * Accepts a javascript object
      */
     writeServerConfig = async (config) => {
-       const userConfig = await fs.readFile(path.join(__dirname, `../config/user/config.json`))
+       const userConfig = await fs.promises.readFile(path.join(__dirname, `../config/user/config.json`))
            .catch(err => {
                throw new Error(`Failed to save user configuration: ${err}`)
            })
@@ -311,7 +314,7 @@ class MCServer extends EventEmitter {
                
        userConfigJSON["servers"][this.UUID] = config;
               
-       fs.writeFile(path.join(__dirname, `../config/user/config.json`), JSON.stringify(userConfigJSON))
+       fs.promises.writeFile(path.join(__dirname, `../config/user/config.json`), JSON.stringify(userConfigJSON))
             .catch(err => {
                 throw new Error("Failed to save user configuration");
             })
@@ -373,7 +376,7 @@ class MCServer extends EventEmitter {
             case "java":
             case "general":
                 //Open Server Config File
-                const serverConfigFile = await fs.readFile(path.join(__dirname, `../config/user/config.json`))
+                const serverConfigFile = await fs.promises.readFile(path.join(__dirname, `../config/user/config.json`))
                 
                 //Convert from JSON String to Javascript object
                 let serverConfig = JSON.parse(serverConfigFile)["servers"][this.UUID];
@@ -434,6 +437,36 @@ class MCServer extends EventEmitter {
                 experimentalFlags = experimentalFlags.join(' ')
                 return `-Xmx${config.java.maxHeapSize.value}M -Xms${config.java.maxHeapSize.value}M ${experimentalFlags} -jar ${config.general.jarFile.value} nogui`.split(' ')
             })
+      }
+
+      getDownloadURL = async (version) => {
+            //Fetch the list of all the minecraft server versions available with download links
+            const response = await fetch('https://mcversions.net/mcversions.json');
+            const json = await response.json();
+
+            //Grab the download URL for the specified server version
+            return json['stable'][version]['server'];
+
+      }
+
+      downloadJar = async () => {
+        const config = await this.getServerConfig();
+        const downloadURL = await this.getDownloadURL(config.general.version.value);
+
+        https.get(downloadURL, (res) => {
+            const fileStream = fs.createWriteStream(path.join(__dirname, `..${config.folderDir.value}/server.jar`))
+            res.pipe(fileStream)
+            fileStream.on("finish", () => {
+                fileStream.close()
+            })
+
+            fileStream.on("error", () => {
+                console.log("Failed to download file")
+            })
+        })
+          
+        return `Downloading Minecraft ${config.general.version.value}`;
+
       }
   }
 
