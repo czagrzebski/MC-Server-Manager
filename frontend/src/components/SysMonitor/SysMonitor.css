@@ -1,0 +1,12 @@
+.sysMonitor {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.sysStat {
+  text-align: center;
+  background-color: rgb(88, 88, 88);
+  width: 300px;
+  height: 225px;
+  margin-right: 30px;
+}

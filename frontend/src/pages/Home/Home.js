@@ -5,6 +5,7 @@ import { setServerStatus } from "../../app/slices/minecraftServerSlice";
 import api from "../../utils/api";
 
 import ServerControls from "../../components/ServerControls/ServerControls";
+import { SysMonitor } from "../../components/SysMonitor/SysMonitor";
 
 export function Home() {
   const serverState = useSelector((state) => state.minecraftServer.status);
@@ -31,6 +32,7 @@ export function Home() {
   return (
     <div>
       <h1>{renderServerState(serverState)}</h1>
+      <SysMonitor />
       <ServerControls />
     </div>
   );
