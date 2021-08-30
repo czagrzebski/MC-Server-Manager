@@ -3,6 +3,7 @@ const app = express();
 const { MCServer } = require("./lib/mcserver");
 const cors = require("cors");
 const httpServer = require("http").createServer(app);
+const sysmonitor = require("./lib/sysmonitor").sysmonitor;
 const { getRoutes } = require("./routes");
 const options = {
   cors: {
@@ -49,3 +50,15 @@ minecraftServer.on("state", (state) => {
 httpServer.listen(PORT, () => {
   console.log(`Server Started on Port ${PORT}`);
 });
+
+//--Automatically fetch system usage and share with client every 2000ms--//
+setInterval(() => {
+  sysmonitor
+    .getSysStats()
+    .then((sysStats) => {
+      io.emit("sysmonitor", sysStats);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}, 2000);

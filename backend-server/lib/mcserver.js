@@ -68,7 +68,10 @@ class MCServer extends EventEmitter {
    * Sends the stop command to the minecraft server
    */
   stopServer = async () => {
-    this.sendCommand("stop");
+    this.sendCommand("stop")
+      .catch(err => {
+        console.err("Failed to stop server")
+      })
     return "Stopping Server";
   };
 
@@ -460,7 +463,7 @@ class MCServer extends EventEmitter {
 
     return this.getServerConfig().then((config) => {
       if (config.java.maxHeapSize.value >= 12000) {
-        //if memory is greater than 12GB, use alternative experimental options
+        //if memory is greater than 12GB ~ 12000MB, use alternative experimental options
         experimentalFlags.push(
           ...[
             "-XX:G1NewSizePercent=40",
