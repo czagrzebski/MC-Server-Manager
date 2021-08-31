@@ -5,7 +5,7 @@ import { socket } from "../../utils/socket";
 
 import "./SysMonitor.css";
 
-function SysItem(props) {
+const SysItem = (props) => {
   return (
     <div>
       <p>{props.name}</p>
