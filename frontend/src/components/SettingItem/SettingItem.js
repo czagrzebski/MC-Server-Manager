@@ -68,7 +68,6 @@ export function SettingItem(props) {
   //Updates the state when the user changes the value
   const handleValueChange = (event) => {
     if (event.target.value) {
-      console.log(settingId);
       props.onSettingChange(category, settingId, event.target.value);
       //check if ant switch was toggled
     } else if ("checked" in event.target) {

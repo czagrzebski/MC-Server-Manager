@@ -96,8 +96,6 @@ export default function NavDrawer() {
               <ListItemText primary="Settings" />
             </ListItem>
           </Link>
-
-          <ListItem className={classes.bottomPush}>MCM Alpha V1.00</ListItem>
         </List>
       </Drawer>
     </div>

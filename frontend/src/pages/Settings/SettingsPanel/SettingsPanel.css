@@ -1,6 +1,5 @@
 .settings-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 50px;
-    grid-auto-rows: minmax(100px, auto);
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 60px;   
 }

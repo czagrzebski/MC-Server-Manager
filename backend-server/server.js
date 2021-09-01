@@ -12,7 +12,7 @@ const options = {
 };
 const io = require("socket.io")(httpServer, options);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3500;
 
 const minecraftServer = new MCServer("8d1d62c9-1e27-4a4f-9a26-a4ea1804222c");
 

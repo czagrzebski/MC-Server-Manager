@@ -1,12 +1,13 @@
 .sysMonitor {
   display: flex;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .sysStat {
   text-align: center;
-  background-color: rgb(88, 88, 88);
+  background-color: #6d6d6d;
   width: 300px;
   height: 225px;
-  margin-right: 30px;
+  margin: 5px 5px 5px 0px;
 }
