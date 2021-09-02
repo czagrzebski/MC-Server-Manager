@@ -14,13 +14,50 @@ import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import CodeIcon from "@material-ui/icons/Code";
 import SettingsIcon from "@material-ui/icons/Settings";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import Badge from '@material-ui/core/Badge';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import logo from "./logo.png";
+import { Grid } from "@material-ui/core";
 
-const drawerWidth = 240;
+const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+  },
+  drawer: {
+    [theme.breakpoints.up("sm")]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+  },
+  appBar: {
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },
+  },
+  // necessary for content to be below app bar
+  toolbar: {
+    padding: "10px",
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+  link: {
+    textDecoration: "none",
+    color: theme.palette.text.primary,
   },
   bottomPush: {
     position: "fixed",
@@ -28,42 +65,70 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     paddingBottom: 15,
   },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
+  logoImg: {
+    width: "30px",
+    objectFit: "cover",
+    marginRight: "20px",
   },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
+  logo: {
+    display: "flex",
+    alignItems: "center",
+    textAlign: "center",
+    padding: "5px",
+    marginLeft: "20px"
   },
-  drawerPaper: {
-    width: drawerWidth,
+  notifcations: {
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: 'center',
+    marginRight: 'auto'
   },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(3),
-  },
-
-  link: {
-    textDecoration: "none",
-    color: theme.palette.text.primary,
-  },
+  pageTitle: {
+    paddingRight: "20px",
+  
+  }
 }));
 
-export default function NavDrawer() {
+function NavDrawer(props) {
   const classes = useStyles();
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const getTitle = () => {
+    switch (props.location.pathname.slice(1)) {
+      case "console":
+        return "Console";
+      case "settings":
+        return "Settings";
+      case "dashboard":
+        return "Dashboard";
+      default:
+        return "MCSM";
+    }
+  };
 
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap>
-            Minecraft Server Manager
-          </Typography>
+          <Grid item>      
+            <Typography className={classes.pageTitle} variant="h6" noWrap>
+              {getTitle()}
+            </Typography>
+          </Grid>
+
+          <Grid container justify="flex-end">
+            <Badge badgeContent={2} color="primary">
+              <NotificationsIcon />
+            </Badge>
+          </Grid>
+         
         </Toolbar>
+        
       </AppBar>
       <Drawer
         className={classes.drawer}
@@ -73,10 +138,14 @@ export default function NavDrawer() {
         }}
         anchor="left"
       >
-        <div className={classes.toolbar} />
+        <div className={classes.logo}>
+          <img className={classes.logoImg} alt={"logo"} src={logo} />
+          <h3>MCSM</h3>
+        </div>
         <Divider />
+
         <List>
-          <Link to="/" className={classes.link}>
+          <Link to="/dashboard" className={classes.link}>
             <ListItem button key="Dashboard">
               <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
               <ListItemText primary="Dashboard" />
@@ -96,8 +165,14 @@ export default function NavDrawer() {
               <ListItemText primary="Settings" />
             </ListItem>
           </Link>
+
+          <ListItem className={classes.bottomPush}>
+            <div>Release Alpha v1.0.0</div>
+          </ListItem>
         </List>
       </Drawer>
     </div>
   );
 }
+
+export default withRouter(NavDrawer);
