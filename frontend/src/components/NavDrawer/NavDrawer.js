@@ -15,8 +15,8 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import CodeIcon from "@material-ui/icons/Code";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { Link, withRouter } from "react-router-dom";
-import Badge from '@material-ui/core/Badge';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import Badge from "@material-ui/core/Badge";
+import NotificationsIcon from "@material-ui/icons/Notifications";
 import logo from "./logo.png";
 import { Grid } from "@material-ui/core";
 
@@ -75,18 +75,17 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     textAlign: "center",
     padding: "5px",
-    marginLeft: "20px"
+    marginLeft: "20px",
   },
   notifcations: {
     display: "flex",
     justifyContent: "flex-end",
-    alignItems: 'center',
-    marginRight: 'auto'
+    alignItems: "center",
+    marginRight: "auto",
   },
   pageTitle: {
     paddingRight: "20px",
-  
-  }
+  },
 }));
 
 function NavDrawer(props) {
@@ -115,7 +114,7 @@ function NavDrawer(props) {
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Grid item>      
+          <Grid item>
             <Typography className={classes.pageTitle} variant="h6" noWrap>
               {getTitle()}
             </Typography>
@@ -126,9 +125,7 @@ function NavDrawer(props) {
               <NotificationsIcon />
             </Badge>
           </Grid>
-         
         </Toolbar>
-        
       </AppBar>
       <Drawer
         className={classes.drawer}
