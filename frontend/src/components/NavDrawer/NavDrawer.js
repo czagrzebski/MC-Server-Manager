@@ -18,6 +18,7 @@ import { Link, withRouter } from "react-router-dom";
 import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import logo from "./logo.png";
+import { IconButton } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 
 const drawerWidth = 220;
@@ -121,9 +122,9 @@ function NavDrawer(props) {
           </Grid>
 
           <Grid container justify="flex-end">
-            <Badge badgeContent={2} color="primary">
-              <NotificationsIcon />
-            </Badge>
+            <IconButton aria-label="notifications">
+                <NotificationsIcon />
+            </IconButton>
           </Grid>
         </Toolbar>
       </AppBar>

@@ -6,7 +6,7 @@ function getRoutes() {
     const router = express.Router()
 
     // MINECRAFT SERVER ROUTES //
-    router.use('/server', getMCRoutes())
+    router.use('/', getMCRoutes())
 
     return router;
 } 

@@ -22,8 +22,9 @@ app.set("minecraftServer", minecraftServer);
 app.use(cors());
 app.use(express.json());
 
+
 //--ROUTES--//
-app.use("/", getRoutes(minecraftServer));
+app.use("/server", getRoutes(minecraftServer));
 
 //--Error Handlers--//
 app.use((req, res) => res.status(404).send("404 NOT FOUND"));
@@ -32,6 +33,8 @@ app.use(function (err, req, res, next) {
   console.error(err.stack);
   res.status(500).send("Internal Server Error");
 });
+
+
 
 //----Setting up Event Listeners----//
 
