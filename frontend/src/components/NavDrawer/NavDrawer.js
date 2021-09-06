@@ -15,7 +15,6 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import CodeIcon from "@material-ui/icons/Code";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { Link, withRouter } from "react-router-dom";
-import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import logo from "./logo.png";
 import { IconButton } from "@material-ui/core";
@@ -45,10 +44,6 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
-  // necessary for content to be below app bar
-  toolbar: {
-    padding: "10px",
-  },
   drawerPaper: {
     width: drawerWidth,
   },
@@ -77,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     padding: "5px",
     marginLeft: "20px",
+    height: "64px",
   },
   notifcations: {
     display: "flex",
@@ -91,11 +87,6 @@ const useStyles = makeStyles((theme) => ({
 
 function NavDrawer(props) {
   const classes = useStyles();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
 
   const getTitle = () => {
     switch (props.location.pathname.slice(1)) {
@@ -123,7 +114,7 @@ function NavDrawer(props) {
 
           <Grid container justify="flex-end">
             <IconButton aria-label="notifications">
-                <NotificationsIcon />
+              <NotificationsIcon />
             </IconButton>
           </Grid>
         </Toolbar>
@@ -165,7 +156,7 @@ function NavDrawer(props) {
           </Link>
 
           <ListItem className={classes.bottomPush}>
-            <div>Release Alpha v1.0.0</div>
+            <div>MCSM Pre-alpha v1.0.0</div>
           </ListItem>
         </List>
       </Drawer>
