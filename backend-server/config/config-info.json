@@ -39,14 +39,14 @@
             "name": "Enable Command Block",
             "type": "boolean",
             "default": "false",
-            "description": "Enables command blocks",
+            "description": "Enables the use of command blocks on the server",
             "category": "minecraftSettings"
         },
         "enable-jmx-monitoring": {
             "name": "Enable JMX Monitoring",
             "type": "boolean",
             "default": "false",
-            "description": "Exposes an MBean with the Object name net.minecraft.server:type=Server.",
+            "description": "Enable Java Management Extensions Protocol.",
             "category": "minecraftSettings"
         },
         "sync-chunk-writes": {
@@ -67,7 +67,7 @@
             "name": "Enable Query",
             "type": "boolean",
             "default": "false",
-            "description": "Enables GameSpy4 protocol server listener. Used to get information about server.",
+            "description": "Enables GameSpy4 protocol server listener. Used to get information about the server.",
             "category": "minecraftSettings"
         },
         "entity-broadcast-range-percentage": {
@@ -371,7 +371,7 @@
             "type": "string",
             "default": "server.jar",
             "description": "Name of the Server's JAR File",
-            "category": "core"
+            "category": "general"
         },
         "maxHeapSize": {
             "name": "Server Memory (MB)",
@@ -384,7 +384,23 @@
             "name": "Friendly Server Name",
             "type": "string",
             "default": "",
-            "description": "A friendly name used to identify the server"     ,
-            "category": "core"
-    }
+            "description": "A friendly name used to identify the server",
+            "category": "general"
+        },
+        "version": {
+            "name": "Official Server Version (Vanilla)",
+            "type": "list",
+            "default": "1.17.1",
+            "description": "Select which version of Minecraft to use",
+            "category": "general",
+            "options": ["1.17.1", "1.17", "1.16.5", "1.16.4", "1.16.3", "1.16.2", "1.16.1", "1.16", "1.15.2", "1.15.1", "1.15", "1.14.4", "1.14.3", "1.14.2", "1.14.1", "1.14", "1.13.2"],
+            "action": {
+                "name": "Download/Install Server",
+                "target": "/server/install",
+                "params": ""
+            }
+                
+            
+        }
+
 }

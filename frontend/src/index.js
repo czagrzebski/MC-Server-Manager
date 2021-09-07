@@ -1,29 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import blue from '@material-ui/core/colors/blue';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import { ThemeProvider, createTheme } from "@material-ui/core/styles";
+import blue from "@material-ui/core/colors/blue";
+import { Provider } from "react-redux";
+import store from "./app/store";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     type: "dark",
     primary: blue,
-  }
+  },
 });
 
 ReactDOM.render(
-  <div>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
-    </div>,
-
-  document.getElementById('root')
-
+  <Provider store={store}>
+    <div>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </div>
+  </Provider>,
+  document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-

@@ -1,47 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import ServerControls from '../../components/ServerControls/ServerControls';
-import api from '../../utils/api';
-import useStore from '../../store';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
+import { setServerStatus } from "../../app/slices/minecraftServerSlice";
+import api from "../../utils/api";
 
-export function Home(){
-    const [serverState, setServerState] = useState("Stopped");
+import ServerControls from "../../components/ServerControls/ServerControls";
+import { SysMonitor } from "../../components/SysMonitor/SysMonitor";
 
-    const handleServerState = (state) => {
-        switch(state){
-            case "SERVER_STARTING":
-                setServerState("Starting")
-                break;
-            case "SERVER_RUNNING":
-                setServerState("Running")
-                break;
-            case "SERVER_STOPPED":
-                setServerState("Stopped")
-                break;
-            default:
-                setServerState("Stopped");
-        }
+export function Home() {
+  const serverState = useSelector((state) => state.minecraftServer.status);
+  const dispatch = useDispatch();
+
+  const renderServerState = (serverState) => {
+    switch (serverState) {
+      case "SERVER_STARTING":
+        return "Starting";
+      case "SERVER_RUNNING":
+        return "Running";
+      default:
+        return "Stopped";
     }
+  };
 
-    useEffect(() => {  
-        
-        api.get('/server/state')
-            .then(resp => handleServerState(resp["data"]))
-            .catch(err => console.log(err));
+  useEffect(() => {
+    api
+      .get("/server/state")
+      .then((resp) => dispatch(setServerStatus(resp["data"])))
+      .catch((err) => console.log(err));
+  }, [dispatch]);
 
-        const unSubServerState = useStore.subscribe(handleServerState, state => state.minecraftServerState);
-        
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        return(() => {
-            unSubServerState()
-        })
-      }, []);
-
-    return (
-        <div>
-            <h1>{serverState}</h1>
-            <ServerControls />
-        </div>
-    )
+  return (
+    <div>
+      <h1>{renderServerState(serverState)}</h1>
+      <SysMonitor />
+      <ServerControls />
+    </div>
+  );
 }
-
