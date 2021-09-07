@@ -4,33 +4,35 @@ import Box from "@material-ui/core/Box";
 import { socket } from "../../utils/socket";
 
 import "./SysMonitor.css";
+import { useTheme } from "@material-ui/core";
 
 const SysItem = (props) => {
-  return (
-    <div>
-      <p>{props.name}</p>
-      <p>{props.displayValue}</p>
-      <Box position="relative" display="inline-flex">
-        <CircularProgress
-          variant="determinate"
-          style={{
-            marginTop: "10px",
-            color: "lightgrey",
-            position: "relative",
-          }}
-          size={100}
-          thickness={4}
-          value={100}
-        />
-        <CircularProgress
-          variant="determinate"
-          value={props.value}
-          size={100}
-          style={{ marginTop: "10px", position: "absolute" }}
-          thickness={4}
-        />
-      </Box>
-    </div>
+    const theme = useTheme();
+
+    return(
+      <div>
+        <p>{props.name}</p>
+        <p>{props.displayValue}</p>
+        <Box position="relative" display="inline-flex" style={{marginTop: "10px"}}>
+          <CircularProgress
+            variant="determinate"
+            style={{
+              color: "lightgrey",
+              position: "relative",
+            }}
+            size={100}
+            thickness={4}
+            value={100}
+          />
+          <CircularProgress
+            variant="determinate"
+            value={props.value}
+            size={100}
+            style={{position: "absolute", 'color': (props.value < 90) ? theme.palette.primaryColor : "#d32f2f" }}
+            thickness={4}
+          />
+        </Box>
+      </div>
   );
 }
 

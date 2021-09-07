@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import { Console, Settings, Home } from "./pages";
 
 import api from "./utils/api";
@@ -59,13 +59,14 @@ function App() {
           <div className={classes.content}>
             <div className={classes.toolbar} />
             <Switch>
+              <Redirect exact from="/" to="dashboard" />
               <Route path="/settings">
                 <Settings />
               </Route>
               <Route path="/console">
                 <Console />
               </Route>
-              <Route path="/">
+              <Route path="/dashboard">
                 <Home />
               </Route>
             </Switch>

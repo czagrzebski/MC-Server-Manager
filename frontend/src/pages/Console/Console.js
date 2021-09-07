@@ -42,7 +42,7 @@ const ServerConsole = () => {
 
   return (
     <div className="console">
-      <div className="console-output" id="style-2">
+      <div className="consoleOutput" id="style-2">
         {consoleLogs.map((log, j) => (
           <p key={j}>{log}</p>
         ))}
