@@ -7,8 +7,6 @@ import blue from "@material-ui/core/colors/blue";
 import { Provider } from "react-redux";
 import store from "./app/store";
 
-//MUI Theming
-
 const theme = createTheme({
   palette: {
     type: "dark",
