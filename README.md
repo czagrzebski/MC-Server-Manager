@@ -1,6 +1,6 @@
-# MC-Server-Manager
+# MCSM - Minecraft Server Manager
 
-A web-based minecraft server management utility built using Node, Express, and React. 
+A web-based minecraft server management utility built with Node, Express, and React. 
 
 Currently in early development. 
 
