@@ -4,7 +4,7 @@ import Notification from "../Notification/Notification";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Switch from "@material-ui/core/Switch";
-import Button from "@material-ui/core/Button";
+import Button from '@material-ui/core/Button';
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import "./SettingItem.css";
@@ -162,11 +162,9 @@ export function SettingItem(props) {
       {renderSettingType()}
       <div className={"button-action"}>
         {action ? (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => dispatchAction(action.target, action.params)}
-          >
+
+          
+          <Button variant="contained" color="primary" onClick={() => dispatchAction(action.target, action.params)}>
             {action.name}
           </Button>
         ) : null}
