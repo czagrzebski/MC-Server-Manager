@@ -90,6 +90,7 @@ class MCServer extends EventEmitter {
     await fkill(this.serverProcess.pid, {
       force: true,
     }).catch((err) => {
+      logger.error("Failed to kill server");
       throw new Error(`Failed to kill server: ${err}`);
     });
 
@@ -117,6 +118,7 @@ class MCServer extends EventEmitter {
    * Uses STDIN to write the command to the console
    */
   sendCommand = async (command) => {
+    logging.debug(`Fowarding Command to MC Server: ${command}`);
     this.serverProcess.stdin.write(command + "\n");
     return "Sent Command";
   };
@@ -231,10 +233,12 @@ class MCServer extends EventEmitter {
       )
       .catch((err) => {
         //server.properties file not found
-        if (err.code === "ENOENT")
+        if (err.code === "ENOENT") {
+          logging.error("Failed to get server properties. File does not exist.");
           throw new Error(
             "Properties file does not exist. Start the server and try again."
           );
+        }
       });
 
     propertiesFile.split("\n").forEach((property) => {
@@ -341,6 +345,7 @@ class MCServer extends EventEmitter {
     const userConfig = await fs.promises
       .readFile(path.join(__dirname, `../config/user/config.json`))
       .catch((err) => {
+        logging.error('Failed to save user configuration');
         throw new Error(`Failed to save user configuration: ${err}`);
       });
 
@@ -354,6 +359,7 @@ class MCServer extends EventEmitter {
         JSON.stringify(userConfigJSON)
       )
       .catch((err) => {
+        logging.error('Failed to save user configuration');
         throw new Error("Failed to save user configuration");
       });
 
@@ -499,6 +505,12 @@ class MCServer extends EventEmitter {
     });
   };
 
+  /**
+   * Fetches the download url for the official minecraft server 
+   * based on a specified version
+   * @param version - The Minecraft Server Version (Eg: 1.16.3)
+   * @returns {string} - The download URL for the Minecraft Server
+   */
   getDownloadURL = async (version) => {
     //Fetch the list of all the minecraft server versions available with download links
     return fetch("https://mcversions.net/mcversions.json")
@@ -511,6 +523,11 @@ class MCServer extends EventEmitter {
       });
   };
 
+
+  /**
+   * Downloads the Minecraft Server Jar
+   * Automatically Downloads the Version Specified in the User Config
+   */
   downloadJar = async () => {
     const config = await this.getServerConfig();
     const downloadURL = await this.getDownloadURL(config.general.version.value);
