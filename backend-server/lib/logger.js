@@ -17,6 +17,12 @@ const transports = [
   }),
 ];
 
+const exceptionHandlers = [
+  new winston.transports.File({
+    filename: 'logs/exceptions.log'
+  })
+]
+
 //Format the log output
 const format = winston.format.combine(
   winston.format.timestamp({ format: "HH:mm:ss" }),
@@ -36,8 +42,9 @@ const level = () => {
 const logger = winston.createLogger({
   level: level(),
   levels,
-  transports,
+  transports, 
   format,
+  exceptionHandlers //Stores any uncaught exceptions into a log file
 });
 
 module.exports = {
