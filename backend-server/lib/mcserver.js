@@ -52,7 +52,7 @@ class MCServer extends EventEmitter {
 
     //Spawn the Server
     this.serverProcess = spawn("java", launchOptions, {
-      cwd: path.join(__dirname, `..${config.folderDir.value}/`),
+      cwd: path.join(__dirname, `../servers/${this.UUID}/`),
     });
 
     this.setState(STATES.STARTING);
@@ -170,7 +170,7 @@ class MCServer extends EventEmitter {
 
     return fs.promises
       .readFile(
-        path.join(__dirname, `..${config.folderDir.value}/eula.txt`),
+        path.join(__dirname, `../servers/${this.UUID}/eula.txt`),
         "utf-8"
       )
       .then((propertiesFile) => {
@@ -209,7 +209,7 @@ class MCServer extends EventEmitter {
 
     return fs.promises
       .writeFile(
-        path.join(__dirname, `..${config.folderDir.value}/eula.txt`),
+        path.join(__dirname, `../servers/${this.UUID}/eula.txt`),
         "eula=true"
       )
       .then(() => {
@@ -233,7 +233,7 @@ class MCServer extends EventEmitter {
 
     const propertiesFile = await fs.promises
       .readFile(
-        path.join(__dirname, `..${config.folderDir.value}/server.properties`),
+        path.join(__dirname, `../servers/${this.UUID}/server.properties`),
         "utf-8"
       )
       .catch((err) => {
@@ -292,7 +292,7 @@ class MCServer extends EventEmitter {
 
     //Write the file to the server directory (Save)
     await fs.promises.writeFile(
-      path.join(__dirname, `..${config.folderDir.value}/server.properties`),
+      path.join(__dirname, `../servers/${this.UUID}/server.properties`),
       propertiesFile
     );
 
@@ -540,7 +540,7 @@ class MCServer extends EventEmitter {
     https.get(downloadURL, (res) => {
       logger.info("Downloading Minecraft Server");
       const fileStream = fs.createWriteStream(
-        path.join(__dirname, `..${config.folderDir.value}/server.jar`)
+        path.join(__dirname, `../servers/${this.UUID}/server.jar`)
       );
       res.pipe(fileStream);
       fileStream.on("finish", () => {
