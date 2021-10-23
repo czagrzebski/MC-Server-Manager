@@ -119,7 +119,7 @@ class MCServer extends EventEmitter {
    * Uses STDIN to write the command to the console
    */
   sendCommand = async (command) => {
-    logging.debug(`Fowarding Command to MC Server: ${command}`);
+    logger.debug(`Fowarding Command to MC Server: ${command}`);
     this.serverProcess.stdin.write(command + "\n");
     return "Sent Command";
   };
@@ -155,6 +155,7 @@ class MCServer extends EventEmitter {
       if (stateRegex.startingRegex.test(consoleLog.message)) {
         this.setState(STATES.STARTING);
       } else if (stateRegex.runningRegex.test(consoleLog.message)) {
+        logger.info('Server Successfully Started');
         this.setState(STATES.RUNNING);
       }
     }
@@ -194,7 +195,7 @@ class MCServer extends EventEmitter {
       .catch((err) => {
         //file not found
         if (err.code === "ENOENT") {
-          logging.error('Could not find eula.txt');
+          logger.error('Could not find eula.txt');
           return false;
         }
       });
@@ -238,7 +239,7 @@ class MCServer extends EventEmitter {
       .catch((err) => {
         //server.properties file not found
         if (err.code === "ENOENT") {
-          logging.error("Failed to get server properties. File does not exist.");
+          logger.error("Failed to get server properties. File does not exist.");
           throw new Error(
             "Properties file does not exist. Start the server and try again."
           );
@@ -349,7 +350,7 @@ class MCServer extends EventEmitter {
     const userConfig = await fs.promises
       .readFile(path.join(__dirname, `../config/user/config.json`))
       .catch((err) => {
-        logging.error('Failed to save user configuration');
+        logger.error('Failed to save user configuration');
         throw new Error(`Failed to save user configuration: ${err}`);
       });
 
@@ -363,7 +364,7 @@ class MCServer extends EventEmitter {
         JSON.stringify(userConfigJSON)
       )
       .catch((err) => {
-        logging.error('Failed to save user configuration');
+        logger.error('Failed to save user configuration');
         throw new Error("Failed to save user configuration");
       });
 

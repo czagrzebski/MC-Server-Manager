@@ -20,7 +20,7 @@ const transports = [
     datePattern: "YYYY-MM-DD-HH",
     zippedArchive: true,
     maxSize: "20m", //Max file size is 20mb
-    maxFiles: "7d", //Keeps log files for a week
+    maxFiles: "7d", //Deletes log files that are older than a week
   }),
 ];
 
@@ -36,7 +36,7 @@ const format = winston.format.combine(
   winston.format.printf(
     (info) =>
       `[${info.timestamp}] [${
-        info.service || "Core"
+        info.service || "Core" //TODO: Separate application into manageable "services"
       }/${info.level.toUpperCase()}]: ${info.message}`
   )
 );
