@@ -4,6 +4,7 @@ const { MCServer } = require("./lib/mcserver");
 const cors = require("cors");
 const httpServer = require("http").createServer(app);
 const sysmonitor = require("./lib/sysmonitor").sysmonitor;
+const logger = require('./lib/logger').logger;
 const { getRoutes } = require("./routes");
 const options = {
   cors: {
@@ -22,6 +23,10 @@ app.set("minecraftServer", minecraftServer);
 app.use(cors());
 app.use(express.json());
 
+app.use((req, res, next) => {
+  logger.http('Request Received');
+  next();
+});
 
 //--ROUTES--//
 app.use("/server", getRoutes(minecraftServer));
@@ -30,16 +35,20 @@ app.use("/server", getRoutes(minecraftServer));
 app.use((req, res) => res.status(404).send("404 NOT FOUND"));
 
 app.use(function (err, req, res, next) {
-  console.error(err.stack);
+  logger.error(err.stack);
   res.status(500).send("Internal Server Error");
+  next();
 });
 
+app.listen(() => {
+  logger.info('Express Server Started');
+})
 
 
 //----Setting up Event Listeners----//
 
 io.on("connection", (socket) => {
-  console.log("Client Connected");
+  logger.debug('Client Connected to Socket')
 });
 
 minecraftServer.on("console", (data) => {
@@ -51,7 +60,7 @@ minecraftServer.on("state", (state) => {
 });
 
 httpServer.listen(PORT, () => {
-  console.log(`Server Started on Port ${PORT}`);
+  logger.info(`Server Started on Port ${PORT}`);
 });
 
 //--Automatically fetch system usage and share with client every 2000ms--//
@@ -62,6 +71,6 @@ setInterval(() => {
       io.emit("sysmonitor", sysStats);
     })
     .catch((err) => {
-      console.error(err);
+      logger.error(err);
     });
 }, 2000);
