@@ -36,6 +36,7 @@ class MCServer extends EventEmitter {
     const config = await this.getServerConfig();
 
     if (this.state !== STATES.STOPPED) {
+      logger.error('Minecraft Server Already Running');
       throw new Error("Server Already Running!");
     }
 
@@ -192,7 +193,10 @@ class MCServer extends EventEmitter {
       })
       .catch((err) => {
         //file not found
-        if (err.code === "ENOENT") return false;
+        if (err.code === "ENOENT") {
+          logging.error('Could not find eula.txt');
+          return false;
+        }
       });
   };
 
