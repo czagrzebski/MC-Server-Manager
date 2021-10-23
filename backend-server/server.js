@@ -4,6 +4,7 @@ const { MCServer } = require("./lib/mcserver");
 const cors = require("cors");
 const httpServer = require("http").createServer(app);
 const sysmonitor = require("./lib/sysmonitor").sysmonitor;
+const logger = require('./lib/logger').logger;
 const { getRoutes } = require("./routes");
 const options = {
   cors: {
@@ -34,6 +35,9 @@ app.use(function (err, req, res, next) {
   res.status(500).send("Internal Server Error");
 });
 
+app.listen(() => {
+  logger.info('Express Server Started');
+})
 
 
 //----Setting up Event Listeners----//
