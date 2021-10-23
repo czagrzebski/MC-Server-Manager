@@ -43,7 +43,7 @@ app.listen(() => {
 //----Setting up Event Listeners----//
 
 io.on("connection", (socket) => {
-  console.log("Client Connected");
+  logger.debug('Client Connected to Socket')
 });
 
 minecraftServer.on("console", (data) => {
@@ -55,7 +55,7 @@ minecraftServer.on("state", (state) => {
 });
 
 httpServer.listen(PORT, () => {
-  console.log(`Server Started on Port ${PORT}`);
+  logger.info(`Server Started on Port ${PORT}`);
 });
 
 //--Automatically fetch system usage and share with client every 2000ms--//

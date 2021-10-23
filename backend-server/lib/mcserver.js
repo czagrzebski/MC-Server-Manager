@@ -5,6 +5,7 @@ const path = require("path");
 const fkill = require("fkill");
 const fetch = require("node-fetch");
 const https = require("https");
+const logger = require("../lib/logger").logger;
 const configInfo = require("../config/config-info.json");
 
 //Server States (Starting, Running, Stopped)
@@ -31,6 +32,7 @@ class MCServer extends EventEmitter {
    * Spawns a child java process for the server
    */
   startServer = async () => {
+    logger.info("Starting Minecraft Server");
     const config = await this.getServerConfig();
 
     if (this.state !== STATES.STOPPED) {
@@ -40,6 +42,7 @@ class MCServer extends EventEmitter {
     //Check if EULA is signed
     const isEulaSigned = await this.isEulaSigned();
     if (!isEulaSigned) {
+      logger.error("EULA is not signed!");
       throw new Error("EULA");
     }
 
@@ -52,10 +55,15 @@ class MCServer extends EventEmitter {
     });
 
     this.setState(STATES.STARTING);
-    this.serverProcess.on("close", () => this.setState(STATES.STOPPED));
+    this.serverProcess.on("close", () => {
+      logger.info("Minecraft server process terminated");
+      this.setState(STATES.STOPPED);
+    });
 
     //Set error handler if the process dies unexpectedly
-    this.serverProcess.on("error", (err) => console.error(err));
+    this.serverProcess.on("error", (err) =>
+      logger.error(`Minecraft Server Failed to Start: ${err}`)
+    );
 
     //Set event handler for console outputs (forwards to frontend client)
     this.serverProcess.stdout.on("data", (data) =>
@@ -68,10 +76,9 @@ class MCServer extends EventEmitter {
    * Sends the stop command to the minecraft server
    */
   stopServer = async () => {
-    this.sendCommand("stop")
-      .catch(err => {
-        console.err("Failed to stop server")
-      })
+    this.sendCommand("stop").catch((err) => {
+      logger.error("Could not stop minecraft server");
+    });
     return "Stopping Server";
   };
 
@@ -406,12 +413,12 @@ class MCServer extends EventEmitter {
       case "java":
       case "general":
         //Open Server Config File
-        const serverConfigFile = await fs.promises.readFile(
-          path.join(__dirname, `../config/user/config.json`)
-        ).catch((err) => {
-          if(err.code === "ENOENT")
-            throw new Error("Failed to read server configuration")
-        })
+        const serverConfigFile = await fs.promises
+          .readFile(path.join(__dirname, `../config/user/config.json`))
+          .catch((err) => {
+            if (err.code === "ENOENT")
+              throw new Error("Failed to read server configuration");
+          });
 
         //Convert from JSON String to Javascript object
         let serverConfig = JSON.parse(serverConfigFile)["servers"][this.UUID];
@@ -509,17 +516,18 @@ class MCServer extends EventEmitter {
     const downloadURL = await this.getDownloadURL(config.general.version.value);
 
     https.get(downloadURL, (res) => {
+      logger.info("Downloading Minecraft Server");
       const fileStream = fs.createWriteStream(
         path.join(__dirname, `..${config.folderDir.value}/server.jar`)
       );
       res.pipe(fileStream);
       fileStream.on("finish", () => {
-        console.info("Download Complete");
+        logger.info("Download Complete");
         fileStream.close();
       });
 
-      fileStream.on("error", () => {
-        console.error("Failed to download file");
+      fileStream.on("error", (error) => {
+        logger.error(`Failed to minecraft server: ${error}`);
       });
     });
 

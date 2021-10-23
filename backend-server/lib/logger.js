@@ -16,10 +16,19 @@ const transports = [
   }),
 ];
 
+const format = winston.format.combine(
+  winston.format.timestamp({ format: "HH:mm:ss" }),
+  winston.format.printf(
+    (info) =>
+      `[${info.timestamp}] [${info.service || "Core"}/${info.level.toUpperCase()}]: ${info.message}`
+  )
+);
+
 const logger = winston.createLogger({
   level: "debug", //TODO: auto detect for dev/prod
   levels,
   transports,
+  format,
 });
 
 module.exports = {
