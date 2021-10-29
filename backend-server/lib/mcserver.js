@@ -225,7 +225,6 @@ class MCServer extends EventEmitter {
    * @Returns A javascript object containing the server properties
    */
   getServerProperties = async () => {
-    const config = await this.getServerConfig();
 
     let serverProperties = {
       minecraftSettings: {},
