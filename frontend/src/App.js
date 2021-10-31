@@ -7,7 +7,7 @@ import { socket, SocketContext } from "./utils/socket";
 
 import "./App.css";
 import NavDrawer from "./components/NavDrawer/NavDrawer";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 
 import { useDispatch } from "react-redux";
 import { consoleLogAdded } from "./app/slices/consoleSlice";

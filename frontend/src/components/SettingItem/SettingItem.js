@@ -1,12 +1,12 @@
 import React from "react";
 import api from "../../utils/api";
 import Notification from "../Notification/Notification";
-import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Switch from "@material-ui/core/Switch";
-import Button from '@material-ui/core/Button';
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import NativeSelect from "@material-ui/core/NativeSelect";
+import withStyles from '@mui/styles/withStyles';
+import Grid from "@mui/material/Grid";
+import Switch from "@mui/material/Switch";
+import Button from '@mui/material/Button';
+import OutlinedInput from "@mui/material/OutlinedInput";
+import NativeSelect from "@mui/material/NativeSelect";
 import "./SettingItem.css";
 
 const AntSwitch = withStyles((theme) => ({

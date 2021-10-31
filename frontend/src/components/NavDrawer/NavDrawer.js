@@ -1,24 +1,24 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import "./NavDrawer.css";
-import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import CodeIcon from "@material-ui/icons/Code";
-import SettingsIcon from "@material-ui/icons/Settings";
+import Drawer from "@mui/material/Drawer";
+import CssBaseline from "@mui/material/CssBaseline";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import CodeIcon from "@mui/icons-material/Code";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { Link, withRouter } from "react-router-dom";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import logo from "./logo.png";
-import { IconButton } from "@material-ui/core";
-import { Grid } from "@material-ui/core";
+import { IconButton } from "@mui/material";
+import { Grid } from "@mui/material";
 
 const drawerWidth = 230;
 
@@ -114,8 +114,8 @@ function NavDrawer(props) {
             </Typography>
           </Grid>
 
-          <Grid container justify="flex-end">
-            <IconButton aria-label="notifications">
+          <Grid container justifyContent="flex-end">
+            <IconButton aria-label="notifications" size="large">
               <NotificationsIcon />
             </IconButton>
           </Grid>

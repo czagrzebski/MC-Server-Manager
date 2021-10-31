@@ -2,24 +2,26 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { ThemeProvider, createTheme } from "@material-ui/core/styles";
-import blue from "@material-ui/core/colors/blue";
+import { ThemeProvider, StyledEngineProvider, createTheme, adaptV4Theme } from "@mui/material/styles";
+import { blue } from "@mui/material/colors";
 import { Provider } from "react-redux";
 import store from "./app/store";
 
-const theme = createTheme({
+const theme = createTheme(adaptV4Theme({
   palette: {
-    type: "dark",
+    mode: "dark",
     primary: blue,
   },
-});
+}));
 
 ReactDOM.render(
   <Provider store={store}>
     <div>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </StyledEngineProvider>
     </div>
   </Provider>,
   document.getElementById("root")

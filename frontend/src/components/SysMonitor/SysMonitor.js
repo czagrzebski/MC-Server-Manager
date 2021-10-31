@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Box from "@material-ui/core/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import { socket } from "../../utils/socket";
 
 import "./SysMonitor.css";
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
 
 const SysItem = (props) => {
     const theme = useTheme();

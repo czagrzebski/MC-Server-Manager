@@ -1,15 +1,15 @@
 import React from "react";
 
-import { green } from "@material-ui/core/colors";
-import { red } from "@material-ui/core/colors";
+import { green } from "@mui/material/colors";
+import { red } from "@mui/material/colors";
 
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 import api from "../../utils/api";
 import Notification from "../Notification/Notification";
 import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
 import { useSelector } from "react-redux";
 
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 
 const ColorButton = withStyles((theme) => ({
   root: {

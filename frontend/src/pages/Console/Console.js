@@ -6,7 +6,7 @@ import { consoleCleared, consoleLogAdded } from "../../app/slices/consoleSlice";
 import "./Console.css";
 import api from "../../utils/api";
 
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 
 const AlwaysScrollToBottom = () => {
   const elementRef = useRef();
