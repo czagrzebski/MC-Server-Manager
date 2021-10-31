@@ -21,11 +21,16 @@ function Notification({ msg, severity }) {
   }
 
   return (
-    <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
-      <Alert onClose={handleClose} severity={severity}>
-        {msg}
-      </Alert>
-    </Snackbar>
+    <div>
+      <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} open={open} autoHideDuration={4000} onClose={handleClose}>
+        <div>
+          <Alert onClose={handleClose} severity={severity}>
+            {msg}
+          </Alert>
+        </div>
+      </Snackbar>
+      
+    </div>
   );
 }
 export default Notification;
