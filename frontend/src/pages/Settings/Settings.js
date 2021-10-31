@@ -38,7 +38,10 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.primary.dark,
+    '& .MuiBox-root': {
+      padding: '0px',
+    }
   },
   settingTab: {
     boxShadow: 0,
@@ -46,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiTabs-indicator": {
       backgroundColor: theme.palette.info.main
     },
+    
   },
   tabLabels: {
     '&.Mui-selected': {

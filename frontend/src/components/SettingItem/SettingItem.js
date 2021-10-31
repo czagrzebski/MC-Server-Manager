@@ -1,13 +1,20 @@
 import React from "react";
 import api from "../../utils/api";
 import Notification from "../Notification/Notification";
-import withStyles from '@mui/styles/withStyles';
+import withStyles from "@mui/styles/withStyles";
 import Grid from "@mui/material/Grid";
 import Switch from "@mui/material/Switch";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import NativeSelect from "@mui/material/NativeSelect";
 import "./SettingItem.css";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles((theme) => ({
+  actionButton: {
+    backgroundColor: theme.palette.info.dark
+  }
+}))
 
 const AntSwitch = withStyles((theme) => ({
   root: {
@@ -44,6 +51,7 @@ const AntSwitch = withStyles((theme) => ({
 }))(Switch);
 
 export function SettingItem(props) {
+  const classes = useStyles();
   const { settingId } = props;
   const { name, description, type, category, value, options, action } =
     props.setting;
@@ -162,9 +170,11 @@ export function SettingItem(props) {
       {renderSettingType()}
       <div className={"button-action"}>
         {action ? (
-
-          
-          <Button variant="contained" color="primary" onClick={() => dispatchAction(action.target, action.params)}>
+          <Button
+            variant="contained"
+            className={classes.actionButton}
+            onClick={() => dispatchAction(action.target, action.params)}
+          >
             {action.name}
           </Button>
         ) : null}
