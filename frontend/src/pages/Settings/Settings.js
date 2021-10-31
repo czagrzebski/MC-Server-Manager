@@ -40,6 +40,19 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
+  settingTab: {
+    boxShadow: 0,
+    backgroundColor: theme.palette.primary.dark,
+    "& .MuiTabs-indicator": {
+      backgroundColor: theme.palette.info.main
+    },
+  },
+  tabLabels: {
+    '&.Mui-selected': {
+      color: theme.palette.info.main,
+      fontWeight: theme.typography.fontWeightMedium,
+    }
+  }
 }));
 
 export function Settings() {
@@ -70,17 +83,20 @@ export function Settings() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
         <Tabs
           value={tabIndex}
           onChange={handleTabChange}
           aria-label="simple tabs example"
+          className={classes.settingTab}
+          
         >
-          <Tab label="General" {...a11yProps(0)} />
-          <Tab label="Java" {...a11yProps(1)} />
-          <Tab label="Minecraft Settings" {...a11yProps(2)} />
+      
+          <Tab label="General" {...a11yProps(0)} className={classes.tabLabels} />
+          <Tab label="Java" {...a11yProps(1)} className={classes.tabLabels}/>
+          <Tab label="Minecraft Settings" {...a11yProps(2)} className={classes.tabLabels}/>
+    
         </Tabs>
-      </AppBar>
+   
       <TabPanel value={tabIndex} index={0}>
         <SettingsPanel
           settingsList={settingsList.general}

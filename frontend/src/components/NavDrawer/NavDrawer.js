@@ -1,5 +1,5 @@
 import React from "react";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import "./NavDrawer.css";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -20,6 +20,7 @@ import logo from "./logo.png";
 import { IconButton } from "@mui/material";
 import { Grid } from "@mui/material";
 
+
 const drawerWidth = 230;
 
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
+    background: theme.palette.primary.main,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -46,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: theme.palette.primary.main,
   },
   content: {
     flexGrow: 1,
@@ -88,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
 function NavDrawer(props) {
   const classes = useStyles();
 
-  console.log(props.location)
+  console.log(props.location);
 
   const getTitle = () => {
     switch (props.location.pathname.slice(1)) {
@@ -106,21 +109,26 @@ function NavDrawer(props) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <Grid item>
-            <Typography className={classes.pageTitle} variant="h6" noWrap>
-              {getTitle()}
-            </Typography>
-          </Grid>
+        <AppBar
+          position="fixed"
+          className={classes.appBar}
+          elevation={0}
+          enableColorOnDark
+        >
+          <Toolbar>
+            <Grid item>
+              <Typography className={classes.pageTitle} variant="h6" noWrap>
+                {getTitle()}
+              </Typography>
+            </Grid>
 
-          <Grid container justifyContent="flex-end">
-            <IconButton aria-label="notifications" size="large">
-              <NotificationsIcon />
-            </IconButton>
-          </Grid>
-        </Toolbar>
-      </AppBar>
+            <Grid container justifyContent="flex-end">
+              <IconButton aria-label="notifications" size="large">
+                <NotificationsIcon />
+              </IconButton>
+            </Grid>
+          </Toolbar>
+        </AppBar>
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -137,21 +145,33 @@ function NavDrawer(props) {
 
         <List>
           <Link to="/dashboard" className={classes.link}>
-            <ListItem button key="Dashboard" selected={props.location.pathname === "/dashboard"}>
+            <ListItem
+              button
+              key="Dashboard"
+              selected={props.location.pathname === "/dashboard"}
+            >
               <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
               <ListItemText primary="Dashboard" />
             </ListItem>
           </Link>
 
           <Link to="/console" className={classes.link}>
-            <ListItem button key="Console" selected={props.location.pathname === "/console"}>
+            <ListItem
+              button
+              key="Console"
+              selected={props.location.pathname === "/console"}
+            >
               <ListItemIcon>{<CodeIcon />}</ListItemIcon>
               <ListItemText primary="Console" />
             </ListItem>
           </Link>
 
           <Link to="/settings" className={classes.link}>
-            <ListItem button key="Settings" selected={props.location.pathname === "/settings"}>
+            <ListItem
+              button
+              key="Settings"
+              selected={props.location.pathname === "/settings"}
+            >
               <ListItemIcon>{<SettingsIcon />}</ListItemIcon>
               <ListItemText primary="Settings" />
             </ListItem>
