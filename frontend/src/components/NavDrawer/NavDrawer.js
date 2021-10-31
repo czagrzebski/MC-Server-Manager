@@ -20,7 +20,7 @@ import logo from "./logo.png";
 import { IconButton } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 
-const drawerWidth = 220;
+const drawerWidth = 230;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,6 +88,8 @@ const useStyles = makeStyles((theme) => ({
 function NavDrawer(props) {
   const classes = useStyles();
 
+  console.log(props.location)
+
   const getTitle = () => {
     switch (props.location.pathname.slice(1)) {
       case "console":
@@ -135,21 +137,21 @@ function NavDrawer(props) {
 
         <List>
           <Link to="/dashboard" className={classes.link}>
-            <ListItem button key="Dashboard">
+            <ListItem button key="Dashboard" selected={props.location.pathname === "/dashboard"}>
               <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
               <ListItemText primary="Dashboard" />
             </ListItem>
           </Link>
 
           <Link to="/console" className={classes.link}>
-            <ListItem button key="Console">
+            <ListItem button key="Console" selected={props.location.pathname === "/console"}>
               <ListItemIcon>{<CodeIcon />}</ListItemIcon>
               <ListItemText primary="Console" />
             </ListItem>
           </Link>
 
           <Link to="/settings" className={classes.link}>
-            <ListItem button key="Settings">
+            <ListItem button key="Settings" selected={props.location.pathname === "/settings"}>
               <ListItemIcon>{<SettingsIcon />}</ListItemIcon>
               <ListItemText primary="Settings" />
             </ListItem>
