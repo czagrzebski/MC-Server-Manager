@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-import makeStyles from '@mui/styles/makeStyles';
-import AppBar from "@mui/material/AppBar";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
+import makeStyles from "@mui/styles/makeStyles";
+import { Tabs, Tab, Box } from "@mui/material";
 
 import { SettingsPanel } from "./SettingsPanel/SettingsPanel";
 
@@ -39,24 +36,23 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.primary.dark,
-    '& .MuiBox-root': {
-      padding: '0px',
-    }
+    "& .MuiBox-root": {
+      padding: "0px",
+    },
   },
   settingTab: {
     boxShadow: 0,
     backgroundColor: theme.palette.primary.dark,
     "& .MuiTabs-indicator": {
-      backgroundColor: theme.palette.info.main
+      backgroundColor: theme.palette.info.main,
     },
-    
   },
   tabLabels: {
-    '&.Mui-selected': {
+    "&.Mui-selected": {
       color: theme.palette.info.main,
       fontWeight: theme.typography.fontWeightMedium,
-    }
-  }
+    },
+  },
 }));
 
 export function Settings() {
@@ -87,20 +83,21 @@ export function Settings() {
 
   return (
     <div className={classes.root}>
-        <Tabs
-          value={tabIndex}
-          onChange={handleTabChange}
-          aria-label="simple tabs example"
-          className={classes.settingTab}
-          
-        >
-      
-          <Tab label="General" {...a11yProps(0)} className={classes.tabLabels} />
-          <Tab label="Java" {...a11yProps(1)} className={classes.tabLabels}/>
-          <Tab label="Minecraft Settings" {...a11yProps(2)} className={classes.tabLabels}/>
-    
-        </Tabs>
-   
+      <Tabs
+        value={tabIndex}
+        onChange={handleTabChange}
+        aria-label="simple tabs example"
+        className={classes.settingTab}
+      >
+        <Tab label="General" {...a11yProps(0)} className={classes.tabLabels} />
+        <Tab label="Java" {...a11yProps(1)} className={classes.tabLabels} />
+        <Tab
+          label="Minecraft Settings"
+          {...a11yProps(2)}
+          className={classes.tabLabels}
+        />
+      </Tabs>
+
       <TabPanel value={tabIndex} index={0}>
         <SettingsPanel
           settingsList={settingsList.general}

@@ -17,8 +17,8 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { Link, withRouter } from "react-router-dom";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import logo from "./logo.png";
-import { IconButton } from "@mui/material";
-import { Grid } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Grid from "@mui/material/Grid";
 
 
 const drawerWidth = 230;
@@ -86,13 +86,20 @@ const useStyles = makeStyles((theme) => ({
   pageTitle: {
     paddingRight: "20px",
   },
+  listItem: {
+    "&$selected": {
+      backgroundColor: "red",
+      color: "white",
+      "& .MuiListItemIcon-root": {
+        color: "white"
+      }
+    }
+  }
 }));
 
 function NavDrawer(props) {
   const classes = useStyles();
-
-  console.log(props.location);
-
+  
   const getTitle = () => {
     switch (props.location.pathname.slice(1)) {
       case "console":
@@ -128,6 +135,7 @@ function NavDrawer(props) {
               </IconButton>
             </Grid>
           </Toolbar>
+          <Divider />
         </AppBar>
       <Drawer
         className={classes.drawer}
@@ -176,7 +184,6 @@ function NavDrawer(props) {
               <ListItemText primary="Settings" />
             </ListItem>
           </Link>
-
           <ListItem className={classes.bottomPush}>
             <div>MCSM Pre-alpha v1.0.0</div>
           </ListItem>
