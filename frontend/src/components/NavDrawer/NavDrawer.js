@@ -1,24 +1,25 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import "./NavDrawer.css";
-import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import CodeIcon from "@material-ui/icons/Code";
-import SettingsIcon from "@material-ui/icons/Settings";
+import Drawer from "@mui/material/Drawer";
+import CssBaseline from "@mui/material/CssBaseline";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import CodeIcon from "@mui/icons-material/Code";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { Link, withRouter } from "react-router-dom";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import logo from "./logo.png";
-import { IconButton } from "@material-ui/core";
-import { Grid } from "@material-ui/core";
+import IconButton from "@mui/material/IconButton";
+import Grid from "@mui/material/Grid";
+
 
 const drawerWidth = 230;
 
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
+    background: theme.palette.primary.main,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -46,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: theme.palette.primary.main,
   },
   content: {
     flexGrow: 1,
@@ -83,13 +86,20 @@ const useStyles = makeStyles((theme) => ({
   pageTitle: {
     paddingRight: "20px",
   },
+  listItem: {
+    "&$selected": {
+      backgroundColor: "red",
+      color: "white",
+      "& .MuiListItemIcon-root": {
+        color: "white"
+      }
+    }
+  }
 }));
 
 function NavDrawer(props) {
   const classes = useStyles();
-
-  console.log(props.location)
-
+  
   const getTitle = () => {
     switch (props.location.pathname.slice(1)) {
       case "console":
@@ -106,21 +116,27 @@ function NavDrawer(props) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <Grid item>
-            <Typography className={classes.pageTitle} variant="h6" noWrap>
-              {getTitle()}
-            </Typography>
-          </Grid>
+        <AppBar
+          position="fixed"
+          className={classes.appBar}
+          elevation={0}
+          enableColorOnDark
+        >
+          <Toolbar>
+            <Grid item>
+              <Typography className={classes.pageTitle} variant="h6" noWrap>
+                {getTitle()}
+              </Typography>
+            </Grid>
 
-          <Grid container justify="flex-end">
-            <IconButton aria-label="notifications">
-              <NotificationsIcon />
-            </IconButton>
-          </Grid>
-        </Toolbar>
-      </AppBar>
+            <Grid container justifyContent="flex-end">
+              <IconButton aria-label="notifications" size="large">
+                <NotificationsIcon />
+              </IconButton>
+            </Grid>
+          </Toolbar>
+          <Divider />
+        </AppBar>
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -137,26 +153,37 @@ function NavDrawer(props) {
 
         <List>
           <Link to="/dashboard" className={classes.link}>
-            <ListItem button key="Dashboard" selected={props.location.pathname === "/dashboard"}>
+            <ListItem
+              button
+              key="Dashboard"
+              selected={props.location.pathname === "/dashboard"}
+            >
               <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
               <ListItemText primary="Dashboard" />
             </ListItem>
           </Link>
 
           <Link to="/console" className={classes.link}>
-            <ListItem button key="Console" selected={props.location.pathname === "/console"}>
+            <ListItem
+              button
+              key="Console"
+              selected={props.location.pathname === "/console"}
+            >
               <ListItemIcon>{<CodeIcon />}</ListItemIcon>
               <ListItemText primary="Console" />
             </ListItem>
           </Link>
 
           <Link to="/settings" className={classes.link}>
-            <ListItem button key="Settings" selected={props.location.pathname === "/settings"}>
+            <ListItem
+              button
+              key="Settings"
+              selected={props.location.pathname === "/settings"}
+            >
               <ListItemIcon>{<SettingsIcon />}</ListItemIcon>
               <ListItemText primary="Settings" />
             </ListItem>
           </Link>
-
           <ListItem className={classes.bottomPush}>
             <div>MCSM Pre-alpha v1.0.0</div>
           </ListItem>

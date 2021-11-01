@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Box from "@material-ui/core/Box";
+import makeStyles from "@mui/styles/makeStyles";
+import { Tabs, Tab, Box } from "@mui/material";
 
 import { SettingsPanel } from "./SettingsPanel/SettingsPanel";
 
@@ -38,7 +35,23 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.primary.dark,
+    "& .MuiBox-root": {
+      padding: "0px",
+    },
+  },
+  settingTab: {
+    boxShadow: 0,
+    backgroundColor: theme.palette.primary.dark,
+    "& .MuiTabs-indicator": {
+      backgroundColor: theme.palette.info.main,
+    },
+  },
+  tabLabels: {
+    "&.Mui-selected": {
+      color: theme.palette.info.main,
+      fontWeight: theme.typography.fontWeightMedium,
+    },
   },
 }));
 
@@ -70,17 +83,21 @@ export function Settings() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs
-          value={tabIndex}
-          onChange={handleTabChange}
-          aria-label="simple tabs example"
-        >
-          <Tab label="General" {...a11yProps(0)} />
-          <Tab label="Java" {...a11yProps(1)} />
-          <Tab label="Minecraft Settings" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
+      <Tabs
+        value={tabIndex}
+        onChange={handleTabChange}
+        aria-label="simple tabs example"
+        className={classes.settingTab}
+      >
+        <Tab label="General" {...a11yProps(0)} className={classes.tabLabels} />
+        <Tab label="Java" {...a11yProps(1)} className={classes.tabLabels} />
+        <Tab
+          label="Minecraft Settings"
+          {...a11yProps(2)}
+          className={classes.tabLabels}
+        />
+      </Tabs>
+
       <TabPanel value={tabIndex} index={0}>
         <SettingsPanel
           settingsList={settingsList.general}

@@ -6,7 +6,15 @@ import { consoleCleared, consoleLogAdded } from "../../app/slices/consoleSlice";
 import "./Console.css";
 import api from "../../utils/api";
 
-import Button from "@material-ui/core/Button";
+import { makeStyles } from "@mui/styles";
+
+import Button from "@mui/material/Button";
+
+const useStyles = makeStyles((theme) => ({
+  clearBtn: {
+    backgroundColor: theme.palette.info.dark
+  }
+}))
 
 const AlwaysScrollToBottom = () => {
   const elementRef = useRef();
@@ -64,6 +72,7 @@ const ServerConsole = () => {
 
 export function Console() {
   const dispatch = useDispatch();
+  const classes = useStyles();
 
   return (
     <div>
@@ -71,7 +80,7 @@ export function Console() {
       <Button
         id="clear-btn"
         variant="contained"
-        color="primary"
+        className={classes.clearBtn}
         onClick={() => dispatch(consoleCleared())}
       >
         Clear Console

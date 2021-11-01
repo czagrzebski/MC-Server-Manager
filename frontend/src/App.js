@@ -7,20 +7,22 @@ import { socket, SocketContext } from "./utils/socket";
 
 import "./App.css";
 import NavDrawer from "./components/NavDrawer/NavDrawer";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 
 import { useDispatch } from "react-redux";
 import { consoleLogAdded } from "./app/slices/consoleSlice";
 import { setServerStatus } from "./app/slices/minecraftServerSlice";
+import { CssBaseline } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+   
   },
 
   content: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
+    background: theme.palette.primary.dark,
     padding: theme.spacing(2),
   },
 
@@ -53,6 +55,7 @@ function App() {
 
   return (
     <SocketContext.Provider value={socket}>
+      <CssBaseline />
       <Router>
         <div className={classes.root}>
           <NavDrawer />

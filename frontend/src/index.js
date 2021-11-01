@@ -2,24 +2,32 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { ThemeProvider, createTheme } from "@material-ui/core/styles";
-import blue from "@material-ui/core/colors/blue";
+import { ThemeProvider, StyledEngineProvider, createTheme } from "@mui/material/styles";
 import { Provider } from "react-redux";
 import store from "./app/store";
+import { CssBaseline } from "@mui/material";
 
 const theme = createTheme({
   palette: {
-    type: "dark",
-    primary: blue,
+    mode: "dark",
+    primary: {
+      main: "#2a313d"
+    },
+    background: {
+      default: "#1D222A"
+    }
   },
 });
 
 ReactDOM.render(
   <Provider store={store}>
     <div>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <CssBaseline />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </StyledEngineProvider>
     </div>
   </Provider>,
   document.getElementById("root")
