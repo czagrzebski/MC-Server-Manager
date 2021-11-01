@@ -5,6 +5,7 @@ const path = require("path");
 const fkill = require("fkill");
 const fetch = require("node-fetch");
 const https = require("https");
+const logger = require("../lib/logger").logger;
 const configInfo = require("../config/config-info.json");
 
 //Server States (Starting, Running, Stopped)
@@ -31,15 +32,18 @@ class MCServer extends EventEmitter {
    * Spawns a child java process for the server
    */
   startServer = async () => {
+    logger.info("Starting Minecraft Server");
     const config = await this.getServerConfig();
 
     if (this.state !== STATES.STOPPED) {
+      logger.error('Minecraft Server Already Running');
       throw new Error("Server Already Running!");
     }
 
     //Check if EULA is signed
     const isEulaSigned = await this.isEulaSigned();
     if (!isEulaSigned) {
+      logger.error("EULA is not signed!");
       throw new Error("EULA");
     }
 
@@ -48,14 +52,19 @@ class MCServer extends EventEmitter {
 
     //Spawn the Server
     this.serverProcess = spawn("java", launchOptions, {
-      cwd: path.join(__dirname, `..${config.folderDir.value}/`),
+      cwd: path.join(__dirname, `../servers/${this.UUID}/`),
     });
 
     this.setState(STATES.STARTING);
-    this.serverProcess.on("close", () => this.setState(STATES.STOPPED));
+    this.serverProcess.on("close", () => {
+      logger.info("Minecraft server process terminated");
+      this.setState(STATES.STOPPED);
+    });
 
     //Set error handler if the process dies unexpectedly
-    this.serverProcess.on("error", (err) => console.error(err));
+    this.serverProcess.on("error", (err) =>
+      logger.error(`Minecraft Server Failed to Start: ${err}`)
+    );
 
     //Set event handler for console outputs (forwards to frontend client)
     this.serverProcess.stdout.on("data", (data) =>
@@ -68,10 +77,9 @@ class MCServer extends EventEmitter {
    * Sends the stop command to the minecraft server
    */
   stopServer = async () => {
-    this.sendCommand("stop")
-      .catch(err => {
-        console.err("Failed to stop server")
-      })
+    this.sendCommand("stop").catch((err) => {
+      logger.error("Could not stop minecraft server");
+    });
     return "Stopping Server";
   };
 
@@ -83,6 +91,7 @@ class MCServer extends EventEmitter {
     await fkill(this.serverProcess.pid, {
       force: true,
     }).catch((err) => {
+      logger.error("Failed to kill server");
       throw new Error(`Failed to kill server: ${err}`);
     });
 
@@ -110,6 +119,7 @@ class MCServer extends EventEmitter {
    * Uses STDIN to write the command to the console
    */
   sendCommand = async (command) => {
+    logger.debug(`Fowarding Command to MC Server: ${command}`);
     this.serverProcess.stdin.write(command + "\n");
     return "Sent Command";
   };
@@ -145,6 +155,7 @@ class MCServer extends EventEmitter {
       if (stateRegex.startingRegex.test(consoleLog.message)) {
         this.setState(STATES.STARTING);
       } else if (stateRegex.runningRegex.test(consoleLog.message)) {
+        logger.info('Server Successfully Started');
         this.setState(STATES.RUNNING);
       }
     }
@@ -159,7 +170,7 @@ class MCServer extends EventEmitter {
 
     return fs.promises
       .readFile(
-        path.join(__dirname, `..${config.folderDir.value}/eula.txt`),
+        path.join(__dirname, `../servers/${this.UUID}/eula.txt`),
         "utf-8"
       )
       .then((propertiesFile) => {
@@ -183,7 +194,10 @@ class MCServer extends EventEmitter {
       })
       .catch((err) => {
         //file not found
-        if (err.code === "ENOENT") return false;
+        if (err.code === "ENOENT") {
+          logger.error('Could not find eula.txt');
+          return false;
+        }
       });
   };
 
@@ -195,7 +209,7 @@ class MCServer extends EventEmitter {
 
     return fs.promises
       .writeFile(
-        path.join(__dirname, `..${config.folderDir.value}/eula.txt`),
+        path.join(__dirname, `../servers/${this.UUID}/eula.txt`),
         "eula=true"
       )
       .then(() => {
@@ -211,7 +225,6 @@ class MCServer extends EventEmitter {
    * @Returns A javascript object containing the server properties
    */
   getServerProperties = async () => {
-    const config = await this.getServerConfig();
 
     let serverProperties = {
       minecraftSettings: {},
@@ -219,15 +232,17 @@ class MCServer extends EventEmitter {
 
     const propertiesFile = await fs.promises
       .readFile(
-        path.join(__dirname, `..${config.folderDir.value}/server.properties`),
+        path.join(__dirname, `../servers/${this.UUID}/server.properties`),
         "utf-8"
       )
       .catch((err) => {
         //server.properties file not found
-        if (err.code === "ENOENT")
+        if (err.code === "ENOENT") {
+          logger.error("Failed to get server properties. File does not exist.");
           throw new Error(
             "Properties file does not exist. Start the server and try again."
           );
+        }
       });
 
     propertiesFile.split("\n").forEach((property) => {
@@ -276,7 +291,7 @@ class MCServer extends EventEmitter {
 
     //Write the file to the server directory (Save)
     await fs.promises.writeFile(
-      path.join(__dirname, `..${config.folderDir.value}/server.properties`),
+      path.join(__dirname, `../servers/${this.UUID}/server.properties`),
       propertiesFile
     );
 
@@ -334,6 +349,7 @@ class MCServer extends EventEmitter {
     const userConfig = await fs.promises
       .readFile(path.join(__dirname, `../config/user/config.json`))
       .catch((err) => {
+        logger.error('Failed to save user configuration');
         throw new Error(`Failed to save user configuration: ${err}`);
       });
 
@@ -347,6 +363,7 @@ class MCServer extends EventEmitter {
         JSON.stringify(userConfigJSON)
       )
       .catch((err) => {
+        logger.error('Failed to save user configuration');
         throw new Error("Failed to save user configuration");
       });
 
@@ -406,12 +423,12 @@ class MCServer extends EventEmitter {
       case "java":
       case "general":
         //Open Server Config File
-        const serverConfigFile = await fs.promises.readFile(
-          path.join(__dirname, `../config/user/config.json`)
-        ).catch((err) => {
-          if(err.code === "ENOENT")
-            throw new Error("Failed to read server configuration")
-        })
+        const serverConfigFile = await fs.promises
+          .readFile(path.join(__dirname, `../config/user/config.json`))
+          .catch((err) => {
+            if (err.code === "ENOENT")
+              throw new Error("Failed to read server configuration");
+          });
 
         //Convert from JSON String to Javascript object
         let serverConfig = JSON.parse(serverConfigFile)["servers"][this.UUID];
@@ -492,6 +509,12 @@ class MCServer extends EventEmitter {
     });
   };
 
+  /**
+   * Fetches the download url for the official minecraft server 
+   * based on a specified version
+   * @param version - The Minecraft Server Version (Eg: 1.16.3)
+   * @returns {string} - The download URL for the Minecraft Server
+   */
   getDownloadURL = async (version) => {
     //Fetch the list of all the minecraft server versions available with download links
     return fetch("https://mcversions.net/mcversions.json")
@@ -504,22 +527,28 @@ class MCServer extends EventEmitter {
       });
   };
 
+
+  /**
+   * Downloads the Minecraft Server Jar
+   * Automatically Downloads the Version Specified in the User Config
+   */
   downloadJar = async () => {
     const config = await this.getServerConfig();
     const downloadURL = await this.getDownloadURL(config.general.version.value);
 
     https.get(downloadURL, (res) => {
+      logger.info("Downloading Minecraft Server");
       const fileStream = fs.createWriteStream(
-        path.join(__dirname, `..${config.folderDir.value}/server.jar`)
+        path.join(__dirname, `../servers/${this.UUID}/server.jar`)
       );
       res.pipe(fileStream);
       fileStream.on("finish", () => {
-        console.info("Download Complete");
+        logger.info("Download Complete");
         fileStream.close();
       });
 
-      fileStream.on("error", () => {
-        console.error("Failed to download file");
+      fileStream.on("error", (error) => {
+        logger.error(`Failed to minecraft server: ${error}`);
       });
     });
 

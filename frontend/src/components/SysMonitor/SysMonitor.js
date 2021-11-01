@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Box from "@material-ui/core/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import { socket } from "../../utils/socket";
 
 import "./SysMonitor.css";
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles((theme) => ({
+  sysStat: {
+    textAlign: 'center',
+    backgroundColor: theme.palette.primary.main,
+    width: '300px',
+    height: '220px',
+    borderRadius: '8px',
+    margin: '5px 5px 5px 0px'
+  }
+}))
 
 const SysItem = (props) => {
     const theme = useTheme();
@@ -17,7 +29,7 @@ const SysItem = (props) => {
           <CircularProgress
             variant="determinate"
             style={{
-              color: "lightgrey",
+              color: theme.palette.primary.light,
               position: "relative",
             }}
             size={100}
@@ -28,7 +40,7 @@ const SysItem = (props) => {
             variant="determinate"
             value={props.value}
             size={100}
-            style={{position: "absolute", 'color': (props.value < 90) ? theme.palette.primaryColor : "#d32f2f" }}
+            style={{position: "absolute", 'color': (props.value < 90) ? theme.palette.info.main : "#d32f2f" }}
             thickness={4}
           />
         </Box>
@@ -37,6 +49,8 @@ const SysItem = (props) => {
 }
 
 export const SysMonitor = () => {
+  const classes = useStyles();
+
   const [cpuUsage, setCpuUsage] = useState({
     value: 0,
     displayValue: "0%",
@@ -68,14 +82,14 @@ export const SysMonitor = () => {
 
   return (
     <div className={"sysMonitor"}>
-      <div className="sysStat">
+      <div className={classes.sysStat}>
         <SysItem
           name="CPU Usage"
           displayValue={cpuUsage.displayValue}
           value={cpuUsage.value}
         />
       </div>
-      <div className="sysStat">
+      <div className={classes.sysStat}>
         <SysItem
           name="Memory Usage"
           displayValue={memUsage.displayValue}
