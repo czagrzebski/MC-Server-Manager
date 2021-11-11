@@ -1,7 +1,7 @@
 import React from "react";
 import api from "../../utils/api";
 import Notification from "../Notification/Notification";
-import withStyles from "@mui/styles/withStyles";
+import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Switch from "@mui/material/Switch";
 import Button from "@mui/material/Button";
@@ -12,43 +12,53 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   actionButton: {
-    backgroundColor: theme.palette.info.dark
-  }
-}))
-
-const AntSwitch = withStyles((theme) => ({
-  root: {
-    width: 28,
-    height: 16,
-    padding: 0,
-    display: "flex",
+    backgroundColor: theme.palette.info.dark,
   },
-  switchBase: {
+}));
+
+const AntSwitch = styled(Switch)(({ theme }) => ({
+  width: 28,
+  height: 16,
+  padding: 0,
+  display: "flex",
+  "&:active": {
+    "& .MuiSwitch-thumb": {
+      width: 15,
+    },
+    "& .MuiSwitch-switchBase.Mui-checked": {
+      transform: "translateX(9px)",
+    },
+  },
+  "& .MuiSwitch-switchBase": {
     padding: 2,
-    color: theme.palette.grey[500],
-    "&$checked": {
+    "&.Mui-checked": {
       transform: "translateX(12px)",
-      color: theme.palette.common.white,
-      "& + $track": {
+      color: "#fff",
+      "& + .MuiSwitch-track": {
         opacity: 1,
-        backgroundColor: theme.palette.primary.main,
-        borderColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.mode === "dark" ? "#177ddc" : "#1890ff",
       },
     },
   },
-  thumb: {
+  "& .MuiSwitch-thumb": {
+    boxShadow: "0 2px 4px 0 rgb(0 35 11 / 20%)",
     width: 12,
     height: 12,
-    boxShadow: "none",
+    borderRadius: 6,
+    transition: theme.transitions.create(["width"], {
+      duration: 200,
+    }),
   },
-  track: {
-    border: `1px solid ${theme.palette.grey[500]}`,
+  "& .MuiSwitch-track": {
     borderRadius: 16 / 2,
     opacity: 1,
-    backgroundColor: theme.palette.common.white,
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? "rgba(255,255,255,.35)"
+        : "rgba(0,0,0,.25)",
+    boxSizing: "border-box",
   },
-  checked: {},
-}))(Switch);
+}));
 
 export function SettingItem(props) {
   const classes = useStyles();
@@ -75,13 +85,13 @@ export function SettingItem(props) {
   };
 
   //Updates the state when the user changes the value
+  //TODO: MUI V5 Changed how AntSwitch Events are Handled. Need to fix
   const handleValueChange = (event) => {
-    if (event.target.value) {
-      props.onSettingChange(category, settingId, event.target.value);
-      //check if ant switch was toggled
-    } else if ("checked" in event.target) {
+    if (event.target.hasOwnProperty("checked")) {
       setChecked(event.target.checked);
       props.onSettingChange(category, settingId, event.target.checked);
+    } else {
+      props.onSettingChange(category, settingId, event.target.value);
     }
   };
 

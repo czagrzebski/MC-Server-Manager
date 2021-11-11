@@ -328,7 +328,7 @@
             "name": "Use Native Transport",
             "type": "boolean",
             "default": "true",
-            "description": "Linux server performance improvements: optimized packet sending/receiving on Linux",
+            "description": "Optimized packet sending/receiving on Linux",
             "category": "minecraftSettings"
         },
         "view-distance": {
