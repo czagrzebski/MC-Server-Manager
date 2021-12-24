@@ -85,7 +85,6 @@ export function SettingItem(props) {
   };
 
   //Updates the state when the user changes the value
-  //TODO: MUI V5 Changed how AntSwitch Events are Handled. Need to fix
   const handleValueChange = (event) => {
     if (event.target.hasOwnProperty("checked")) {
       setChecked(event.target.checked);
@@ -199,3 +198,4 @@ export function SettingItem(props) {
     </div>
   );
 }
+

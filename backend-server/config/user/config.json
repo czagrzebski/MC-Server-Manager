@@ -1,16 +1,1 @@
-{
-    "servers": {
-        "8d1d62c9-1e27-4a4f-9a26-a4ea1804222c": {
-            "name": "My Server",
-            "version": "1.16.5",
-            "jarFile": "server.jar",
-            "maxHeapSize": "2048"
-        },
-        "a0c10c7d-2e08-4db7-a6d8-d53df7d79e88": {
-            "name": "A server",
-            "version": "1.16.5",
-            "jarFile": "server.jar",
-            "maxHeapSize": 2048
-        }
-    }
-}
+{"servers":{"8d1d62c9-1e27-4a4f-9a26-a4ea1804222c":{"name":"All The Mods 3 Server","version":"1.16.2","jarFile":"server.jar","maxHeapSize":"2048"},"a0c10c7d-2e08-4db7-a6d8-d53df7d79e88":{"name":"A server","version":"1.16.5","jarFile":"server.jar","maxHeapSize":2048}}}
