@@ -33,7 +33,6 @@ class MCServer extends EventEmitter {
    */
   startServer = async () => {
     logger.info("Starting Minecraft Server");
-    const config = await this.getServerConfig();
 
     if (this.state !== STATES.STOPPED) {
       logger.error('Minecraft Server Already Running');

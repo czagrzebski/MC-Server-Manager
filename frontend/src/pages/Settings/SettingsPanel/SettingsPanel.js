@@ -1,6 +1,8 @@
 import React from "react";
 import "./SettingsPanel.css";
 import { SettingItem } from "../../../components/SettingItem/SettingItem";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,14 +27,13 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.primary.light,
     },
     "&::-webkit-scrollbar": {
-      width: "12px", 
+      width: "12px",
     },
     "&::-webkit-scrollbar-thumb": {
       borderRadius: "10px",
       boxShadow: "inset 0 0 6px rgba(0,0,0,.3)",
-      backgroundColor: "#8d8c8c",  
-    }
-    
+      backgroundColor: "#8d8c8c",
+    },
   },
 }));
 
@@ -40,20 +41,31 @@ export function SettingsPanel(props) {
   const classes = useStyles();
   return (
     <div className={classes.settingTabMenu}>
-      <div className={classes.settingsGrid}>
-        {!props.settingsList
-          ? null
-          : Object.keys(props.settingsList).map((settingKey, i) => {
-              return (
-                <SettingItem
-                  settingId={settingKey}
-                  setting={props.settingsList[settingKey]}
-                  key={i}
-                  onSettingChange={props.onSettingChange}
-                />
-              );
-            })}
-      </div>
+      {!props.settingsList ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "40px",
+            marginBottom: "40px",
+          }}
+        >
+          <CircularProgress color="info" />
+        </Box>
+      ) : (
+        <div className={classes.settingsGrid}>
+          {Object.keys(props.settingsList).map((settingKey, i) => {
+            return (
+              <SettingItem
+                settingId={settingKey}
+                setting={props.settingsList[settingKey]}
+                key={i}
+                onSettingChange={props.onSettingChange}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

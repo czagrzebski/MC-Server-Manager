@@ -4,8 +4,9 @@ const { MCServer } = require("./lib/mcserver");
 const cors = require("cors");
 const httpServer = require("http").createServer(app);
 const sysmonitor = require("./lib/sysmonitor").sysmonitor;
-const logger = require('./lib/logger').logger;
+const logger = require("./lib/logger").logger;
 const { getRoutes } = require("./routes");
+const { manager } = require("./lib/manager");
 const options = {
   cors: {
     origin: "*",
@@ -15,21 +16,17 @@ const io = require("socket.io")(httpServer, options);
 
 const PORT = process.env.PORT || 3500;
 
-const minecraftServer = new MCServer("8d1d62c9-1e27-4a4f-9a26-a4ea1804222c");
-
-app.set("minecraftServer", minecraftServer);
-
 //--Middleware--//
 app.use(cors());
 app.use(express.json());
 
 app.use((req, res, next) => {
-  logger.http('Request Received');
+  logger.http("Request Received");
   next();
 });
 
 //--ROUTES--//
-app.use("/server", getRoutes(minecraftServer));
+app.use("/server", getRoutes());
 
 //--Error Handlers--//
 app.use((req, res) => res.status(404).send("404 NOT FOUND"));
@@ -40,27 +37,40 @@ app.use(function (err, req, res, next) {
   next();
 });
 
-app.listen(() => {
-  logger.info('Express Server Started');
-})
+//----Setup Minecraft Server----//
+manager.getServerList().then((serverList) => {
+  let minecraftServer;
 
+  //Check if any servers exists, if not, create one.
+  if (Object.keys(serverList).length == 0) {
+    console.log("creating server");
+    minecraftServer = new MCServer(manager.createServer());
+  } else {
+    minecraftServer = new MCServer(Object.keys(serverList)[0]);
+  }
+
+  //Allows routes/controllers to access minecraft server instance
+  app.set("minecraftServer", minecraftServer);
+
+  //Capture minecraft server events
+  minecraftServer.on("console", (data) => {
+    io.emit("console", data);
+  });
+
+  minecraftServer.on("state", (state) => {
+    io.emit("state", state);
+  });
+
+  //Start Express Server after MCServer is initialized
+  httpServer.listen(PORT, () => {
+    logger.info(`Server Started on Port ${PORT}`);
+  });
+});
 
 //----Setting up Event Listeners----//
 
 io.on("connection", (socket) => {
-  logger.debug('Client Connected to Socket')
-});
-
-minecraftServer.on("console", (data) => {
-  io.emit("console", data);
-});
-
-minecraftServer.on("state", (state) => {
-  io.emit("state", state);
-});
-
-httpServer.listen(PORT, () => {
-  logger.info(`Server Started on Port ${PORT}`);
+  logger.debug("Client Connected to Socket");
 });
 
 //--Automatically fetch system usage and share with client every 2000ms--//

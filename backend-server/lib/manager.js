@@ -11,7 +11,7 @@ const manager = {
         name: "A server",
         version: "1.16.5",
         jarFile: "server.jar",
-        maxHeapSize: 2048,
+        maxHeapSize: "2048",
       };
 
       return userConfig;
@@ -23,6 +23,8 @@ const manager = {
     }
 
     await manager.writeConfig(config);
+
+    return uuid;
   },
 
   readConfig: async () => {
@@ -45,6 +47,12 @@ const manager = {
         console.error(err);
         throw new Error("Failed to save user configuration");
       });
+  },
+
+  getServerList: async () => {
+    return manager.readConfig().then((config) => {
+      return config.servers;
+    });
   },
 };
 
