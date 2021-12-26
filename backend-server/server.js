@@ -37,14 +37,16 @@ app.use(function (err, req, res, next) {
   next();
 });
 
-//----Setup Minecraft Server----//
-manager.getServerList().then((serverList) => {
+//Load and Initialize Minecraft Server
+const initMinecraftServer = async () => {
   let minecraftServer;
+
+  const serverList = await manager.getServerList();
 
   //Check if any servers exists, if not, create one.
   if (Object.keys(serverList).length == 0) {
-    console.log("creating server");
-    minecraftServer = new MCServer(manager.createServer());
+    let uuid = await manager.createServer();
+    minecraftServer = new MCServer(uuid);
   } else {
     minecraftServer = new MCServer(Object.keys(serverList)[0]);
   }
@@ -65,10 +67,11 @@ manager.getServerList().then((serverList) => {
   httpServer.listen(PORT, () => {
     logger.info(`Server Started on Port ${PORT}`);
   });
-});
+};
+
+initMinecraftServer();
 
 //----Setting up Event Listeners----//
-
 io.on("connection", (socket) => {
   logger.debug("Client Connected to Socket");
 });

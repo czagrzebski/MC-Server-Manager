@@ -1,10 +1,13 @@
 const uuidv4 = require("uuid");
 const fs = require("fs");
 const path = require("path");
+const logger = require("../lib/logger").logger;
 
 const manager = {
   createServer: async () => {
     const uuid = uuidv4.v4();
+
+    logger.info(`Creating Minecraft Server with UUID: ${uuid}`);
 
     const config = await manager.readConfig().then((userConfig) => {
       userConfig.servers[uuid] = {
@@ -19,6 +22,7 @@ const manager = {
 
     //Check if server directory already exists. If not, create one.
     if (!fs.existsSync(path.join(__dirname, `../servers/${uuid}`))) {
+      logger.info("Creating Server Directory");
       fs.mkdirSync(path.join(__dirname, `../servers/${uuid}`));
     }
 
