@@ -25,6 +25,18 @@ class MCServer extends EventEmitter {
     super();
     this.state = STATES.STOPPED;
     this.UUID = UUID;
+    this.initServer();
+  }
+
+  /**
+   * Initializes the Minecraft Server
+   */
+  initServer = async () => {
+      //Check if server directory already exists. If not, create one.
+      if(!fs.existsSync(path.join(__dirname, `../servers/${this.UUID}`))) {
+        logger.info("Creating Server Directory");
+        fs.mkdirSync(path.join(__dirname, `../servers/${this.UUID}`));
+      }
   }
 
   /**
