@@ -5,7 +5,9 @@ const cors = require("cors");
 const httpServer = require("http").createServer(app);
 const sysmonitor = require("./lib/sysmonitor").sysmonitor;
 const logger = require("./lib/logger").logger;
-const { getRoutes } = require("./routes");
+const minecraftRouter = require("./routes/minecraft");
+const authRouter = require("./routes/auth");
+const db = require('./config/db');
 const { manager } = require("./lib/manager");
 const options = {
   cors: {
@@ -15,6 +17,8 @@ const options = {
 const io = require("socket.io")(httpServer, options);
 
 const PORT = process.env.PORT || 3500;
+
+//db('USERS').select('*').then(users => console.log(users));
 
 //--Middleware--//
 app.use(cors());
@@ -26,7 +30,8 @@ app.use((req, res, next) => {
 });
 
 //--ROUTES--//
-app.use("/server", getRoutes());
+app.use("/server", minecraftRouter);
+app.use("/auth", authRouter);
 
 //--Error Handlers--//
 app.use((req, res) => res.status(404).send("404 NOT FOUND"));

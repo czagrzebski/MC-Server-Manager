@@ -140,6 +140,7 @@ export function SettingItem(props) {
             name="options"
             id="options"
             value={value}
+            color="info"
             onChange={(event) => {
               handleValueChange(event);
               saveSetting(event.target.value);
@@ -163,6 +164,7 @@ export function SettingItem(props) {
           <OutlinedInput
             value={value}
             onChange={handleValueChange}
+            color="info"
             className={"outlined-input"}
             onBlur={(event) => {
               saveSetting(event.target.value);

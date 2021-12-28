@@ -258,7 +258,7 @@
             "name": "Resource Pack Prompt",
             "type": "string",
             "default": "",
-            "description": "Optional, adds a custom message to be shown on resource pack prompt when require-resource-pack is used.",
+            "description": "Custom message to show when custom resource pack is used",
             "category": "minecraftSettings"
         },
         "resource-pack-sha1": {

@@ -32,12 +32,12 @@ class MCServer extends EventEmitter {
    * Initializes the Minecraft Server
    */
   initServer = async () => {
-      //Check if server directory already exists. If not, create one.
-      if(!fs.existsSync(path.join(__dirname, `../servers/${this.UUID}`))) {
-        logger.info("Creating Server Directory");
-        fs.mkdirSync(path.join(__dirname, `../servers/${this.UUID}`));
-      }
-  }
+    //Check if server directory already exists. If not, create one.
+    if (!fs.existsSync(path.join(__dirname, `../servers/${this.UUID}`))) {
+      logger.info("Creating Server Directory");
+      fs.mkdirSync(path.join(__dirname, `../servers/${this.UUID}`));
+    }
+  };
 
   /**
    * Starts the Minecraft Server
@@ -47,7 +47,7 @@ class MCServer extends EventEmitter {
     logger.info("Starting Minecraft Server");
 
     if (this.state !== STATES.STOPPED) {
-      logger.error('Minecraft Server Already Running');
+      logger.error("Minecraft Server Already Running");
       throw new Error("Server Already Running!");
     }
 
@@ -73,9 +73,9 @@ class MCServer extends EventEmitter {
     });
 
     //Set error handler if the process dies unexpectedly
-    this.serverProcess.on("error", (err) =>
-      logger.error(`Minecraft Server Failed to Start: ${err}`)
-    );
+    this.serverProcess.on("error", (err) => {
+      logger.error(`Minecraft Server Failed to Start: ${err}`);
+    });
 
     //Set event handler for console outputs (forwards to frontend client)
     this.serverProcess.stdout.on("data", (data) =>
@@ -166,7 +166,7 @@ class MCServer extends EventEmitter {
       if (stateRegex.startingRegex.test(consoleLog.message)) {
         this.setState(STATES.STARTING);
       } else if (stateRegex.runningRegex.test(consoleLog.message)) {
-        logger.info('Server Successfully Started');
+        logger.info("Server Successfully Started");
         this.setState(STATES.RUNNING);
       }
     }
@@ -206,7 +206,7 @@ class MCServer extends EventEmitter {
       .catch((err) => {
         //file not found
         if (err.code === "ENOENT") {
-          logger.error('Could not find eula.txt');
+          logger.error("Could not find eula.txt");
           return false;
         }
       });
@@ -236,7 +236,6 @@ class MCServer extends EventEmitter {
    * @Returns A javascript object containing the server properties
    */
   getServerProperties = async () => {
-
     let serverProperties = {
       minecraftSettings: {},
     };
@@ -360,7 +359,7 @@ class MCServer extends EventEmitter {
     const userConfig = await fs.promises
       .readFile(path.join(__dirname, `../config/user/config.json`))
       .catch((err) => {
-        logger.error('Failed to save user configuration');
+        logger.error("Failed to save user configuration");
         throw new Error(`Failed to save user configuration: ${err}`);
       });
 
@@ -374,7 +373,7 @@ class MCServer extends EventEmitter {
         JSON.stringify(userConfigJSON)
       )
       .catch((err) => {
-        logger.error('Failed to save user configuration');
+        logger.error("Failed to save user configuration");
         throw new Error("Failed to save user configuration");
       });
 
@@ -521,7 +520,7 @@ class MCServer extends EventEmitter {
   };
 
   /**
-   * Fetches the download url for the official minecraft server 
+   * Fetches the download url for the official minecraft server
    * based on a specified version
    * @param version - The Minecraft Server Version (Eg: 1.16.3)
    * @returns {string} - The download URL for the Minecraft Server
@@ -537,7 +536,6 @@ class MCServer extends EventEmitter {
         throw new Error("Failed to fetch download url from source");
       });
   };
-
 
   /**
    * Downloads the Minecraft Server Jar
