@@ -7,7 +7,7 @@ const sysmonitor = require("./lib/sysmonitor").sysmonitor;
 const logger = require("./lib/logger").logger;
 const minecraftRouter = require("./routes/minecraft");
 const authRouter = require("./routes/auth");
-const db = require('./config/db');
+const dotenv = require('dotenv');
 const { manager } = require("./lib/manager");
 const options = {
   cors: {
@@ -17,6 +17,8 @@ const options = {
 const io = require("socket.io")(httpServer, options);
 
 const PORT = process.env.PORT || 3500;
+
+dotenv.config();
 
 //db('USERS').select('*').then(users => console.log(users));
 
@@ -28,6 +30,8 @@ app.use((req, res, next) => {
   logger.http("Request Received");
   next();
 });
+
+
 
 //--ROUTES--//
 app.use("/server", minecraftRouter);

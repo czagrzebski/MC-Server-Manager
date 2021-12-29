@@ -24,7 +24,7 @@
             "name": "Broadcast RCON to OPS",
             "type": "boolean",
             "default": "true",
-            "description": "Send rcon console command outputs to all online operators.",
+            "description": "Send RCON console command outputs to all online operators.",
             "category": "minecraftSettings"
         },
         "difficulty": {
