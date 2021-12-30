@@ -2,6 +2,8 @@ const db = require("../config/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+//TODO: Revoke Access/Refresh Token (need to implement a DB first)
+
 //temporary solution for storing refresh tokens which
 //only saves tokens for current runtime
 //will use database/redis in the future

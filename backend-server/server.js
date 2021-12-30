@@ -7,6 +7,7 @@ const sysmonitor = require("./lib/sysmonitor").sysmonitor;
 const logger = require("./lib/logger").logger;
 const minecraftRouter = require("./routes/minecraft");
 const authRouter = require("./routes/auth");
+const userRouter = require('./routes/users');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const { manager } = require("./lib/manager");
@@ -34,6 +35,7 @@ app.use((req, res, next) => {
 //--ROUTES--//
 app.use("/server", minecraftRouter);
 app.use("/auth", authRouter);
+app.use("/users", userRouter);
 
 //--Error Handlers--//
 app.use((req, res) => res.status(404).send("404 NOT FOUND"));
