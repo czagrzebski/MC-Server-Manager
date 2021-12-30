@@ -76,9 +76,9 @@ async function login(req, res) {
       res.status(500).send("An unknown error has occurred");
     }
     if (result) {
-      const accessToken = generateAccessToken(username);
+      const accessToken = generateAccessToken(user);
       const refreshToken = jwt.sign(
-        { username },
+        {username: user.username, id: user.id},
         process.env.ACCESS_TOKEN_SECRET, //TODO: Create a separate refresh token secret
         { expiresIn: "12h" }
       );
@@ -99,8 +99,8 @@ async function login(req, res) {
  * Generates Access Token given Access Token Secret
  * and username
  */
-function generateAccessToken(username) {
-  return jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, {
+function generateAccessToken(user) {
+  return jwt.sign({ username: user.username, id: user.id }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "30m",
   });
 }
@@ -127,7 +127,7 @@ async function getNewToken(req, res) {
       console.log(err);
       return res.sendStatus(403);
     }
-    const accessToken = generateAccessToken(user.username);
+    const accessToken = generateAccessToken(user);
     res.json({ accessToken: accessToken });
   });
 }
