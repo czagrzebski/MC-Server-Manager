@@ -77,17 +77,20 @@ async function login(req, res) {
     }
     if (result) {
       const accessToken = generateAccessToken(user);
-      const refreshToken = jwt.sign(
-        {username: user.username, id: user.id},
-        process.env.ACCESS_TOKEN_SECRET, //TODO: Create a separate refresh token secret
-        { expiresIn: "12h" }
-      );
+      const refreshToken = generateRefreshToken(user);
+
       refreshTokens[refreshToken] = user; //TODO: Store Token in DB
+
+      //For Security, store refresh token as a cookie
+      //Then keep access token in working memory for the frontend
+      //TODO: Add 'secure' flag
+      res.cookie("rft", refreshToken, { httpOnly: true });
+
       const response = {
         user: user.username,
         accessToken: accessToken,
-        refreshToken: refreshToken,
       };
+
       res.status(200).json(response);
     } else {
       res.status(401).send("Invalid Credentials");
@@ -100,9 +103,27 @@ async function login(req, res) {
  * and username
  */
 function generateAccessToken(user) {
-  return jwt.sign({ username: user.username, id: user.id }, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "30m",
-  });
+  return jwt.sign(
+    { username: user.username, id: user.id },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: "30m",
+    }
+  );
+}
+
+/**
+ * Generates Refresh Token given Access Token Secret
+ * and username
+ */
+function generateRefreshToken(user) {
+  return jwt.sign(
+    { username: user.username, id: user.id },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: "7d",
+    }
+  );
 }
 
 /**
@@ -117,7 +138,8 @@ async function logout(req, res) {
  * Issues a new Access Token given a valid refresh token
  */
 async function getNewToken(req, res) {
-  const refreshToken = req.body.token;
+  const refreshToken = req.cookies.rft;
+
   if (refreshToken == null) return res.sendStatus(401);
 
   if (refreshTokens[refreshToken] == null) return res.sendStatus(401);
@@ -133,12 +155,13 @@ async function getNewToken(req, res) {
 }
 
 /**
- * Middleware for Access Token Validation 
+ * Middleware for Access Token Validation
  */
 async function verifyToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1]; //check if auth header exists
-  //check if token exists
+
+  //check if token exists in request
   if (token == null) return res.status(401).send("Unauthorized Access");
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {

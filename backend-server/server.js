@@ -8,6 +8,7 @@ const logger = require("./lib/logger").logger;
 const minecraftRouter = require("./routes/minecraft");
 const authRouter = require("./routes/auth");
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 const { manager } = require("./lib/manager");
 const options = {
   cors: {
@@ -23,6 +24,7 @@ dotenv.config();
 //--Middleware--//
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 app.use((req, res, next) => {
   logger.http("Request Received");
