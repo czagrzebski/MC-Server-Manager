@@ -42,7 +42,11 @@ app.use((req, res) => res.status(404).send("404 NOT FOUND"));
 
 app.use(function (err, req, res, next) {
   logger.error(err.stack);
-  res.status(500).send("Internal Server Error");
+  res.status(err.status || 500);
+  res.json({
+      status: 'error',
+      message: err.message
+  });
   next();
 });
 

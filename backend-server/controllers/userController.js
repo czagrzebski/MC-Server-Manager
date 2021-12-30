@@ -3,7 +3,9 @@ const db = require("../config/db");
 async function getAllUsers(req, res) {
   const users = await db("USERS")
     .select("id", "username")
-    .catch((err) => res.status(500).send("An unknown error occurred"));
+    .catch((err) => {
+      next(new Error("Unknown Error Occurred"));
+    });
 
   let response = {
     users: [],
