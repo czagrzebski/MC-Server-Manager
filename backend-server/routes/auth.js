@@ -1,5 +1,5 @@
 const express = require('express');
-const {createUser, login, getNewToken, verifyToken} = require('../controllers/authController');
+const {createUser, login, getNewToken, verifyToken, logout} = require('../controllers/authController');
 const {userValidationRules, validate} = require('../controllers/validator');
 
 const router = express.Router();
@@ -12,6 +12,8 @@ router.post('/login', login)
 
 //POST - Fetch a new access token
 router.post('/token', getNewToken)
+
+router.post('/logout', logout);
 
 //TODO: Remove before pushing to prod.
 //POST - Test Endpoint to Validate Authenticated State

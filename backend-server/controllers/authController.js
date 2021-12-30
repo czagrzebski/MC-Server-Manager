@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 //temporary solution for storing refresh tokens which
 //only saves tokens for current runtime
 //will use database/redis in the future
-const refreshTokens = [];
+let refreshTokens = [];
 const saltRounds = 10;
 
 /**
@@ -130,7 +130,7 @@ function generateRefreshToken(user) {
  * Deletes Refresh Token from Memory (eventually a DB)
  */
 async function logout(req, res) {
-  refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
+  refreshTokens = refreshTokens.filter((token) => token !== req.cookies.rft);
   res.sendStatus(204);
 }
 
@@ -162,7 +162,7 @@ async function verifyToken(req, res, next) {
   const token = authHeader && authHeader.split(" ")[1]; //check if auth header exists
 
   //check if token exists in request
-  if (token == null) return res.status(401).send("Unauthorized Access");
+  if (token == null) return res.status(401).send("Invalid Token");
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) return res.status(403).send("Invalid token");
