@@ -86,7 +86,7 @@ async function login(req, res) {
       //For Security, store refresh token as a cookie
       //Then keep access token in working memory for the frontend
       //TODO: Add 'secure' flag
-      res.cookie("rft", refreshToken, { httpOnly: true, path: '/auth/refresh_token' });
+      res.cookie("rft", refreshToken, { httpOnly: true, path: '/auth' });
 
       const response = {
         user: user.username,
@@ -148,8 +148,7 @@ async function getNewToken(req, res) {
 
   jwt.verify(refreshToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
-      return res.sendStatus(403);
-      console.log(err);
+      res.status(403).send("Invalid Token");
     }
     const accessToken = generateAccessToken(user);
     res.json({ accessToken: accessToken });
@@ -167,7 +166,7 @@ async function verifyToken(req, res, next) {
   if (token == null) return res.status(401).send("Invalid Token");
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.status(403).send("Invalid token");
+    if (err) return res.status(403).send("Invalid Token");
     req.user = user;
     next();
   });
