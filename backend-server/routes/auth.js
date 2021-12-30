@@ -11,7 +11,7 @@ router.post('/create', userValidationRules(), validate, createUser);
 router.post('/login', login)
 
 //POST - Fetch a new access token
-router.post('/token', getNewToken)
+router.post('/refresh_token', getNewToken)
 
 router.post('/logout', logout);
 

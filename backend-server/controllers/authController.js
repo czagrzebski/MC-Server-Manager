@@ -42,7 +42,7 @@ async function createUser(req, res) {
       .then((resp) => {
         res.status(201).send("User successfully created");
       })
-      .catch((error) => res.status(400));
+      .catch((err) => res.status(400));
   });
 }
 
@@ -84,7 +84,7 @@ async function login(req, res) {
       //For Security, store refresh token as a cookie
       //Then keep access token in working memory for the frontend
       //TODO: Add 'secure' flag
-      res.cookie("rft", refreshToken, { httpOnly: true });
+      res.cookie("rft", refreshToken, { httpOnly: true, path: '/auth/refresh_token' });
 
       const response = {
         user: user.username,
@@ -146,8 +146,8 @@ async function getNewToken(req, res) {
 
   jwt.verify(refreshToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
-      console.log(err);
       return res.sendStatus(403);
+      console.log(err);
     }
     const accessToken = generateAccessToken(user);
     res.json({ accessToken: accessToken });
