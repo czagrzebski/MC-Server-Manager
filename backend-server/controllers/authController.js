@@ -15,34 +15,40 @@ const saltRounds = 10;
 async function createUser(req, res) {
   const { username, password } = req.body;
 
-  //Check if user already exists
-  db("USERS")
+  //Fetch User
+  const user = await db("USERS")
     .where("username", username)
     .first()
-    .then((users) => {
-      if (users) {
-        res.status(409).send("User already exists!");
-      } else {
-        //generate a salt for password
-        bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
-          //insert user into database
-          db.insert({
-            username: username,
-            password: hashedPassword,
-          })
-            .into("USERS")
-            .then((resp) => {
-              res.status(201).send("User successfully created");
-            })
-            .catch((error) => res.status(400));
-        });
-      }
+    .then((user) => {
+      return user;
+    })
+    .catch((err) => {
+      res.status(500).send("An unknown error has occurred");
     });
+
+  //Check if that user already exists in the DB
+  if (user) res.status(409).send("User already exists!");
+
+  //Hash/Salt Password and store new user in DB
+  bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+    if (err) res.status(500).send("An unknown error occurred");
+
+    //insert user into database
+    db.insert({
+      username: username,
+      password: hashedPassword,
+    })
+      .into("USERS")
+      .then((resp) => {
+        res.status(201).send("User successfully created");
+      })
+      .catch((error) => res.status(400));
+  });
 }
 
 /**
  * Generates Access Token and Refresh Token upon
- * successful authorization. 
+ * successful authorization.
  */
 async function login(req, res) {
   const { username, password } = req.body;
@@ -64,7 +70,7 @@ async function login(req, res) {
     return;
   }
 
-  //Compare password to one stored in DB. If correct, issue a JWT. 
+  //Compare password to one stored in DB. If correct, issue a JWT.
   bcrypt.compare(password, user.password, function (err, result) {
     if (err) {
       res.status(500).send("An unknown error has occurred");
@@ -72,9 +78,9 @@ async function login(req, res) {
     if (result) {
       const accessToken = generateAccessToken(username);
       const refreshToken = jwt.sign(
-        {username},
+        { username },
         process.env.ACCESS_TOKEN_SECRET, //TODO: Create a separate refresh token secret
-        { expiresIn: "240s" }
+        { expiresIn: "12h" }
       );
       refreshTokens[refreshToken] = user; //TODO: Store Token in DB
       const response = {
@@ -94,30 +100,35 @@ async function login(req, res) {
  * and username
  */
 function generateAccessToken(username) {
-  return jwt.sign({username}, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "30m"
+  return jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "30m",
   });
 }
 
+/**
+ * Deletes Refresh Token from Memory (eventually a DB)
+ */
 async function logout(req, res) {
-  refreshTokens = refreshTokens.filter(token => token !== req.body.token);
+  refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
   res.sendStatus(204);
 }
 
+/**
+ * Issues a new Access Token given a valid refresh token
+ */
 async function getNewToken(req, res) {
-
   const refreshToken = req.body.token;
   if (refreshToken == null) return res.sendStatus(401);
-  
-  if(refreshTokens[refreshToken] == null) return res.sendStatus(401);
+
+  if (refreshTokens[refreshToken] == null) return res.sendStatus(401);
 
   jwt.verify(refreshToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if(err) {
+    if (err) {
       console.log(err);
       return res.sendStatus(403);
     }
-    const accessToken = generateAccessToken(user.username)
-    res.json({accessToken: accessToken});
+    const accessToken = generateAccessToken(user.username);
+    res.json({ accessToken: accessToken });
   });
 }
 
@@ -125,28 +136,22 @@ async function getNewToken(req, res) {
  * Middleware for Access Token Validation 
  */
 async function verifyToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; //check if auth header exists
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1]; //check if auth header exists
   //check if token exists
-  if(token == null) return res.status(401).send("Unauthorized Access");
+  if (token == null) return res.status(401).send("Unauthorized Access");
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if(err) return res.status(403).send("Invalid token");
+    if (err) return res.status(403).send("Invalid token");
     req.user = user;
     next();
-  })
-
-  
+  });
 }
-
-async function removeUser(req, res) {}
-
-async function changePassword(req, res) {}
 
 module.exports = {
   createUser,
   login,
   logout,
   getNewToken,
-  verifyToken
+  verifyToken,
 };

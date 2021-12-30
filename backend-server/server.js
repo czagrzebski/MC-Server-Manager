@@ -20,8 +20,6 @@ const PORT = process.env.PORT || 3500;
 
 dotenv.config();
 
-//db('USERS').select('*').then(users => console.log(users));
-
 //--Middleware--//
 app.use(cors());
 app.use(express.json());
@@ -30,8 +28,6 @@ app.use((req, res, next) => {
   logger.http("Request Received");
   next();
 });
-
-
 
 //--ROUTES--//
 app.use("/server", minecraftRouter);
