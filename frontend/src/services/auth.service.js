@@ -27,7 +27,7 @@ class AuthService {
         }
 
         return response.data;
-      });
+      }).catch(err => console.log(err));
   }
 
   logout() {
