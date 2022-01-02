@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
-import { socket } from "../../utils/socket";
+import { socket } from "../../services/socket";
 
 import "./SysMonitor.css";
 import { useTheme } from "@mui/material";

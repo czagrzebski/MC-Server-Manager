@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import { Console, Settings, Home } from "./pages";
+import { Console, Settings, Home, Login } from "./pages";
 
-import api from "./utils/api";
-import { socket, SocketContext } from "./utils/socket";
+import api from "./services/api";
+import { socket, SocketContext } from "./services/socket";
 
 import "./App.css";
 import NavDrawer from "./components/NavDrawer/NavDrawer";
@@ -71,6 +71,9 @@ function App() {
               </Route>
               <Route path="/dashboard">
                 <Home />
+              </Route>
+              <Route path="/login">
+                <Login />
               </Route>
             </Switch>
           </div>

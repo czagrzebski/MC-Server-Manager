@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { consoleCleared, consoleLogAdded } from "../../app/slices/consoleSlice";
 
 import "./Console.css";
-import api from "../../utils/api";
+import api from "../../services/api";
 
 import { makeStyles } from "@mui/styles";
 

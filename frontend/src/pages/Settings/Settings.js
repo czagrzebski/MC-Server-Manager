@@ -6,7 +6,7 @@ import { Tabs, Tab, Box } from "@mui/material";
 
 import { SettingsPanel } from "./SettingsPanel/SettingsPanel";
 
-import api from "../../utils/api";
+import api from "../../services/api";
 import produce from "immer";
 
 const TabPanel = (props) => {

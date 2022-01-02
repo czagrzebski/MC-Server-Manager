@@ -1,7 +1,7 @@
 import React from "react";
 import { red, green } from "@mui/material/colors";
 import withStyles from '@mui/styles/withStyles';
-import api from "../../utils/api";
+import api from "../../services/api";
 import Notification from "../Notification/Notification";
 import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
 import { useSelector } from "react-redux";
@@ -41,7 +41,7 @@ function ServerControls() {
       })
       .catch((err) => {
         if (err.response) {
-          switch (err.response.data) {
+          switch (err.response.data.message) {
             case "EULA":
               setDialogStatus({
                 open: true,
@@ -52,7 +52,7 @@ function ServerControls() {
 
             default:
               setStatusBase({
-                msg: err.response.data,
+                msg: err.response.data.message,
                 date: new Date(),
                 severity: "error",
               });
