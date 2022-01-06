@@ -1,6 +1,7 @@
 import { Console } from './Console/Console';
-import { Home } from './Home/Home';
+import { Overview } from './Overview/Overview';
 import { Settings } from './Settings/Settings';
 import { Login } from "./Login/Login";
+import Dashboard from './Dashboard/Dashboard';
 
-export { Console, Home, Settings, Login };
+export { Console, Overview, Settings, Login, Dashboard };

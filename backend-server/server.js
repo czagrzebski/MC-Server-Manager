@@ -9,6 +9,7 @@ const minecraftRouter = require("./routes/minecraft");
 const authRouter = require("./routes/auth");
 const userRouter = require('./routes/users');
 const dotenv = require('dotenv');
+const {verifyToken} = require("./controllers/authController");
 const cookieParser = require('cookie-parser');
 const { manager } = require("./lib/manager");
 const options = {
@@ -33,7 +34,7 @@ app.use((req, res, next) => {
 });
 
 //--ROUTES--//
-app.use("/server", minecraftRouter);
+app.use("/server", verifyToken, minecraftRouter);
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 

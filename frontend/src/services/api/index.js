@@ -1,8 +1,11 @@
 import axios from "axios";
 import tokenService from "../token.service";
+import authService from "../auth.service";
 
+//Base URL, using Proxy to Backend
 const baseUrl = "/";
 
+//Create Axios Instance for Accessing Resources 
 const api = axios.create({
   baseURL: baseUrl,
   timeout: 10000,
@@ -35,21 +38,34 @@ api.interceptors.response.use(
     const originalConfig = err.config;
 
     //Do not retrieve new rs token if a invalid login caused 401 response
-    if (originalConfig.url !== "/auth/login" && err.response) {
+    if (
+      originalConfig.url !== "/auth/login" &&
+      originalConfig.url !== "/auth/refresh_token" &&
+      err.response 
+    ) {
       // Access Token was expired
       if (err.response.status === 401 && !originalConfig._retry) {
+        //Retry original failed request after re-authentication
         originalConfig._retry = true;
 
         try {
-          //Attempt to get a new Access Token
-          const rs = await api.post("/auth/refresh_token", {
-            withCredentials: true,
-          });
-
-          const { accessToken } = rs.data;
-          tokenService.setUserToken(accessToken);
-
-          return api(originalConfig);
+          //Attempt to get a new Access Token using Refresh Token
+          return await api
+            .post("/auth/refresh_token", {
+              withCredentials: true,
+            })
+            .then((response) => {
+              const { accessToken } = response.data;
+              tokenService.setUserToken(accessToken);
+              return api(originalConfig);
+            })
+            .catch((_error) => {
+              //If refresh token is invalid (401), then logout.
+              if (err.response.status === 401) {
+                authService.logout();
+                return Promise.reject(_error);
+              }
+            });
         } catch (error) {
           return Promise.reject(error);
         }

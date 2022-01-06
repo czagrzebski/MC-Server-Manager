@@ -148,7 +148,8 @@ async function getNewToken(req, res) {
 
   jwt.verify(refreshToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
-      res.status(403).send("Invalid Token");
+      res.status(401).send("Invalid Token");
+      return;
     }
     const accessToken = generateAccessToken(user);
     res.json({ accessToken: accessToken });
@@ -166,7 +167,7 @@ async function verifyToken(req, res, next) {
   if (token == null) return res.status(401).send("Invalid Token");
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.status(403).send("Invalid Token");
+    if (err) return res.status(401).send("Invalid Token");
     req.user = user;
     next();
   });

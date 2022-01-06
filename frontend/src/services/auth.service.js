@@ -4,12 +4,11 @@ import tokenService from "./token.service";
 const AUTH_ENDPOINT = "/auth/";
 
 class AuthService {
-  login(username, password) {
-    api
+  async login(username, password) {
+    return await api
       .post(AUTH_ENDPOINT + "login", { username, password })
       .then((response) => {
         if (response.data.accessToken) {
-          console.log(response.data.accessToken);
           tokenService.setUserToken(response.data.accessToken);
         }
 
@@ -17,24 +16,28 @@ class AuthService {
       });
   }
 
-  fetchRefreshToken() {
-    api
+  async fetchRefreshToken() {
+    return await api
       .post(AUTH_ENDPOINT + "refresh_token", { withCredentials: true })
       .then((response) => {
-        console.log(response);
         if (response.data.accessToken) {
           tokenService.setUserToken(response.data.accessToken);
         }
 
         return response.data;
-      }).catch(err => console.log(err));
+      })
   }
 
-  logout() {
-    tokenService.setUserToken("");
+  async logout() {
+    tokenService.removeUserToken();
+    api
+      .post(AUTH_ENDPOINT + "logout", { withCredentials: true })
+      .then((response) => {
+        return response.data;
+      })
   }
 
-  register(username, password) {
+  async register(username, password) {
     return api.post(AUTH_ENDPOINT + "create", {
       username,
       password,

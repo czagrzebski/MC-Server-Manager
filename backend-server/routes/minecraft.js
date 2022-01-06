@@ -1,7 +1,6 @@
 const express = require('express');
 const {startServer, stopServer, getState, killServer, sendCommand, getServerSettings, setServerSetting, acceptEULA, installJar} = require('../controllers/minecraftController');
 
-
 const router = express.Router()
 
 //GET - Request to start Minecraft server

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import makeStyles from "@mui/styles/makeStyles";
 import "./NavDrawer.css";
 import Drawer from "@mui/material/Drawer";
@@ -14,12 +14,15 @@ import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CodeIcon from "@mui/icons-material/Code";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { Link, withRouter } from "react-router-dom";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Link } from "react-router-dom";
+import withRouter from "../withRouter";
 import logo from "./logo.png";
+import authService from "../../services/auth.service";
 import IconButton from "@mui/material/IconButton";
 import Grid from "@mui/material/Grid";
-
 
 const drawerWidth = 230;
 
@@ -91,52 +94,83 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "red",
       color: "white",
       "& .MuiListItemIcon-root": {
-        color: "white"
-      }
-    }
-  }
+        color: "white",
+      },
+    },
+  },
 }));
 
 function NavDrawer(props) {
   const classes = useStyles();
-  
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
   const getTitle = () => {
-    switch (props.location.pathname.slice(1)) {
+    switch ("") {
       case "console":
         return "Console";
       case "settings":
         return "Settings";
-      case "dashboard":
-        return "Dashboard";
+      case "overview":
+        return "Overview";
       default:
         return "MCSM";
     }
   };
 
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
-        <AppBar
-          position="fixed"
-          className={classes.appBar}
-          elevation={0}
-          enableColorOnDark
-        >
-          <Toolbar>
-            <Grid item>
-              <Typography className={classes.pageTitle} variant="h6" noWrap>
-                {getTitle()}
-              </Typography>
-            </Grid>
+      <AppBar
+        position="fixed"
+        className={classes.appBar}
+        elevation={0}
+        enableColorOnDark
+      >
+        <Toolbar>
+          <Grid item>
+            <Typography className={classes.pageTitle} variant="h6" noWrap>
+              {getTitle()}
+            </Typography>
+          </Grid>
 
-            <Grid container justifyContent="flex-end">
-              <IconButton aria-label="notifications" size="large">
-                <NotificationsIcon />
-              </IconButton>
-            </Grid>
-          </Toolbar>
-          <Divider />
-        </AppBar>
+          <Grid container justifyContent="flex-end">
+            <IconButton
+              aria-label="account"
+              size="large"
+              aria-controls={open ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleMenuClick}
+            >
+              <AccountCircleIcon />
+            </IconButton>
+          </Grid>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem onClick={() => {
+              handleClose()
+              authService.logout();
+            }}>Logout</MenuItem>
+          </Menu>
+        </Toolbar>
+        <Divider />
+      </AppBar>
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -152,41 +186,26 @@ function NavDrawer(props) {
         <Divider />
 
         <List>
-          <Link to="/dashboard" className={classes.link}>
-            <ListItem
-              button
-              key="Dashboard"
-              selected={props.location.pathname === "/dashboard"}
-            >
+          <Link to="/dashboard/overview" className={classes.link}>
+            <ListItem button key="Dashboard">
               <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
-              <ListItemText primary="Dashboard" />
+              <ListItemText primary="Overview" />
             </ListItem>
           </Link>
 
-          <Link to="/console" className={classes.link}>
-            <ListItem
-              button
-              key="Console"
-              selected={props.location.pathname === "/console"}
-            >
+          <Link to="/dashboard/console" className={classes.link}>
+            <ListItem button key="Console">
               <ListItemIcon>{<CodeIcon />}</ListItemIcon>
               <ListItemText primary="Console" />
             </ListItem>
           </Link>
 
-          <Link to="/settings" className={classes.link}>
-            <ListItem
-              button
-              key="Settings"
-              selected={props.location.pathname === "/settings"}
-            >
+          <Link to="/dashboard/settings" className={classes.link}>
+            <ListItem button key="Settings">
               <ListItemIcon>{<SettingsIcon />}</ListItemIcon>
               <ListItemText primary="Settings" />
             </ListItem>
           </Link>
-          <ListItem className={classes.bottomPush}>
-            <div>MCSM Pre-alpha v1.0.0</div>
-          </ListItem>
         </List>
       </Drawer>
     </div>

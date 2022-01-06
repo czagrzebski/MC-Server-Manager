@@ -7,7 +7,7 @@ import api from "../../services/api";
 import ServerControls from "../../components/ServerControls/ServerControls";
 import { SysMonitor } from "../../components/SysMonitor/SysMonitor";
 
-export function Home() {
+export function Overview() {
   const serverState = useSelector((state) => state.minecraftServer.status);
   const dispatch = useDispatch();
 
