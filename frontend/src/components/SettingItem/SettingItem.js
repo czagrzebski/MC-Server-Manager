@@ -1,14 +1,11 @@
 import React from "react";
 import api from "../../services/api";
 import Notification from "../Notification/Notification";
-import { styled } from "@mui/material/styles";
-import Grid from "@mui/material/Grid";
-import Switch from "@mui/material/Switch";
-import Button from "@mui/material/Button";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import NativeSelect from "@mui/material/NativeSelect";
-import "./SettingItem.css";
+
+import {Grid, Switch, Button, OutlinedInput, NativeSelect, styled} from "@mui/material";
 import { makeStyles } from "@mui/styles";
+
+import "./SettingItem.css";
 
 const useStyles = makeStyles((theme) => ({
   actionButton: {

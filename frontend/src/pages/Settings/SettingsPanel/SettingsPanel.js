@@ -1,8 +1,7 @@
 import React from "react";
 import "./SettingsPanel.css";
 import { SettingItem } from "../../../components/SettingItem/SettingItem";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import { CircularProgress, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({

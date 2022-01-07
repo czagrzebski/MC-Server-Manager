@@ -1,28 +1,16 @@
 import React, { useState } from "react";
-import makeStyles from "@mui/styles/makeStyles";
-import "./NavDrawer.css";
-import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import CodeIcon from "@mui/icons-material/Code";
-import SettingsIcon from "@mui/icons-material/Settings";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
 import withRouter from "../withRouter";
+
+import {Grid, MenuItem, Menu, ListItemText, ListItemIcon, ListItem, Divider, Typography, List, Toolbar, AppBar, CssBaseline, Drawer, IconButton} from "@mui/material";
+import {Dashboard, Code, Settings, AccountCircle} from "@mui/icons-material";
+import makeStyles from "@mui/styles/makeStyles";
+import "./NavDrawer.css";
+
 import logo from "./logo.png";
+
 import authService from "../../services/auth.service";
-import IconButton from "@mui/material/IconButton";
-import Grid from "@mui/material/Grid";
+
 
 const drawerWidth = 230;
 
@@ -151,7 +139,7 @@ function NavDrawer(props) {
               aria-expanded={open ? "true" : undefined}
               onClick={handleMenuClick}
             >
-              <AccountCircleIcon />
+              <AccountCircle />
             </IconButton>
           </Grid>
           <Menu
@@ -188,21 +176,21 @@ function NavDrawer(props) {
         <List>
           <Link to="/dashboard/overview" className={classes.link}>
             <ListItem button key="Dashboard">
-              <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
+              <ListItemIcon>{<Dashboard />}</ListItemIcon>
               <ListItemText primary="Overview" />
             </ListItem>
           </Link>
 
           <Link to="/dashboard/console" className={classes.link}>
             <ListItem button key="Console">
-              <ListItemIcon>{<CodeIcon />}</ListItemIcon>
+              <ListItemIcon>{<Code />}</ListItemIcon>
               <ListItemText primary="Console" />
             </ListItem>
           </Link>
 
           <Link to="/dashboard/settings" className={classes.link}>
             <ListItem button key="Settings">
-              <ListItemIcon>{<SettingsIcon />}</ListItemIcon>
+              <ListItemIcon>{<Settings />}</ListItemIcon>
               <ListItemText primary="Settings" />
             </ListItem>
           </Link>

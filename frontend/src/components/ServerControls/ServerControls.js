@@ -6,7 +6,7 @@ import Notification from "../Notification/Notification";
 import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
 import { useSelector } from "react-redux";
 
-import Button from "@mui/material/Button";
+import { Button } from "@mui/material";
 
 const ColorButton = withStyles((theme) => ({
   root: {
