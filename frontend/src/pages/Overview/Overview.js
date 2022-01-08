@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { setServerStatus } from "../../app/slices/minecraftServerSlice";
-import api from "../../services/api";
+import { setServerStatus } from "app/slices/minecraftServerSlice";
+import api from "services/api";
 
-import ServerControls from "../../components/ServerControls/ServerControls";
-import { SysMonitor } from "../../components/SysMonitor/SysMonitor";
+import ServerControls from "components/ServerControls/ServerControls";
+import { SysMonitor } from "components/SysMonitor/SysMonitor";
 
 export function Overview() {
   const serverState = useSelector((state) => state.minecraftServer.status);

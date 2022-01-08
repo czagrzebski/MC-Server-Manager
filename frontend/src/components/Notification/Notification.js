@@ -22,9 +22,9 @@ function Notification({ msg, severity }) {
 
   return (
     <div>
-      <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} open={open} autoHideDuration={4000} onClose={handleClose}>
+      <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} open={open} autoHideDuration={4000} key={Math.random()} onClose={handleClose}>
         <div>
-          <Alert onClose={handleClose} severity={severity}>
+          <Alert onClose={handleClose} severity={severity ? severity : "success"}>
             {msg}
           </Alert>
         </div>

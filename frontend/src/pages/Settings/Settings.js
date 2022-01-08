@@ -5,9 +5,9 @@ import makeStyles from "@mui/styles/makeStyles";
 import { Tabs, Tab, Box } from "@mui/material";
 
 import { SettingsPanel } from "./SettingsPanel/SettingsPanel";
-import { UserTable } from "../../components/UserTable/UserTable";
+import { UserTable } from "components/UserTable/UserTable";
 
-import api from "../../services/api";
+import api from "services/api";
 import produce from "immer";
 
 const TabPanel = (props) => {

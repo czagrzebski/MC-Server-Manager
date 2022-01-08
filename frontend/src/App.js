@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 import { socket, SocketContext } from "./services/socket";
-import { Dashboard } from "./pages";
+import { Dashboard, Login } from "pages";
 import { useDispatch } from "react-redux";
-import { Login } from "./pages";
-import { ProtectedRoutes } from "./components/ProtectedRoutes/ProtectedRoutes";
-import authService from "./services/auth.service";
+
+import { ProtectedRoutes } from "components/ProtectedRoutes/ProtectedRoutes";
+import authService from "services/auth.service";
 
 import { setLoading } from "./app/slices/userSlice";
 

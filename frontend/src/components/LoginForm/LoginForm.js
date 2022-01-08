@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import authService from "../../services/auth.service";
+import authService from "services/auth.service";
 import {useNavigate} from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 

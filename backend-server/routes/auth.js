@@ -1,5 +1,5 @@
 const express = require('express');
-const {createUser, login, getNewToken, verifyToken, logout} = require('../controllers/authController');
+const {createUser, login, getNewToken, verifyToken, logout, deleteUser} = require('../controllers/authController');
 const {userValidationRules, validate} = require('../controllers/validator');
 
 const router = express.Router();
@@ -20,6 +20,8 @@ router.post('/logout', logout);
 router.post('/check', verifyToken, (req, res) => {
     res.send("Successfully Authenticated!");
 })
+
+router.delete('/delete', verifyToken, deleteUser);
 
 
 module.exports = router;

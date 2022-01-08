@@ -1,6 +1,6 @@
 import React from "react";
-import api from "../../services/api";
-import Notification from "../Notification/Notification";
+import api from "services/api";
+import Notification from "components/Notification/Notification";
 
 import {Grid, Switch, Button, OutlinedInput, NativeSelect, styled} from "@mui/material";
 import { makeStyles } from "@mui/styles";

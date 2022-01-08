@@ -1,6 +1,7 @@
 const db = require("../config/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const decode = require("jwt-decode");
 
 //TODO: Revoke Access/Refresh Token (need to implement a DB first)
 
@@ -86,13 +87,13 @@ async function login(req, res) {
       //For Security, store refresh token as a cookie
       //Then keep access token in working memory for the frontend
       //TODO: Add 'secure' flag
-      res.cookie("rft", refreshToken, { httpOnly: true, path: '/auth' });
+      res.cookie("rft", refreshToken, { httpOnly: true, path: "/auth" });
 
       const response = {
         user: user.username,
         accessToken: accessToken,
       };
-     
+
       res.status(200).json(response);
     } else {
       res.status(401).send("Invalid Credentials");
@@ -156,6 +157,33 @@ async function getNewToken(req, res) {
   });
 }
 
+async function deleteUser(req, res) {
+  const { username } = req.body;
+  const authHeader = req.headers["authorization"];
+
+  const accessToken = authHeader && authHeader.split(" ")[1]; //check if auth header exists
+
+  //Get the current user that made the request
+  const decodedToken = decode(accessToken);
+
+  //A user cannot delete itself
+  if (decodedToken.username == username) {
+    res.status(403).send("Cannot delete the account you are logged into");
+    return;
+  }
+
+  db("USERS")
+    .where("username", username)
+    .del()
+    .then((response) => {
+      res.status(200).send("Successfully Deleted User");
+      return;
+    })
+    .catch((err) => {
+      throw new Error("Failed to delete user");
+    });
+}
+
 /**
  * Middleware for Access Token Validation
  */
@@ -179,4 +207,5 @@ module.exports = {
   logout,
   getNewToken,
   verifyToken,
+  deleteUser,
 };

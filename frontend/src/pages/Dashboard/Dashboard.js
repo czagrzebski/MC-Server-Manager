@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Console, Settings, Overview, Login } from "../";
-
-import api from "../../services/api";
-import { socket } from "../../services/socket";
-
-import NavDrawer from "../../components/NavDrawer/NavDrawer";
-import makeStyles from "@mui/styles/makeStyles";
 
 import { useDispatch } from "react-redux";
-import { consoleLogAdded } from "../../app/slices/consoleSlice";
-import { setServerStatus } from "../../app/slices/minecraftServerSlice";
+import { consoleLogAdded } from "app/slices/consoleSlice";
+import { setServerStatus } from "app/slices/minecraftServerSlice";
 
+import { Console, Settings, Overview, Login } from "pages";
+
+import api from "services/api";
+import { socket } from "services/socket";
+
+import NavDrawer from "components/NavDrawer/NavDrawer";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,8 +47,7 @@ function Dashboard() {
     return () => {
       socket.off("console");
       socket.off("state");
-    }
-
+    };
   }, []);
 
   return (
@@ -61,10 +60,7 @@ function Dashboard() {
           <Route path="/console" element={<Console />} />
           <Route path="/overview" element={<Overview />} />
           <Route path="/login" element={<Login />} />
-          <Route
-                path="/"
-                element={<Navigate to="/dashboard/overview" />}
-            />
+          <Route path="/" element={<Navigate to="/dashboard/overview" />} />
         </Routes>
       </div>
     </div>

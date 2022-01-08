@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Loading from "../../components/Loading/Loading";
+import Loading from "components/Loading/Loading";
 import { Outlet, Navigate } from "react-router-dom";
 
 export function ProtectedRoutes() {

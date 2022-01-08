@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { CircularProgress, Box, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-import { socket } from "../../services/socket";
+import { socket } from "services/socket";
 
 import "./SysMonitor.css";
 
