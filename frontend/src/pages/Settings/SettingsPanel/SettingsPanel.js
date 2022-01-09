@@ -1,6 +1,6 @@
 import React from "react";
 import "./SettingsPanel.css";
-import { SettingItem } from "../../../components/SettingItem/SettingItem";
+import SettingItem  from "components/SettingItem";
 import { CircularProgress, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 

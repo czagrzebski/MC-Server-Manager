@@ -2,8 +2,8 @@ import React from "react";
 import { red, green } from "@mui/material/colors";
 import withStyles from '@mui/styles/withStyles';
 import api from "services/api";
-import Notification from "../Notification/Notification";
-import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
+import Notification from "../Notification";
+import ConfirmDialog from "../ConfirmDialog";
 import { useSelector } from "react-redux";
 
 import Button from "@mui/material/Button";

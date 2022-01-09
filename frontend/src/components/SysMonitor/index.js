@@ -55,7 +55,7 @@ const SysItem = (props) => {
   );
 };
 
-export const SysMonitor = () => {
+function SysMonitor() {
   const classes = useStyles();
 
   const [cpuUsage, setCpuUsage] = useState({
@@ -106,3 +106,5 @@ export const SysMonitor = () => {
     </div>
   );
 };
+
+export default SysMonitor;

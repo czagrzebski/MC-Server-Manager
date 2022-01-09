@@ -1,6 +1,6 @@
 import React from "react";
 import api from "services/api";
-import Notification from "components/Notification/Notification";
+import Notification from "components/Notification";
 
 import {Grid, Switch, Button, OutlinedInput, NativeSelect, styled} from "@mui/material";
 import { makeStyles } from "@mui/styles";
@@ -57,7 +57,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export function SettingItem(props) {
+function SettingItem(props) {
   const classes = useStyles();
   const { settingId } = props;
   const { name, description, type, category, value, options, action } =
@@ -198,3 +198,4 @@ export function SettingItem(props) {
   );
 }
 
+export default SettingItem;

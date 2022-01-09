@@ -10,7 +10,7 @@ import { Console, Settings, Overview, Login } from "pages";
 import api from "services/api";
 import { socket } from "services/socket";
 
-import NavDrawer from "components/NavDrawer/NavDrawer";
+import NavDrawer from "components/NavDrawer";
 import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({

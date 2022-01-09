@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import withRouter from "../withRouter";
 
@@ -92,6 +93,7 @@ function NavDrawer(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const username = useSelector(state => state.user.username);
 
   const getTitle = () => {
     switch ("") {
@@ -156,6 +158,7 @@ function NavDrawer(props) {
               authService.logout();
             }}>Logout</MenuItem>
           </Menu>
+          <p>{username}</p>
         </Toolbar>
         <Divider />
       </AppBar>

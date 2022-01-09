@@ -18,6 +18,8 @@ const saltRounds = 10;
 async function createUser(req, res) {
   const { username, password } = req.body;
 
+  if(username.length === 0) return res.status(400).send("Username cannot be empty");
+
   //Fetch User
   const user = await db("USERS")
     .where("username", username)

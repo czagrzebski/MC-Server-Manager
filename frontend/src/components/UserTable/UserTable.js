@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import { AddCircle, Edit, Delete } from "@mui/icons-material";
 import api from "../../services/api";
-import Notification from "../Notification/Notification";
+import Notification from "../Notification";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -51,11 +51,16 @@ const useStyles = makeStyles((theme) => ({
 function CreateUserModal({ open, handleClose, updateUsers, pushNotification }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
   const createUser = (event) => {
     //Do not behave like a normal form event
     event.preventDefault();
+
+    //Checks if passwords match
+    if(!handleConfirmPassword())
+      return;
 
     //Add user to MCSM
     api
@@ -70,13 +75,23 @@ function CreateUserModal({ open, handleClose, updateUsers, pushNotification }) {
       })
       .catch((err) => {
         if (err.response.data.errors) setError(err.response.data.errors[0].msg);
-        else setError(error.response.data);
+        else setError(err.response.data);
       });
   };
+
+  const handleConfirmPassword = () => {
+    if(password !== confirmPassword) {
+      setError("Passwords do not match");
+      return false;
+    }
+
+    return true;
+  }
 
   const closeModal = () => {
     setUsername("");
     setPassword("");
+    setConfirmPassword("");
     setError("");
     handleClose();
   };
@@ -96,7 +111,7 @@ function CreateUserModal({ open, handleClose, updateUsers, pushNotification }) {
             value={username}
             fullWidth
             error={error}
-            variant="standard"
+            variant="outlined"
             required
             onChange={(event) => {
               setUsername(event.target.value);
@@ -111,10 +126,25 @@ function CreateUserModal({ open, handleClose, updateUsers, pushNotification }) {
             value={password}
             fullWidth
             error={error}
-            variant="standard"
+            variant="outlined"
             required
             onChange={(event) => {
               setPassword(event.target.value);
+            }}
+          />
+          <TextField
+            color="info"
+            margin="dense"
+            id="confirmpassword"
+            label="Confirm Password"
+            type="password"
+            value={confirmPassword}
+            fullWidth
+            error={error}
+            variant="outlined"
+            required
+            onChange={(event) => {
+              setConfirmPassword(event.target.value);
             }}
           />
         </DialogContent>

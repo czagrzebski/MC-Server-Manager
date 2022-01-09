@@ -5,7 +5,7 @@ import { socket, SocketContext } from "services/socket";
 import { Dashboard, Login } from "pages";
 import { useDispatch } from "react-redux";
 
-import { ProtectedRoutes } from "components/ProtectedRoutes/ProtectedRoutes";
+import ProtectedRoutes from "components/ProtectedRoutes";
 import authService from "services/auth.service";
 
 import { setLoading } from "app/slices/userSlice";
