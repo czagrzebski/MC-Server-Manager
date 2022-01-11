@@ -9,6 +9,7 @@ import { Console, Settings, Overview, Login } from "pages";
 
 import api from "services/api";
 import { socket } from "services/socket";
+import { NotificationProvider } from "components/NotificationProvider";
 
 import NavDrawer from "components/NavDrawer";
 import makeStyles from "@mui/styles/makeStyles";
@@ -48,22 +49,26 @@ function Dashboard() {
       socket.off("console");
       socket.off("state");
     };
+
+    // eslint-disable-next-line
   }, []);
 
   return (
-    <div className={classes.root}>
-      <NavDrawer />
-      <div className={classes.content}>
-        <div className={classes.toolbar} />
-        <Routes>
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/console" element={<Console />} />
-          <Route path="/overview" element={<Overview />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Navigate to="/dashboard/overview" />} />
-        </Routes>
+    <NotificationProvider>
+      <div className={classes.root}>
+        <NavDrawer />
+        <div className={classes.content}>
+          <div className={classes.toolbar} />
+          <Routes>
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/console" element={<Console />} />
+            <Route path="/overview" element={<Overview />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Navigate to="/dashboard/overview" />} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </NotificationProvider>
   );
 }
 

@@ -69,6 +69,7 @@ function LoginForm() {
               setUsername(e.target.value);
           }}
           autoComplete="username"
+          variant="outlined"
           autoFocus
         />
         <TextField
@@ -85,6 +86,7 @@ function LoginForm() {
           value={password}
           type="password"
           id="password"
+          variant="outlined"
           autoComplete="current-password"
         />
         <FormControlLabel

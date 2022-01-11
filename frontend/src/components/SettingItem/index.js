@@ -1,8 +1,15 @@
 import React from "react";
 import api from "services/api";
-import Notification from "components/Notification";
+import { useNotification } from "components/NotificationProvider";
 
-import {Grid, Switch, Button, OutlinedInput, NativeSelect, styled} from "@mui/material";
+import {
+  Grid,
+  Switch,
+  Button,
+  OutlinedInput,
+  NativeSelect,
+  styled,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 import "./SettingItem.css";
@@ -62,8 +69,8 @@ function SettingItem(props) {
   const { settingId } = props;
   const { name, description, type, category, value, options, action } =
     props.setting;
-  const [status, setStatusBase] = React.useState("");
   const [checked, setChecked] = React.useState(value === "true");
+  const { createNotification } = useNotification();
 
   //Save setting when changed
   const saveSetting = (value) => {
@@ -73,11 +80,7 @@ function SettingItem(props) {
         JSON.stringify({ category: category, setting: settingId, value: value })
       )
       .then((response) => {
-        setStatusBase({
-          msg: response.data,
-          date: new Date(),
-          severity: "success",
-        });
+        createNotification(response.data);
       });
   };
 
@@ -95,19 +98,11 @@ function SettingItem(props) {
     api
       .get(targetURL, params)
       .then((response) => {
-        setStatusBase({
-          msg: response.data,
-          date: new Date(),
-          severity: "success",
-        });
+        createNotification(response.data);
       })
       .catch((err) => {
         if (err.response) {
-          setStatusBase({
-            msg: err.response.data,
-            date: new Date(),
-            severity: "error",
-          });
+          createNotification(err.response.data);
         }
       });
   };
@@ -187,13 +182,6 @@ function SettingItem(props) {
           </Button>
         ) : null}
       </div>
-      {status ? (
-        <Notification
-          key={status.date}
-          msg={status.msg}
-          severity={status.severity}
-        />
-      ) : null}
     </div>
   );
 }

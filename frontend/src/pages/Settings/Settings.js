@@ -5,7 +5,7 @@ import makeStyles from "@mui/styles/makeStyles";
 import { Tabs, Tab, Box } from "@mui/material";
 
 import { SettingsPanel } from "./SettingsPanel/SettingsPanel";
-import { UserTable } from "components/UserTable/UserTable";
+import UserManagement from "components/UserManagement.js";
 
 import api from "services/api";
 import produce from "immer";
@@ -103,7 +103,7 @@ export function Settings() {
         />
       </TabPanel>
       <TabPanel value={tabIndex} index={1}>
-        <UserTable />
+        <UserManagement />
       </TabPanel>
       <TabPanel value={tabIndex} index={2}>
         <SettingsPanel
