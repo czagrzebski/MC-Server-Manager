@@ -58,7 +58,10 @@ async function createUser(req, res) {
  * successful authorization.
  */
 async function login(req, res) {
-  const { username, password } = req.body;
+  let { username, password } = req.body;
+
+  //Remove unnecessary spacing
+  username = username.trim();
 
   //Fetch User
   const user = await db("USERS")
@@ -114,7 +117,7 @@ function generateAccessToken(user) {
     { username: user.username, id: user.id },
     process.env.ACCESS_TOKEN_SECRET,
     {
-      expiresIn: "30m",
+      expiresIn: process.env.ACCESS_TOKEN_LIFE || "30m",
     }
   );
 }
@@ -128,7 +131,7 @@ function generateRefreshToken(user) {
     { username: user.username, id: user.id },
     process.env.ACCESS_TOKEN_SECRET,
     {
-      expiresIn: "7d",
+      expiresIn: process.env.REFRESH_TOKEN_LIFE || "7d",
     }
   );
 }

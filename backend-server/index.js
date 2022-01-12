@@ -5,6 +5,7 @@ const cors = require("cors");
 const httpServer = require("http").createServer(app);
 const sysmonitor = require("./lib/sysmonitor").sysmonitor;
 const logger = require("./lib/logger").logger;
+const tokenManager = require("./lib/tokens").tokenManager;
 const minecraftRouter = require("./routes/minecraft");
 const authRouter = require("./routes/auth");
 const userRouter = require('./routes/users');
@@ -22,6 +23,9 @@ const io = require("socket.io")(httpServer, options);
 const PORT = process.env.PORT || 3500;
 
 dotenv.config();
+
+//Setup Tokens for JWT Authentication
+tokenManager.setup();
 
 //--Middleware--//
 app.use(cors());
