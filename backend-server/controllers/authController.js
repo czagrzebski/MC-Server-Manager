@@ -18,7 +18,9 @@ const saltRounds = 10;
 async function createUser(req, res) {
   const { username, password } = req.body;
 
-  if(username.length === 0) return res.status(400).send("Username cannot be empty");
+  //TODO: add this to validation middleware instead
+  if (username.length === 0)
+    return res.status(400).send("Username cannot be empty");
 
   //Fetch User
   const user = await db("USERS")
@@ -182,7 +184,81 @@ async function deleteUser(req, res) {
       return;
     })
     .catch((err) => {
-      throw new Error("Failed to delete user");
+      next(new Error("Failed to delete user"));
+    });
+}
+
+/**
+ * Change a user's username and password
+ */
+async function editUser(req, res, next) {
+  const { newUsername, newPassword, id } = req.body;
+
+  //Hash/Salt Password and store new user in DB
+  bcrypt.hash(newPassword, saltRounds, (err, hashedPassword) => {
+    if (err) res.status(500).send("An unknown error occurred");
+
+    db("USERS")
+      .where("id", id)
+      .update({ username: newUsername, password: hashedPassword })
+      .then((response) => {
+        res.status(200).send("User Updated");
+        return;
+      })
+      .catch((err) => {
+        next(new Error("Failed to update user"));
+      });
+  });
+}
+
+async function changePassword(req, res, next) {
+  const { password, id } = req.body;
+
+  //Hash/Salt Password and store new user in DB
+  bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+    if (err) res.status(500).send("An unknown error occurred");
+
+    db("USERS")
+      .where("id", id)
+      .update({ password: hashedPassword })
+      .then((response) => {
+        res.status(200).send("User Password Updated");
+        return;
+      })
+      .catch((err) => {
+        next(new Error("Failed to update user password"));
+      });
+  });
+}
+
+async function changeUsername(req, res, next) {
+  const { newUsername, id } = req.body;
+
+  //Fetch User
+  const user = await db("USERS")
+    .where("username", newUsername)
+    .first()
+    .then((user) => {
+      return user;
+    })
+    .catch((err) => {
+      res.status(500).send("An unknown error has occurred");
+    });
+
+  //Username is already taken
+  if (user) {
+    next(new Error("Username already taken!"));
+  }
+
+  db("USERS")
+    .where("id", id)
+    .update({ username: newUsername })
+    .then((response) => {
+      res.status(200).send("User Updated");
+      return;
+    })
+    .catch((err) => {
+      next(new Error("Failed to update user"));
     });
 }
 
@@ -210,4 +286,7 @@ module.exports = {
   getNewToken,
   verifyToken,
   deleteUser,
+  editUser,
+  changePassword,
+  changeUsername,
 };

@@ -5,6 +5,7 @@ import { IconButton, Tooltip } from "@mui/material";
 import { AddCircle } from "@mui/icons-material";
 import api from "services/api";
 import CreateUserModal from "./CreateUserModal";
+
 import UserTable from "./UserTable";
 
 import { useNotification } from "components/NotificationProvider";
@@ -38,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
 export default function UserManagement() {
   const [usersList, setUsersList] = useState(null);
   const [showCreateUserModal, setShowCreateUserModal] = useState(false);
-  //const [showEditUserModal, setShowEditUserModal] = useState(false);
   const { createNotification } = useNotification();
 
   const classes = useStyles();
@@ -50,7 +50,6 @@ export default function UserManagement() {
   const handleCreateUserModalOpen = () => {
     setShowCreateUserModal(true);
   };
-
 
   useEffect(() => {
     getUsers();
@@ -98,10 +97,10 @@ export default function UserManagement() {
         handleClose={handleCreateUserModalClose}
         updateUsers={getUsers}
       />
-      {/* Table */}
-      <UserTable usersList={usersList} deleteUser={deleteUser} />
-      {/*  Notification Component */}
       
+      {/* Table */}
+      <UserTable usersList={usersList} deleteUser={deleteUser} updateUsers={getUsers}/>
+      {/*  Notification Component */}
     </div>
   );
 }
