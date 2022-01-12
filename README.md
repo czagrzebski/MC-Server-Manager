@@ -1,6 +1,6 @@
 # MCSM - Minecraft Server Manager
 
-A web-based minecraft server management utility built with Node, Express, and React. Includes tools for controlling the server instance, modifying configuration files, and viewing live system metrics. 
+A web-based Minecraft server management utility built with Node, Express, and React. Includes tools for controlling the server instance, modifying configuration files, and viewing live system metrics. 
 
 
 ## Getting Started
@@ -51,7 +51,7 @@ This application has been tested with:
   -  EndeavourOS
 
 ### SECURITY 
-This application is provided "as-is" and you are responsible for ensuring the application runs in a secure environment. This application has basic token-based authentication to limit unauthorized usage. However, this is not a guarantee for ensuring mitigating malicious attacks. 
+This application is provided "as-is" and you are responsible for ensuring the application runs in a secure environment. This application has basic token-based authentication to limit unauthorized usage. However, this is not a guarantee for mitigating malicious attacks. 
 
 ### Why I created this project?
 The primary motivation behind creating this project was to learn about React, Express, REST APIs, SQL/Relational Databases, and modern token-based authentication. This project was a great learning experience for learning about these technologies and how to approach various aspects of application development. 
