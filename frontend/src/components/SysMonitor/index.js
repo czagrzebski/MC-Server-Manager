@@ -18,13 +18,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SysItem = (props) => {
+function SysItem({ name, displayValue, value }) {
   const theme = useTheme();
 
   return (
     <div>
-      <p>{props.name}</p>
-      <p>{props.displayValue}</p>
+      <p>{name}</p>
+      <p>{displayValue}</p>
       <Box
         position="relative"
         display="inline-flex"
@@ -42,18 +42,18 @@ const SysItem = (props) => {
         />
         <CircularProgress
           variant="determinate"
-          value={props.value}
+          value={value}
           size={100}
           style={{
             position: "absolute",
-            color: props.value < 90 ? theme.palette.info.main : "#d32f2f",
+            color: value < 90 ? theme.palette.info.main : "#d32f2f",
           }}
           thickness={4}
         />
       </Box>
     </div>
   );
-};
+}
 
 function SysMonitor() {
   const classes = useStyles();
@@ -105,6 +105,6 @@ function SysMonitor() {
       </div>
     </div>
   );
-};
+}
 
 export default SysMonitor;

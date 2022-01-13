@@ -8,20 +8,18 @@ const logger = require("./lib/logger").logger;
 const tokenManager = require("./lib/tokens").tokenManager;
 const minecraftRouter = require("./routes/minecraft");
 const authRouter = require("./routes/auth");
-const userRouter = require('./routes/users');
-const dotenv = require('dotenv');
-const {verifyToken} = require("./controllers/authController");
-const cookieParser = require('cookie-parser');
+const userRouter = require("./routes/users");
+const dotenv = require("dotenv");
+const { verifyToken } = require("./controllers/authController");
+const cookieParser = require("cookie-parser");
 const { manager } = require("./lib/manager");
-const options = {
-  cors: {
-    origin: "*",
-  },
-};
+const options = { cors: { origin: "*" } };
 const io = require("socket.io")(httpServer, options);
 
+//Set port for web server
 const PORT = process.env.PORT || 3500;
 
+//Loads environmental variables from .env file
 dotenv.config();
 
 //Setup Tokens for JWT Authentication
