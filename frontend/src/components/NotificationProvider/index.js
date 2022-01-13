@@ -17,8 +17,8 @@ export function NotificationProvider(props) {
 
   /**
    * Creates and displays a Snackbar Notification
-   * @param {*} msg 
-   * @param {*} severity 
+   * @param {*} msg
+   * @param {*} severity
    */
   const createNotification = (msg, severity) => {
     setMessage(msg);
@@ -28,10 +28,7 @@ export function NotificationProvider(props) {
 
   const handleClose = (event, reason) => {
     //Disable Clickaway event
-    if (reason === "clickaway") {
-      return;
-    }
-
+    if (reason === "clickaway") return;
     setIsOpen(false);
   };
 

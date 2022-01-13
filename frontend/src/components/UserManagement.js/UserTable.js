@@ -13,7 +13,6 @@ import {
 
 import { Edit, Delete } from "@mui/icons-material";
 import EditUserModal from "./EditUserModal";
-import { useNotification } from "components/NotificationProvider";
 
 import { makeStyles } from "@mui/styles";
 
@@ -33,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UserTable({ usersList, deleteUser, updateUsers }) {
   const classes = useStyles();
-  const { createNotification } = useNotification();
   const [showEditUserModal, setShowEditUserModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
