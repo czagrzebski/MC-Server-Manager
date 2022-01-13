@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@mui/codemod": "^5.2.2"
+  }
+}

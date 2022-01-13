@@ -5,7 +5,13 @@ const cors = require("cors");
 const httpServer = require("http").createServer(app);
 const sysmonitor = require("./lib/sysmonitor").sysmonitor;
 const logger = require("./lib/logger").logger;
-const { getRoutes } = require("./routes");
+const tokenManager = require("./lib/tokens").tokenManager;
+const minecraftRouter = require("./routes/minecraft");
+const authRouter = require("./routes/auth");
+const userRouter = require('./routes/users');
+const dotenv = require('dotenv');
+const {verifyToken} = require("./controllers/authController");
+const cookieParser = require('cookie-parser');
 const { manager } = require("./lib/manager");
 const options = {
   cors: {
@@ -16,9 +22,15 @@ const io = require("socket.io")(httpServer, options);
 
 const PORT = process.env.PORT || 3500;
 
+dotenv.config();
+
+//Setup Tokens for JWT Authentication
+tokenManager.setup();
+
 //--Middleware--//
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 app.use((req, res, next) => {
   logger.http("Request Received");
@@ -26,14 +38,17 @@ app.use((req, res, next) => {
 });
 
 //--ROUTES--//
-app.use("/server", getRoutes());
+app.use("/server", verifyToken, minecraftRouter);
+app.use("/auth", authRouter);
+app.use("/users", userRouter);
 
 //--Error Handlers--//
 app.use((req, res) => res.status(404).send("404 NOT FOUND"));
 
 app.use(function (err, req, res, next) {
   logger.error(err.stack);
-  res.status(500).send("Internal Server Error");
+  res.status(err.status || 500);
+  res.send(err.message);
   next();
 });
 

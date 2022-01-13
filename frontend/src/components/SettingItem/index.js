@@ -1,14 +1,18 @@
 import React from "react";
-import api from "../../utils/api";
-import Notification from "../Notification/Notification";
-import { styled } from "@mui/material/styles";
-import Grid from "@mui/material/Grid";
-import Switch from "@mui/material/Switch";
-import Button from "@mui/material/Button";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import NativeSelect from "@mui/material/NativeSelect";
-import "./SettingItem.css";
+import api from "services/api";
+import { useNotification } from "components/NotificationProvider";
+
+import {
+  Grid,
+  Switch,
+  Button,
+  OutlinedInput,
+  NativeSelect,
+  styled,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
+
+import "./SettingItem.css";
 
 const useStyles = makeStyles((theme) => ({
   actionButton: {
@@ -60,13 +64,13 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export function SettingItem(props) {
+function SettingItem(props) {
   const classes = useStyles();
   const { settingId } = props;
   const { name, description, type, category, value, options, action } =
     props.setting;
-  const [status, setStatusBase] = React.useState("");
   const [checked, setChecked] = React.useState(value === "true");
+  const { createNotification } = useNotification();
 
   //Save setting when changed
   const saveSetting = (value) => {
@@ -76,11 +80,7 @@ export function SettingItem(props) {
         JSON.stringify({ category: category, setting: settingId, value: value })
       )
       .then((response) => {
-        setStatusBase({
-          msg: response.data,
-          date: new Date(),
-          severity: "success",
-        });
+        createNotification(response.data);
       });
   };
 
@@ -98,19 +98,11 @@ export function SettingItem(props) {
     api
       .get(targetURL, params)
       .then((response) => {
-        setStatusBase({
-          msg: response.data,
-          date: new Date(),
-          severity: "success",
-        });
+        createNotification(response.data);
       })
       .catch((err) => {
         if (err.response) {
-          setStatusBase({
-            msg: err.response.data,
-            date: new Date(),
-            severity: "error",
-          });
+          createNotification(err.response.data);
         }
       });
   };
@@ -140,6 +132,7 @@ export function SettingItem(props) {
             name="options"
             id="options"
             value={value}
+            color="info"
             onChange={(event) => {
               handleValueChange(event);
               saveSetting(event.target.value);
@@ -163,6 +156,7 @@ export function SettingItem(props) {
           <OutlinedInput
             value={value}
             onChange={handleValueChange}
+            color="info"
             className={"outlined-input"}
             onBlur={(event) => {
               saveSetting(event.target.value);
@@ -188,14 +182,8 @@ export function SettingItem(props) {
           </Button>
         ) : null}
       </div>
-      {status ? (
-        <Notification
-          key={status.date}
-          msg={status.msg}
-          severity={status.severity}
-        />
-      ) : null}
     </div>
   );
 }
 
+export default SettingItem;

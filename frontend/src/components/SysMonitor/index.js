@@ -1,54 +1,61 @@
 import React, { useEffect, useState } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
-import { socket } from "../../utils/socket";
+
+import { CircularProgress, Box, useTheme } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+
+import { socket } from "services/socket";
 
 import "./SysMonitor.css";
-import { useTheme } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   sysStat: {
-    textAlign: 'center',
+    textAlign: "center",
     backgroundColor: theme.palette.primary.main,
-    width: '300px',
-    height: '220px',
-    borderRadius: '8px',
-    margin: '5px 5px 5px 0px'
-  }
-}))
+    width: "300px",
+    height: "220px",
+    borderRadius: "8px",
+    margin: "5px 5px 5px 0px",
+  },
+}));
 
 const SysItem = (props) => {
-    const theme = useTheme();
+  const theme = useTheme();
 
-    return(
-      <div>
-        <p>{props.name}</p>
-        <p>{props.displayValue}</p>
-        <Box position="relative" display="inline-flex" style={{marginTop: "10px"}}>
-          <CircularProgress
-            variant="determinate"
-            style={{
-              color: theme.palette.primary.light,
-              position: "relative",
-            }}
-            size={100}
-            thickness={4}
-            value={100}
-          />
-          <CircularProgress
-            variant="determinate"
-            value={props.value}
-            size={100}
-            style={{position: "absolute", 'color': (props.value < 90) ? theme.palette.info.main : "#d32f2f" }}
-            thickness={4}
-          />
-        </Box>
-      </div>
+  return (
+    <div>
+      <p>{props.name}</p>
+      <p>{props.displayValue}</p>
+      <Box
+        position="relative"
+        display="inline-flex"
+        style={{ marginTop: "10px" }}
+      >
+        <CircularProgress
+          variant="determinate"
+          style={{
+            color: theme.palette.primary.light,
+            position: "relative",
+          }}
+          size={100}
+          thickness={4}
+          value={100}
+        />
+        <CircularProgress
+          variant="determinate"
+          value={props.value}
+          size={100}
+          style={{
+            position: "absolute",
+            color: props.value < 90 ? theme.palette.info.main : "#d32f2f",
+          }}
+          thickness={4}
+        />
+      </Box>
+    </div>
   );
-}
+};
 
-export const SysMonitor = () => {
+function SysMonitor() {
   const classes = useStyles();
 
   const [cpuUsage, setCpuUsage] = useState({
@@ -99,3 +106,5 @@ export const SysMonitor = () => {
     </div>
   );
 };
+
+export default SysMonitor;
