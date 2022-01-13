@@ -1,62 +1,76 @@
 import React from "react";
-import api from "../../utils/api";
-import Notification from "../Notification/Notification";
-import withStyles from "@mui/styles/withStyles";
-import Grid from "@mui/material/Grid";
-import Switch from "@mui/material/Switch";
-import Button from "@mui/material/Button";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import NativeSelect from "@mui/material/NativeSelect";
-import "./SettingItem.css";
+import api from "services/api";
+import { useNotification } from "components/NotificationProvider";
+
+import {
+  Grid,
+  Switch,
+  Button,
+  OutlinedInput,
+  NativeSelect,
+  styled,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
+
+import "./SettingItem.css";
 
 const useStyles = makeStyles((theme) => ({
   actionButton: {
-    backgroundColor: theme.palette.info.dark
-  }
-}))
-
-const AntSwitch = withStyles((theme) => ({
-  root: {
-    width: 28,
-    height: 16,
-    padding: 0,
-    display: "flex",
+    backgroundColor: theme.palette.info.dark,
   },
-  switchBase: {
+}));
+
+const AntSwitch = styled(Switch)(({ theme }) => ({
+  width: 28,
+  height: 16,
+  padding: 0,
+  display: "flex",
+  "&:active": {
+    "& .MuiSwitch-thumb": {
+      width: 15,
+    },
+    "& .MuiSwitch-switchBase.Mui-checked": {
+      transform: "translateX(9px)",
+    },
+  },
+  "& .MuiSwitch-switchBase": {
     padding: 2,
-    color: theme.palette.grey[500],
-    "&$checked": {
+    "&.Mui-checked": {
       transform: "translateX(12px)",
-      color: theme.palette.common.white,
-      "& + $track": {
+      color: "#fff",
+      "& + .MuiSwitch-track": {
         opacity: 1,
-        backgroundColor: theme.palette.primary.main,
-        borderColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.mode === "dark" ? "#177ddc" : "#1890ff",
       },
     },
   },
-  thumb: {
+  "& .MuiSwitch-thumb": {
+    boxShadow: "0 2px 4px 0 rgb(0 35 11 / 20%)",
     width: 12,
     height: 12,
-    boxShadow: "none",
+    borderRadius: 6,
+    transition: theme.transitions.create(["width"], {
+      duration: 200,
+    }),
   },
-  track: {
-    border: `1px solid ${theme.palette.grey[500]}`,
+  "& .MuiSwitch-track": {
     borderRadius: 16 / 2,
     opacity: 1,
-    backgroundColor: theme.palette.common.white,
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? "rgba(255,255,255,.35)"
+        : "rgba(0,0,0,.25)",
+    boxSizing: "border-box",
   },
-  checked: {},
-}))(Switch);
+}));
 
-export function SettingItem(props) {
+function SettingItem(props) {
   const classes = useStyles();
   const { settingId } = props;
   const { name, description, type, category, value, options, action } =
     props.setting;
-  const [status, setStatusBase] = React.useState("");
   const [checked, setChecked] = React.useState(value === "true");
+  const { createNotification } = useNotification();
 
   //Save setting when changed
   const saveSetting = (value) => {
@@ -66,22 +80,17 @@ export function SettingItem(props) {
         JSON.stringify({ category: category, setting: settingId, value: value })
       )
       .then((response) => {
-        setStatusBase({
-          msg: response.data,
-          date: new Date(),
-          severity: "success",
-        });
+        createNotification(response.data);
       });
   };
 
   //Updates the state when the user changes the value
   const handleValueChange = (event) => {
-    if (event.target.value) {
-      props.onSettingChange(category, settingId, event.target.value);
-      //check if ant switch was toggled
-    } else if ("checked" in event.target) {
+    if (event.target.hasOwnProperty("checked")) {
       setChecked(event.target.checked);
       props.onSettingChange(category, settingId, event.target.checked);
+    } else {
+      props.onSettingChange(category, settingId, event.target.value);
     }
   };
 
@@ -89,19 +98,11 @@ export function SettingItem(props) {
     api
       .get(targetURL, params)
       .then((response) => {
-        setStatusBase({
-          msg: response.data,
-          date: new Date(),
-          severity: "success",
-        });
+        createNotification(response.data);
       })
       .catch((err) => {
         if (err.response) {
-          setStatusBase({
-            msg: err.response.data,
-            date: new Date(),
-            severity: "error",
-          });
+          createNotification(err.response.data);
         }
       });
   };
@@ -131,6 +132,7 @@ export function SettingItem(props) {
             name="options"
             id="options"
             value={value}
+            color="info"
             onChange={(event) => {
               handleValueChange(event);
               saveSetting(event.target.value);
@@ -154,6 +156,7 @@ export function SettingItem(props) {
           <OutlinedInput
             value={value}
             onChange={handleValueChange}
+            color="info"
             className={"outlined-input"}
             onBlur={(event) => {
               saveSetting(event.target.value);
@@ -179,13 +182,8 @@ export function SettingItem(props) {
           </Button>
         ) : null}
       </div>
-      {status ? (
-        <Notification
-          key={status.date}
-          msg={status.msg}
-          severity={status.severity}
-        />
-      ) : null}
     </div>
   );
 }
+
+export default SettingItem;

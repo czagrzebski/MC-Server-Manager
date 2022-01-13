@@ -1,10 +1,10 @@
 import React from "react";
 import { red, green } from "@mui/material/colors";
 import withStyles from '@mui/styles/withStyles';
-import api from "../../utils/api";
-import Notification from "../Notification/Notification";
-import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
+import api from "services/api";
+import ConfirmDialog from "../ConfirmDialog";
 import { useSelector } from "react-redux";
+import { useNotification } from "components/NotificationProvider";
 
 import Button from "@mui/material/Button";
 
@@ -22,8 +22,8 @@ const ColorButton = withStyles((theme) => ({
 }))(Button);
 
 function ServerControls() {
-  const [status, setStatusBase] = React.useState("");
   const [dialogStatus, setDialogStatus] = React.useState({ open: false });
+  const { createNotification } = useNotification();
 
   const minecraftServerState = useSelector(
     (state) => state.minecraftServer.status
@@ -33,15 +33,11 @@ function ServerControls() {
     api
       .get("/server/start")
       .then((response) => {
-        setStatusBase({
-          msg: response.data,
-          date: new Date(),
-          severity: "success",
-        });
+        createNotification(response.data);
       })
       .catch((err) => {
         if (err.response) {
-          switch (err.response.data) {
+          switch (err.response.data.message) {
             case "EULA":
               setDialogStatus({
                 open: true,
@@ -51,11 +47,7 @@ function ServerControls() {
               break;
 
             default:
-              setStatusBase({
-                msg: err.response.data,
-                date: new Date(),
-                severity: "error",
-              });
+              createNotification(err.response.data, "error");
               break;
           }
         }
@@ -66,19 +58,11 @@ function ServerControls() {
     api
       .get("/server/kill")
       .then((response) => {
-        setStatusBase({
-          msg: response.data,
-          date: new Date(),
-          severity: "success",
-        });
+        createNotification(response.data);
       })
       .catch((err) => {
         if (err.response) {
-          setStatusBase({
-            msg: err.response.data,
-            date: new Date(),
-            severity: "error",
-          });
+          createNotification(err.response.data, "error");
         }
       });
   };
@@ -87,19 +71,11 @@ function ServerControls() {
     api
       .get("/server/stop")
       .then((response) => {
-        setStatusBase({
-          msg: response.data,
-          date: new Date(),
-          severity: "info",
-        });
+        createNotification(response.data);
       })
       .catch((err) => {
         if (err.response) {
-          setStatusBase({
-            msg: err.response.data,
-            date: new Date(),
-            severity: "error",
-          });
+          createNotification(err.response.data, "error");
         }
       });
   };
@@ -110,11 +86,7 @@ function ServerControls() {
       .then(() => startServer())
       .catch((err) => {
         if (err.response) {
-          setStatusBase({
-            msg: err.response.data,
-            date: new Date(),
-            severity: "error",
-          });
+          createNotification(err.response.data, "error");
         }
       });
   };
@@ -156,15 +128,6 @@ function ServerControls() {
       >
         Kill
       </ColorButton>
-      {status ? (
-        <div>       
-          <Notification
-            key={status.date}
-            msg={status.msg}
-            severity={status.severity}
-          />
-         </div>
-      ) : null}
       <ConfirmDialog
         open={dialogStatus.open}
         setOpen={setDialogStatus}

@@ -5,8 +5,9 @@ import makeStyles from "@mui/styles/makeStyles";
 import { Tabs, Tab, Box } from "@mui/material";
 
 import { SettingsPanel } from "./SettingsPanel/SettingsPanel";
+import UserManagement from "components/UserManagement.js";
 
-import api from "../../utils/api";
+import api from "services/api";
 import produce from "immer";
 
 const TabPanel = (props) => {
@@ -90,12 +91,9 @@ export function Settings() {
         className={classes.settingTab}
       >
         <Tab label="General" {...a11yProps(0)} className={classes.tabLabels} />
-        <Tab label="Java" {...a11yProps(1)} className={classes.tabLabels} />
-        <Tab
-          label="Minecraft Settings"
-          {...a11yProps(2)}
-          className={classes.tabLabels}
-        />
+        <Tab label="Users" {...a11yProps(1)} className={classes.tabLabels} />
+        <Tab label="Java" {...a11yProps(2)} className={classes.tabLabels} />
+        <Tab label="Minecraft Settings" {...a11yProps(3)} className={classes.tabLabels}/>
       </Tabs>
 
       <TabPanel value={tabIndex} index={0}>
@@ -105,12 +103,15 @@ export function Settings() {
         />
       </TabPanel>
       <TabPanel value={tabIndex} index={1}>
+        <UserManagement />
+      </TabPanel>
+      <TabPanel value={tabIndex} index={2}>
         <SettingsPanel
           settingsList={settingsList.java}
           onSettingChange={handleSettingChange}
         />
       </TabPanel>
-      <TabPanel value={tabIndex} index={2}>
+      <TabPanel value={tabIndex} index={3}>
         <SettingsPanel
           settingsList={settingsList.minecraftSettings}
           onSettingChange={handleSettingChange}

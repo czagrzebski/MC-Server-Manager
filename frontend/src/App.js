@@ -1,81 +1,47 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import { Console, Settings, Home } from "./pages";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
-import api from "./utils/api";
-import { socket, SocketContext } from "./utils/socket";
+import { socket, SocketContext } from "services/socket";
+import { Dashboard, Login } from "pages";
+import { useDispatch } from "react-redux";
+
+import ProtectedRoutes from "components/ProtectedRoutes";
+import authService from "services/auth.service";
+
+import { setLoading } from "app/slices/userSlice";
 
 import "./App.css";
-import NavDrawer from "./components/NavDrawer/NavDrawer";
-import makeStyles from '@mui/styles/makeStyles';
 
-import { useDispatch } from "react-redux";
-import { consoleLogAdded } from "./app/slices/consoleSlice";
-import { setServerStatus } from "./app/slices/minecraftServerSlice";
 import { CssBaseline } from "@mui/material";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-   
-  },
-
-  content: {
-    flexGrow: 1,
-    background: theme.palette.primary.dark,
-    padding: theme.spacing(2),
-  },
-
-  toolbar: theme.mixins.toolbar,
-}));
-
 function App() {
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    socket.on("console", (data) => {
-      dispatch(consoleLogAdded(data));
-    });
+    //Attempt to get a new refresh token before loading dashboard
+    authService
+      .fetchRefreshToken()
+      .then((response) => dispatch(setLoading(false)))
+      .catch((err) => dispatch(setLoading(false)));
 
-    socket.on("state", (data) => {
-      dispatch(setServerStatus(data));
-    });
-
-    api
-      .get("/server/state")
-      .then((resp) => dispatch(setServerStatus(resp["data"])))
-      .catch((err) => console.log(`Failed to fetch mc server state: ${err}`));
-
-    //Cleanup Socket
     return () => socket.close();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
+    //Disable missing dependency warning
+    // eslint-disable-next-line
   }, []);
 
   return (
     <SocketContext.Provider value={socket}>
       <CssBaseline />
-      <Router>
-        <div className={classes.root}>
-          <NavDrawer />
-          <div className={classes.content}>
-            <div className={classes.toolbar} />
-            <Switch>
-              <Redirect exact from="/" to="dashboard" />
-              <Route path="/settings">
-                <Settings />
-              </Route>
-              <Route path="/console">
-                <Console />
-              </Route>
-              <Route path="/dashboard">
-                <Home />
-              </Route>
-            </Switch>
-          </div>
-        </div>
-      </Router>
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="*" element={<ProtectedRoutes />}>
+            <Route exact path="*" element={<Navigate to="/dashboard" />} />
+            <Route path="dashboard/*" element={<Dashboard />} />
+          </Route>
+          <Route path="login/*" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
     </SocketContext.Provider>
   );
 }
