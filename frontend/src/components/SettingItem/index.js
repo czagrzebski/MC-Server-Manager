@@ -167,12 +167,12 @@ function SettingItem(props) {
   };
 
   return (
-    <div className={"setting-item"}>
+    <div className="setting-item">
       <h4>{name}</h4>
       <p>{description}</p>
       {renderSettingType()}
-      <div className={"button-action"}>
-        {action ? (
+      <div className="button-action">
+        {action && (
           <Button
             variant="contained"
             className={classes.actionButton}
@@ -180,7 +180,7 @@ function SettingItem(props) {
           >
             {action.name}
           </Button>
-        ) : null}
+        )}
       </div>
     </div>
   );

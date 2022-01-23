@@ -237,6 +237,9 @@ async function changePassword(req, res, next) {
 async function changeUsername(req, res, next) {
   const { newUsername, id } = req.body;
 
+  if(newUsername.length === 0)
+    return res.status(400).send("Username cannot be empty");
+
   //Fetch User
   const user = await db("USERS")
     .where("username", newUsername)
