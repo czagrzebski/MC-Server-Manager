@@ -16,6 +16,10 @@ const { manager } = require("./lib/manager");
 const options = { cors: { origin: "*" } };
 const io = require("socket.io")(httpServer, options);
 
+const path = __dirname + "/build";
+
+console.log(path);
+
 //Set port for web server
 const PORT = process.env.PORT || 3500;
 
@@ -36,6 +40,10 @@ app.use((req, res, next) => {
 });
 
 //--ROUTES--//
+app.use(express.static(path));
+app.get('/', function (req,res) {
+  res.sendFile(path + "index.html");
+});
 app.use("/server", verifyToken, minecraftRouter);
 app.use("/auth", authRouter);
 app.use("/users", userRouter);

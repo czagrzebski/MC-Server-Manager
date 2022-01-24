@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  HashRouter,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 
 import { socket, SocketContext } from "services/socket";
 import { Dashboard, Login } from "pages";
@@ -25,7 +31,7 @@ function App() {
       .catch((err) => dispatch(setLoading(false)));
 
     return () => socket.close();
-    
+
     //Disable missing dependency warning
     // eslint-disable-next-line
   }, []);
@@ -33,15 +39,15 @@ function App() {
   return (
     <SocketContext.Provider value={socket}>
       <CssBaseline />
-      <BrowserRouter>
-        <Routes>
-          <Route exact path="*" element={<ProtectedRoutes />}>
-            <Route exact path="*" element={<Navigate to="/dashboard" />} />
-            <Route path="dashboard/*" element={<Dashboard />} />
-          </Route>
-          <Route path="login/*" element={<Login />} />
-        </Routes>
-      </BrowserRouter>
+      <HashRouter>
+          <Routes>
+            <Route exact path="*" element={<ProtectedRoutes />}>
+              <Route exact path="*" element={<Navigate to="/dashboard" />} />
+              <Route path="dashboard/*" element={<Dashboard />} />
+            </Route>
+            <Route path="login/*" element={<Login />} />
+          </Routes>
+      </HashRouter>
     </SocketContext.Provider>
   );
 }
