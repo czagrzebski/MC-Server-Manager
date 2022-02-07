@@ -1,4 +1,3 @@
-const db = require("../config/db");
 const logger = require("./logger").logger;
 const crypto = require("crypto");
 
