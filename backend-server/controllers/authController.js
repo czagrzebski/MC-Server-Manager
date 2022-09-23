@@ -150,9 +150,7 @@ async function logout(req, res) {
 async function getNewToken(req, res) {
   const refreshToken = req.cookies.rft;
 
-  if (refreshToken == null) return res.sendStatus(401);
-
-  if (refreshTokens[refreshToken] == null) return res.sendStatus(401);
+  if (refreshToken == null || refreshTokens[refreshToken] == null) return res.sendStatus(401);
 
   jwt.verify(refreshToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
